@@ -11,7 +11,7 @@ public class LoginController implements Controller {
 
     public LoginController() {
         try {
-            this.loginDAO = FactorySingletonDAO.getDefaultDAO().getLoginDAO();  //se jdbc, questo sar‡ pggetto loginProcedureDAO, se FS ci sar‡ un altra classe che restituir‡ un tipo di loginDAO, se in memory un altro
+            this.loginDAO = FactorySingletonDAO.getDefaultDAO().getLoginDAO();  
         } catch (RuntimeException e) {
            throw new RuntimeException("Error: " + e.getMessage());
         }
@@ -29,7 +29,7 @@ public class LoginController implements Controller {
         }
 
         try {
-            credentials = loginDAO.getCredentials(username, password);   //ogni DAO che implemento avr‡ il suo metodo getCredentials, non gli importa che sia DB, FS, o memory
+            credentials = loginDAO.getCredentials(username, password);   //ogni DAO che implemento avr√† il suo metodo getCredentials, non gli importa che sia DB, FS, o memory
             return credentials;
         } catch (DAOException e) {
             throw new RuntimeException("Authentication error: " + e.getMessage());
