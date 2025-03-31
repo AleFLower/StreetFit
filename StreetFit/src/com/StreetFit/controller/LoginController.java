@@ -29,7 +29,7 @@ public class LoginController implements Controller {
         }
 
         try {
-            credentials = loginDAO.getCredentials(username, password);   //ogni DAO che implemento avrà il suo metodo getCredentials, non gli importa che sia DB, FS, o memory
+            credentials = loginDAO.getCredentials(username, password);  
             return credentials;
         } catch (DAOException e) {
             throw new RuntimeException("Authentication error: " + e.getMessage());
