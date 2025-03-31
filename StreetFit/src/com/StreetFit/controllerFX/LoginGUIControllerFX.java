@@ -37,7 +37,7 @@ public class LoginGUIControllerFX {
 
             if (credentials.getRole() != null) {
             	 Alert alert;
-                // Quando il login è riuscito, passiamo le credenziali al controller della Home
+                
             	 alert = new Alert(AlertType.INFORMATION);
                  alert.setTitle("Information Message");
                  alert.setHeaderText(null);
