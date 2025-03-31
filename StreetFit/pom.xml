@@ -19,7 +19,7 @@
 </dependencies>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-       <sonar.organization>AleFLower</sonar.organization>
+       <sonar.organization>AleFior</sonar.organization>
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
 </properties>
 
