@@ -1,4 +1,4 @@
-package com.streetfit.Main;
+package com.streetfit.main;
 
 
 import javafx.application.Application;

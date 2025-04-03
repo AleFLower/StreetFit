@@ -1,4 +1,4 @@
-package com.streetfit.controllerCLI;
+package com.streetfit.controllercli;
 
 import com.streetfit.model.Credentials;
 import com.streetfit.controller.Controller;

@@ -1,7 +1,7 @@
 package com.streetfit.controller;
 
-import com.streetfit.DAO.FactorySingletonDAO;
-import com.streetfit.DAO.LoginDAO;
+import com.streetfit.dao.FactorySingletonDAO;
+import com.streetfit.dao.LoginDAO;
 import com.streetfit.exception.DAOException;
 import com.streetfit.model.Credentials;
 

@@ -1,10 +1,10 @@
-package com.streetfit.DaoInMemory;
+package com.streetfit.daoinmemory;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.streetfit.DAO.LoginDAO;
+import com.streetfit.dao.LoginDAO;
 import com.streetfit.exception.DAOException;
 import com.streetfit.model.Credentials;
 import com.streetfit.model.Role;

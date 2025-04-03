@@ -1,8 +1,8 @@
-package com.streetfit.controllerCLI;
+package com.streetfit.controllercli;
 
 
-import com.streetfit.ViewCLI.LoginViewCLI;
 import com.streetfit.model.Credentials;
+import com.streetfit.viewcli.LoginViewCLI;
 import com.streetfit.beans.CredentialsBean;
 import com.streetfit.controller.Controller;
 import com.streetfit.controller.LoginController;

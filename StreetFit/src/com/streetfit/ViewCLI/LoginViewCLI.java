@@ -1,4 +1,4 @@
-package com.streetfit.ViewCLI;
+package com.streetfit.viewcli;
 
 import java.io.BufferedReader;
 import java.io.IOException;

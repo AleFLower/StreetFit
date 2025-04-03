@@ -1,4 +1,4 @@
-package com.streetfit.controllerFX;
+package com.streetfit.controllerfx;
 
 import com.streetfit.model.Credentials;
 

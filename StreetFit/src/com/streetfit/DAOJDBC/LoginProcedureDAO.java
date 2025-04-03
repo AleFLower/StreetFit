@@ -1,11 +1,11 @@
-package com.streetfit.DAOJDBC;
+package com.streetfit.daojdbc;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Types;
 
-import com.streetfit.DAO.LoginDAO;
+import com.streetfit.dao.LoginDAO;
 import com.streetfit.exception.DAOException;
 import com.streetfit.model.Credentials;
 import com.streetfit.model.Role;

@@ -1,4 +1,4 @@
-package com.streetfit.DAOJDBC;
+package com.streetfit.daojdbc;
 
 
 import java.io.*;

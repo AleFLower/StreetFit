@@ -1,4 +1,4 @@
-package com.streetfit.DAO;
+package com.streetfit.dao;
 
 import com.streetfit.exception.DAOException;
 import com.streetfit.model.Credentials;

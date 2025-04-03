@@ -1,4 +1,4 @@
-package com.streetfit.DAOFS;
+package com.streetfit.daofs;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import com.streetfit.DAO.LoginDAO;
+import com.streetfit.dao.LoginDAO;
 import com.streetfit.exception.DAOException;
 import com.streetfit.model.Credentials;
 import com.streetfit.model.Role;

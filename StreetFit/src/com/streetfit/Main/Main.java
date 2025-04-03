@@ -1,4 +1,4 @@
-package com.streetfit.Main;
+package com.streetfit.main;
 
 import java.io.FileInputStream;
 import java.io.IOException;
