@@ -22,10 +22,10 @@
                         <Font name="Berlin Sans FB" size="25.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="suemail" layoutX="39.0" layoutY="165.0" prefHeight="35.0" prefWidth="220.0" promptText="Email Address" styleClass="textfield" stylesheets="@loginDesign.css" />
-                  <TextField fx:id="suusername" layoutX="39.0" layoutY="210.0" prefHeight="35.0" prefWidth="220.0" promptText="Username" styleClass="textfield" stylesheets="@loginDesign.css" />
-                  <PasswordField fx:id="supassword" layoutX="39.0" layoutY="255.0" prefHeight="35.0" prefWidth="220.0" promptText="Password" styleClass="textfield" stylesheets="@loginDesign.css" />
-                  <Button fx:id="su_signupBtn" layoutX="40.0" layoutY="305.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="220.0" styleClass="login-btn" stylesheets="@loginDesign.css" text="Signup" />
+                  <TextField fx:id="suEmail" layoutX="39.0" layoutY="165.0" prefHeight="35.0" prefWidth="220.0" promptText="Email Address" styleClass="textfield" stylesheets="@loginDesign.css" />
+                  <TextField fx:id="suUsername" layoutX="39.0" layoutY="210.0" prefHeight="35.0" prefWidth="220.0" promptText="Username" styleClass="textfield" stylesheets="@loginDesign.css" />
+                  <PasswordField fx:id="suPassword" layoutX="39.0" layoutY="255.0" prefHeight="35.0" prefWidth="220.0" promptText="Password" styleClass="textfield" stylesheets="@loginDesign.css" />
+                  <Button fx:id="suSignupBtn" layoutX="40.0" layoutY="305.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="220.0" styleClass="login-btn" stylesheets="@loginDesign.css" text="Signup" />
                </children>
             </AnchorPane>
             <AnchorPane fx:id="login_form" layoutX="10.0" layoutY="10.0" prefHeight="400.0" prefWidth="300.0" styleClass="login-form" stylesheets="@loginDesign.css" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -36,9 +36,9 @@
                         <Font name="Berlin Sans FB" size="25.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="siusername" layoutX="40.0" layoutY="172.0" onAction="#login" prefHeight="35.0" prefWidth="220.0" promptText="Username" styleClass="textfield" stylesheets="@loginDesign.css" />
-                  <PasswordField fx:id="sipassword" layoutX="40.0" layoutY="217.0" onAction="#login" prefHeight="35.0" prefWidth="220.0" promptText="Password" styleClass="textfield" stylesheets="@loginDesign.css" />
-                  <Button fx:id="siloginBtn" layoutX="41.0" layoutY="267.0" mnemonicParsing="false" onAction="#login" prefHeight="40.0" prefWidth="220.0" styleClass="login-btn" stylesheets="@loginDesign.css" text="Login" />
+                  <TextField fx:id="siUsername" layoutX="40.0" layoutY="172.0" onAction="#login" prefHeight="35.0" prefWidth="220.0" promptText="Username" styleClass="textfield" stylesheets="@loginDesign.css" />
+                  <PasswordField fx:id="siPassword" layoutX="40.0" layoutY="217.0" onAction="#login" prefHeight="35.0" prefWidth="220.0" promptText="Password" styleClass="textfield" stylesheets="@loginDesign.css" />
+                  <Button fx:id="siLoginBtn" layoutX="41.0" layoutY="267.0" mnemonicParsing="false" onAction="#login" prefHeight="40.0" prefWidth="220.0" styleClass="login-btn" stylesheets="@loginDesign.css" text="Login" />
                  
                   <ImageView fitHeight="82.0" fitWidth="76.0" layoutX="112.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -55,8 +55,8 @@
                         <Font name="Tahoma" size="18.0" />
                      </font>
                   </Label>
-                  <Button fx:id="subsignupBtn" layoutX="60.0" layoutY="351.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="181.0" styleClass="side-btn" stylesheets="@loginDesign.css" text="Sign Up" />
-                  <Button fx:id="subloginBtn" layoutX="60.0" layoutY="351.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="181.0" styleClass="side-btn" stylesheets="@loginDesign.css" text="SIgn In" visible="false" />
+                  <Button fx:id="subSignupBtn" layoutX="60.0" layoutY="351.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="181.0" styleClass="side-btn" stylesheets="@loginDesign.css" text="Sign Up" />
+                  <Button fx:id="subLoginBtn" layoutX="60.0" layoutY="351.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="181.0" styleClass="side-btn" stylesheets="@loginDesign.css" text="SIgn In" visible="false" />
                   <Label fx:id="editlabel" layoutX="83.0" layoutY="316.0" text="Create Account" textFill="WHITE">
                      <font>
                         <Font name="Tahoma" size="20.0" />
@@ -82,3 +82,4 @@
       </AnchorPane>
    </children>
 </StackPane>
+
