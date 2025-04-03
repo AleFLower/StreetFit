@@ -6,7 +6,6 @@ import com.streetfit.exception.DAOException;
 import com.streetfit.model.Credentials;
 
 public class LoginController implements Controller {
-    private Credentials credentials;
     private LoginDAO loginDAO;
 
     public LoginController() {
@@ -30,10 +29,7 @@ public class LoginController implements Controller {
 
         try {
 
-            credentials = loginDAO.getCredentials(username, password);  
-
-            credentials = loginDAO.getCredentials(username, password);   
-
+            Credentials credentials = loginDAO.getCredentials(username, password);   
             return credentials;
         } catch (DAOException e) {
             throw new RuntimeException("Authentication error: " + e.getMessage());
