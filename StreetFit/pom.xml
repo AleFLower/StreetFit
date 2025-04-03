@@ -24,7 +24,7 @@
 </properties>
 
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.StreetFit</groupId>
+  <groupId>com.streetFit</groupId>
   <artifactId>StreetFit</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>StreetFit</name>
