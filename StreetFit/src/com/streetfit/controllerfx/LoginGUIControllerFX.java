@@ -19,8 +19,6 @@ public class LoginGUIControllerFX {
     @FXML private PasswordField si_password;
     @FXML private Button si_loginBtn;
 
-    private HomeGUIControllerFX homeController;  // Riferimento al controller HomeGUI
-
 
     @FXML
     public void login() {
@@ -47,7 +45,7 @@ public class LoginGUIControllerFX {
                  si_loginBtn.getScene().getWindow().hide();
        
                  Stage stage = new Stage();
-                 homeController = new HomeGUIControllerFX();
+                HomeGUIControllerFX homeController = new HomeGUIControllerFX();
               
                  homeController.loadNextScene(stage, credentials);
                  
