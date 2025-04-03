@@ -22,7 +22,7 @@ public class ConnectionFactory {
             String user = properties.getProperty("LOGIN_USER");
             String pass = properties.getProperty("LOGIN_PASS");
 
-            connection = DriverManager.getConnection(connection_url, user, pass);
+            connection = DriverManager.getConnection(connectionUrl, user, pass);
         } catch (IOException | SQLException e) {
             e.printStackTrace();
         }
@@ -43,7 +43,7 @@ public class ConnectionFactory {
             String user = properties.getProperty(role.name() + "_USER");
             String pass = properties.getProperty(role.name() + "_PASS");
 
-            connection = DriverManager.getConnection(connection_url, user, pass);
+            connection = DriverManager.getConnection(connectionUrl, user, pass);
         } catch (IOException | SQLException e) {
             e.printStackTrace();
         }
