@@ -39,7 +39,7 @@ public class ConnectionFactory {
             Properties properties = new Properties();
             properties.load(input);
 
-            String connection_url = properties.getProperty("CONNECTION_URL");
+            String connectionUrl = properties.getProperty("CONNECTION_URL");
             String user = properties.getProperty(role.name() + "_USER");
             String pass = properties.getProperty(role.name() + "_PASS");
 
