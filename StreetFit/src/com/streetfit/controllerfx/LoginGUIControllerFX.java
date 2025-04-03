@@ -20,13 +20,15 @@ public class LoginGUIControllerFX {
     @FXML private Button si_loginBtn;
 
 
+
     @FXML
     public void login() {
         String username = si_username.getText();
         String password = si_password.getText();
+        final String msg = "Error";
 
         if (username.isEmpty() || password.isEmpty()) {
-            showAlert("Errore", "Username e password non possono essere vuoti.");
+            showAlert(msg, "Username e password non possono essere vuoti.");
             return;
         }
 
@@ -45,18 +47,18 @@ public class LoginGUIControllerFX {
                  si_loginBtn.getScene().getWindow().hide();
        
                  Stage stage = new Stage();
-                HomeGUIControllerFX homeController = new HomeGUIControllerFX();
+                 HomeGUIControllerFX homeController = new HomeGUIControllerFX();
               
                  homeController.loadNextScene(stage, credentials);
                  
                 
             } else {
-                showAlert("Errore", "Credenziali non valide.");
+                showAlert(msg, "Credenziali non valide.");
             }
 
         } catch (RuntimeException e) {
         	System.out.println("Error: "+ e.getMessage());
-            showAlert("Errore", e.getMessage());
+            showAlert(msg, e.getMessage());
         }
     }
 
