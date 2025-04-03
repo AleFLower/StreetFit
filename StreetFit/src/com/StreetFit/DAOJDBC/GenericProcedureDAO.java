@@ -1,8 +1,8 @@
-package com.StreetFit.DAOJDBC;
+package com.streetfit.DAOJDBC;
 
 import java.sql.SQLException;
 
-import com.StreetFit.exception.DAOException;
+import com.streetfit.exception.DAOException;
 
 
 public interface GenericProcedureDAO<P> {

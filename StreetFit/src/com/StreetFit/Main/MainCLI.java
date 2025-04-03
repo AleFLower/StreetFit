@@ -1,6 +1,6 @@
-package com.StreetFit.Main;
+package com.streetfit.Main;
 
-import com.StreetFit.controllerCLI.HomeGUIControllerCLI;
+import com.streetfit.controllerCLI.HomeGUIControllerCLI;
 
 public class MainCLI {
 

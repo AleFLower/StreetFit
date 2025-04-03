@@ -1,6 +1,6 @@
-package com.StreetFit.DAO;
+package com.streetfit.DAO;
 
-import com.StreetFit.DaoInMemory.InMemoryLoginDAO;
+import com.streetfit.DaoInMemory.InMemoryLoginDAO;
 public class InMemoryFactory extends FactorySingletonDAO {
     @Override
     public LoginDAO getLoginDAO() {

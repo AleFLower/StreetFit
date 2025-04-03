@@ -1,6 +1,6 @@
-package com.StreetFit.beans;
+package com.streetfit.beans;
 
-import com.StreetFit.model.Role;
+import com.streetfit.model.Role;
 
 public class CredentialsBean {
 	    private final String username;

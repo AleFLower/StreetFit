@@ -1,4 +1,4 @@
-package com.StreetFit.exception;
+package com.streetfit.exception;
 
 public class DAOException extends Exception {
 

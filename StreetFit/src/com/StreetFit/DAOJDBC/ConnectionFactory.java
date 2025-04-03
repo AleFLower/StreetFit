@@ -1,11 +1,11 @@
-package com.StreetFit.DAOJDBC;
+package com.streetfit.DAOJDBC;
 
 
 import java.io.*;
 import java.sql.*;
 import java.util.Properties;
 
-import com.StreetFit.model.Role;
+import com.streetfit.model.Role;
 
 public class ConnectionFactory {
     private static Connection connection;

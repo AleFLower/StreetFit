@@ -1,4 +1,4 @@
-package com.StreetFit.beans;
+package com.streetfit.beans;
 
 public class TrainerBean {
 

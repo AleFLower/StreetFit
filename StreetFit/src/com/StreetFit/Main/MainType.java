@@ -1,4 +1,4 @@
-package com.StreetFit.Main;
+package com.streetfit.Main;
 
 public enum MainType {
 	   FX, CLI;

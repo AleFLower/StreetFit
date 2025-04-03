@@ -1,7 +1,7 @@
-package com.StreetFit.DAO;
+package com.streetfit.DAO;
 
-import com.StreetFit.exception.DAOException;
-import com.StreetFit.model.Credentials;
+import com.streetfit.exception.DAOException;
+import com.streetfit.model.Credentials;
 
 public interface LoginDAO {
     Credentials getCredentials(String username, String password) throws DAOException;

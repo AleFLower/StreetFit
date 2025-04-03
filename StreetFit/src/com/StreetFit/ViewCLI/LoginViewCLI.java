@@ -1,11 +1,11 @@
-package com.StreetFit.ViewCLI;
+package com.streetfit.ViewCLI;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Scanner;
 
-import com.StreetFit.beans.CredentialsBean;
+import com.streetfit.beans.CredentialsBean;
 
 
 public class LoginViewCLI {

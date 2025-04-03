@@ -1,6 +1,6 @@
-package com.StreetFit.controllerFX;
+package com.streetfit.controllerFX;
 
-import com.StreetFit.model.Credentials;
+import com.streetfit.model.Credentials;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -34,6 +34,7 @@ public class HomeGUIControllerFX {
 
             // Imposta la scena e mostralo
             stage.setScene(scene);
+            
             stage.show();
 
         } catch (Exception e) {

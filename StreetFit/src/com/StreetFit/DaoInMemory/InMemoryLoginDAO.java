@@ -1,13 +1,13 @@
-package com.StreetFit.DaoInMemory;
+package com.streetfit.DaoInMemory;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.StreetFit.DAO.LoginDAO;
-import com.StreetFit.exception.DAOException;
-import com.StreetFit.model.Credentials;
-import com.StreetFit.model.Role;
+import com.streetfit.DAO.LoginDAO;
+import com.streetfit.exception.DAOException;
+import com.streetfit.model.Credentials;
+import com.streetfit.model.Role;
 
 public class InMemoryLoginDAO implements LoginDAO {
 

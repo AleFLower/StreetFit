@@ -1,4 +1,4 @@
-package com.StreetFit.model;
+package com.streetfit.model;
 
 public class Trainer {
 

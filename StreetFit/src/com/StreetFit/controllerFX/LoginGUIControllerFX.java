@@ -1,4 +1,4 @@
-package com.StreetFit.controllerFX;
+package com.streetfit.controllerFX;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
@@ -8,8 +8,9 @@ import javafx.scene.control.Alert.AlertType;
 
 import javafx.scene.control.Button;
 
-import com.StreetFit.controller.LoginController;
-import com.StreetFit.model.Credentials;
+import com.streetfit.model.Credentials;
+import com.streetfit.controller.LoginController;
+
 import javafx.stage.Stage;
 
 public class LoginGUIControllerFX {

@@ -1,4 +1,4 @@
-package com.StreetFit.controller;
+package com.streetfit.controller;
 
 public interface Controller {
 void start();

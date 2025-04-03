@@ -1,4 +1,4 @@
-package com.StreetFit.DAO;
+package com.streetfit.DAO;
 
 import java.io.FileInputStream;
 import java.io.IOException;

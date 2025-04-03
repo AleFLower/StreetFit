@@ -1,6 +1,6 @@
-package com.StreetFit.DAO;
+package com.streetfit.DAO;
 
-import com.StreetFit.DAOFS.LoginFSDAO;
+import com.streetfit.DAOFS.LoginFSDAO;
 
 public class FSFactory extends FactorySingletonDAO{
 

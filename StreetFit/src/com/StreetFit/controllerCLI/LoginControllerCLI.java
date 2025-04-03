@@ -1,11 +1,11 @@
-package com.StreetFit.controllerCLI;
+package com.streetfit.controllerCLI;
 
 
-import com.StreetFit.ViewCLI.LoginViewCLI;
-import com.StreetFit.beans.CredentialsBean;
-import com.StreetFit.controller.Controller;
-import com.StreetFit.model.Credentials;
-import com.StreetFit.controller.LoginController;
+import com.streetfit.ViewCLI.LoginViewCLI;
+import com.streetfit.model.Credentials;
+import com.streetfit.beans.CredentialsBean;
+import com.streetfit.controller.Controller;
+import com.streetfit.controller.LoginController;
 
 public class LoginControllerCLI implements Controller {
 

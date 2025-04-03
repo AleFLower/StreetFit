@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.StreetFit.controllerFX.LoginGUIControllerFX">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.streetfit.controllerFX.LoginGUIControllerFX">
    <children>
       <AnchorPane fx:id="main_form" prefHeight="200.0" prefWidth="200.0">
          <children>
@@ -30,9 +30,7 @@
             </AnchorPane>
             <AnchorPane fx:id="login_form" layoutX="10.0" layoutY="10.0" prefHeight="400.0" prefWidth="300.0" styleClass="login-form" stylesheets="@loginDesign.css" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                   <ImageView fx:id="iconImageView" fitHeight="50" fitWidth="50">
-                    <Image url="@Images/9709605.png" />
-                   </ImageView>
+                  
                   <Label layoutX="116.0" layoutY="113.0" text="Sign In">
                      <font>
                         <Font name="Berlin Sans FB" size="25.0" />
@@ -41,9 +39,10 @@
                   <TextField fx:id="si_username" layoutX="40.0" layoutY="172.0" onAction="#login" prefHeight="35.0" prefWidth="220.0" promptText="Username" styleClass="textfield" stylesheets="@loginDesign.css" />
                   <PasswordField fx:id="si_password" layoutX="40.0" layoutY="217.0" onAction="#login" prefHeight="35.0" prefWidth="220.0" promptText="Password" styleClass="textfield" stylesheets="@loginDesign.css" />
                   <Button fx:id="si_loginBtn" layoutX="41.0" layoutY="267.0" mnemonicParsing="false" onAction="#login" prefHeight="40.0" prefWidth="220.0" styleClass="login-btn" stylesheets="@loginDesign.css" text="Login" />
-                  <ImageView fitHeight="88.0" fitWidth="87.0" layoutX="107.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+                 
+                  <ImageView fitHeight="82.0" fitWidth="76.0" layoutX="112.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../../../Downloads/user-128.png" />
+                        <Image url="Images/user-128.png" />
                      </image>
                   </ImageView>
                </children>
@@ -63,9 +62,9 @@
                         <Font name="Tahoma" size="20.0" />
                      </font>
                   </Label>
-                  <ImageView fitHeight="96.0" fitWidth="122.0" layoutX="90.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="96.0" fitWidth="134.0" layoutX="94.0" layoutY="68.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../../../Downloads/e888cd8d2708d8f0388198fd551a1a00.jpg" />
+                        <Image url="Images/e888cd8d2708d8f0388198fd551a1a00.jpg" />
                      </image>
                   </ImageView>
                </children>

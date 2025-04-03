@@ -1,14 +1,14 @@
-package com.StreetFit.DAOJDBC;
+package com.streetfit.DAOJDBC;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Types;
 
-import com.StreetFit.DAO.LoginDAO;
-import com.StreetFit.exception.DAOException;
-import com.StreetFit.model.Credentials;
-import com.StreetFit.model.Role;
+import com.streetfit.DAO.LoginDAO;
+import com.streetfit.exception.DAOException;
+import com.streetfit.model.Credentials;
+import com.streetfit.model.Role;
 
 public class LoginProcedureDAO implements LoginDAO {
 

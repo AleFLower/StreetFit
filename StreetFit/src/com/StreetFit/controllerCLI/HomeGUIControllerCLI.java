@@ -1,7 +1,7 @@
-package com.StreetFit.controllerCLI;
+package com.streetfit.controllerCLI;
 
-import com.StreetFit.controller.Controller;
-import com.StreetFit.model.Credentials;
+import com.streetfit.model.Credentials;
+import com.streetfit.controller.Controller;
 
 public class HomeGUIControllerCLI implements Controller{
 

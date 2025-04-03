@@ -1,6 +1,6 @@
-package com.StreetFit.controllerCLI;
+package com.streetfit.controllerCLI;
 
-import com.StreetFit.controller.Controller;
+import com.streetfit.controller.Controller;
 
 public class TrainerControllerCLI implements Controller{  //dummy for now
 	

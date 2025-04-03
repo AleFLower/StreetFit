@@ -1,4 +1,4 @@
-package com.StreetFit.controllerFX;
+package com.streetfit.controllerFX;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;

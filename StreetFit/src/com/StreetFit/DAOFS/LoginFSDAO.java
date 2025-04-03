@@ -1,4 +1,4 @@
-package com.StreetFit.DAOFS;
+package com.streetfit.DAOFS;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -6,10 +6,10 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import com.StreetFit.DAO.LoginDAO;
-import com.StreetFit.exception.DAOException;
-import com.StreetFit.model.Credentials;
-import com.StreetFit.model.Role;
+import com.streetfit.DAO.LoginDAO;
+import com.streetfit.exception.DAOException;
+import com.streetfit.model.Credentials;
+import com.streetfit.model.Role;
 
 public class LoginFSDAO implements LoginDAO{
 	private static final String CSV_FILE = "res/users.csv"; // Percorso del file CSV

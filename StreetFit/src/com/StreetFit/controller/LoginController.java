@@ -1,9 +1,9 @@
-package com.StreetFit.controller;
+package com.streetfit.controller;
 
-import com.StreetFit.DAO.FactorySingletonDAO;
-import com.StreetFit.DAO.LoginDAO;
-import com.StreetFit.exception.DAOException;
-import com.StreetFit.model.Credentials;
+import com.streetfit.DAO.FactorySingletonDAO;
+import com.streetfit.DAO.LoginDAO;
+import com.streetfit.exception.DAOException;
+import com.streetfit.model.Credentials;
 
 public class LoginController implements Controller {
     private Credentials credentials;
@@ -29,7 +29,11 @@ public class LoginController implements Controller {
         }
 
         try {
+
             credentials = loginDAO.getCredentials(username, password);  
+
+            credentials = loginDAO.getCredentials(username, password);   
+
             return credentials;
         } catch (DAOException e) {
             throw new RuntimeException("Authentication error: " + e.getMessage());

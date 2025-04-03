@@ -1,6 +1,6 @@
-package com.StreetFit.DAO;
+package com.streetfit.DAO;
 
-import com.StreetFit.DAOJDBC.LoginProcedureDAO;
+import com.streetfit.DAOJDBC.LoginProcedureDAO;
 
 public class JDBCFactory extends FactorySingletonDAO {
     @Override
