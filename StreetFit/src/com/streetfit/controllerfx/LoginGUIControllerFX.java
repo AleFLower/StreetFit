@@ -14,17 +14,17 @@ import com.streetfit.controller.LoginController;
 import javafx.stage.Stage;
 
 public class LoginGUIControllerFX {
-
-    @FXML private TextField siusername;
-    @FXML private PasswordField sipassword;
-    @FXML private Button siloginBtn;
+	
+	@FXML private TextField siUsername;
+	@FXML private PasswordField siPassword;
+	@FXML private Button siLoginBtn;
 
 
 
     @FXML
     public void login() {
-        String username = siusername.getText();
-        String password = sipassword.getText();
+        String username = siUsername.getText();
+        String password = siPassword.getText();
         final String msg = "Error";
 
         if (username.isEmpty() || password.isEmpty()) {
@@ -44,7 +44,7 @@ public class LoginGUIControllerFX {
                  alert.setHeaderText(null);
                  alert.setContentText("Successfully Login!");
                  alert.showAndWait();
-                 siloginBtn.getScene().getWindow().hide();
+                 siLoginBtn.getScene().getWindow().hide();
        
                  Stage stage = new Stage();
                  HomeGUIControllerFX homeController = new HomeGUIControllerFX();
@@ -73,3 +73,4 @@ public class LoginGUIControllerFX {
         javafx.application.Platform.exit();
     }
 }
+
