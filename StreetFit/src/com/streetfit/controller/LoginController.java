@@ -29,11 +29,11 @@ public class LoginController implements Controller {
         }
 
         try {
-<<<<<<< HEAD
+
             credentials = loginDAO.getCredentials(username, password);  
-=======
+
             credentials = loginDAO.getCredentials(username, password);   
->>>>>>> 0365f24 (Modified package name)
+
             return credentials;
         } catch (DAOException e) {
             throw new RuntimeException("Authentication error: " + e.getMessage());
