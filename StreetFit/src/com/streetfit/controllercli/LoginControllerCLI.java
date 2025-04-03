@@ -15,8 +15,8 @@ public class LoginControllerCLI implements Controller {
     public void start() {
         // Recupera le credenziali dall'interfaccia di login
         try {
-            Credentials cred = LoginViewCLI.authenticate();  // La view gestisce l'input dell'utente
-            credentials = new Credentials(cred.getUsername(), cred.getPassword(), cred.getRole());
+          CredentialsBean cred = LoginViewCLI.authenticate();  // La view gestisce l'input dell'utente
+        credentials = new Credentials(cred.getUsername(), cred.getPassword(), cred.getRole());
         } catch (Exception e) {
         	 throw new RuntimeException("Error: " + e.getMessage());
            
