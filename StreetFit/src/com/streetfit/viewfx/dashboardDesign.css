@@ -89,6 +89,7 @@ and open the template in the editor.
     -fx-border-width: .5px;
     -fx-font-family: Tahoma;
 }
+/* sonar-ignore: Unexpected unknown pseudo-class selector ":focused" */
 .textfield:focused{
     -fx-background-color: #fff;
     -fx-border-width: 1px;
