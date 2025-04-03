@@ -10,14 +10,12 @@ import com.streetfit.controller.LoginController;
 public class LoginControllerCLI implements Controller {
 
     private Credentials credentials;   // Memorizza le credenziali
-    private CredentialsBean cred;
     
-
     @Override
     public void start() {
         // Recupera le credenziali dall'interfaccia di login
         try {
-            cred = LoginViewCLI.authenticate();  // La view gestisce l'input dell'utente
+            Credentials cred = LoginViewCLI.authenticate();  // La view gestisce l'input dell'utente
             credentials = new Credentials(cred.getUsername(), cred.getPassword(), cred.getRole());
         } catch (Exception e) {
         	 throw new RuntimeException("Error: " + e.getMessage());
