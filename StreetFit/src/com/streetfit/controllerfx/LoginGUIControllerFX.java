@@ -15,16 +15,16 @@ import javafx.stage.Stage;
 
 public class LoginGUIControllerFX {
 
-    @FXML private TextField si_username;
-    @FXML private PasswordField si_password;
-    @FXML private Button si_loginBtn;
+    @FXML private TextField siusername;
+    @FXML private PasswordField sipassword;
+    @FXML private Button siloginBtn;
 
 
 
     @FXML
     public void login() {
-        String username = si_username.getText();
-        String password = si_password.getText();
+        String username = siusername.getText();
+        String password = sipassword.getText();
         final String msg = "Error";
 
         if (username.isEmpty() || password.isEmpty()) {
@@ -44,7 +44,7 @@ public class LoginGUIControllerFX {
                  alert.setHeaderText(null);
                  alert.setContentText("Successfully Login!");
                  alert.showAndWait();
-                 si_loginBtn.getScene().getWindow().hide();
+                 siloginBtn.getScene().getWindow().hide();
        
                  Stage stage = new Stage();
                  HomeGUIControllerFX homeController = new HomeGUIControllerFX();
