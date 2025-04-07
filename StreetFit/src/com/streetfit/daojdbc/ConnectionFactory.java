@@ -42,6 +42,7 @@ public class ConnectionFactory {
 
         } catch (SQLException e) {
             // Gestione dell'errore per la chiusura della connessione
+          
             e.printStackTrace();
         }
     }
@@ -60,9 +61,10 @@ public class ConnectionFactory {
             return DriverManager.getConnection(connectionUrl, user, pass);
 
         } catch (IOException | SQLException e) {
-           
+  
+       
             e.printStackTrace();
-            return null; 
+            return null; // Se si verifica un errore, restituisci null
         }
     }
 
