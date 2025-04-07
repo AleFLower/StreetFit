@@ -19,7 +19,7 @@ public class LoginFSDAO implements LoginDAO{
     public Credentials getCredentials(String username, String password) throws DAOException {
         try (BufferedReader br = new BufferedReader(new FileReader(CSV_FILE))) {
             String line;
-            br.readLine(); // Salta l'intestazione
+            String ignoredHeader = br.readLine(); // Ignora intestazione CSV
 
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
