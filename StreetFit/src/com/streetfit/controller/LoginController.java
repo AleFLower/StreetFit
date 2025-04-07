@@ -12,7 +12,7 @@ public class LoginController implements Controller {
         try {
             this.loginDAO = FactorySingletonDAO.getDefaultDAO().getLoginDAO();  
         } catch (RuntimeException e) {
-           throw new RuntimeException("Error: " + e.getMessage());
+           throw new IllegalStateException("Failed to initialize LoginController due to DAO error", e);
         }
     }
 
