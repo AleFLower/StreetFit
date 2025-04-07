@@ -16,35 +16,38 @@ public class LoginFSDAO implements Dao{
 	
 
 	@Override
-    public Credentials getCredentials(String username, String password) throws DAOException {
-        try (BufferedReader br = new BufferedReader(new FileReader(CSV_FILE))) {
-            String line;
-            boolean headerSkipped = false;
+   public Credentials getCredentials(String username, String password) throws DAOException {
+	    try (BufferedReader br = new BufferedReader(new FileReader(CSV_FILE))) {
+	        String line;
+	        boolean headerSkipped = false;
 
-            while ((line = br.readLine()) != null) {
-                // Una volta letta l'intestazione, segnalo che è stata saltata
-                if (!headerSkipped) {
-                    headerSkipped = true;
-                    continue; // Continua a leggere la riga successiva
-                }
+	        while ((line = br.readLine()) != null) {
+	            // Una volta letta l'intestazione, la salto
+	            if (!headerSkipped) {
+	                headerSkipped = true;
+	            } else {
+	                String[] data = line.split(",");
+	                // Ignora righe malformate
+	                if (data.length != 3) {
+	                    continue;
+	                }
 
-                String[] data = line.split(",");
-                if (data.length != 3) continue; // Ignora righe malformate
+	                String fileUsername = data[0].trim();
+	                String filePassword = data[1].trim();
+	                String fileRole = data[2].trim();
 
-                String fileUsername = data[0].trim();
-                String filePassword = data[1].trim();
-                String fileRole = data[2].trim();
-                
-                // Confronta username e password con hash MD5
-                if (fileUsername.equals(username) && filePassword.equals(hashMD5(password))) {
-                    return new Credentials(username, password, Role.valueOf(fileRole.toUpperCase()));
-                }
-            }
-        } catch (IOException e) {
-            throw new DAOException("Error while reading CSV file: " + e.getMessage());
-        }
-        return null; // Nessuna corrispondenza trovata
-    }
+	                // Confronta username e password
+	                if (fileUsername.equals(username) && filePassword.equals(hashMD5(password))) {
+	                    return new Credentials(username, password, Role.valueOf(fileRole.toUpperCase()));
+	                }
+	            }
+	        }
+	    } catch (IOException e) {
+	        throw new DAOException("Error while reading CSV file: " + e.getMessage());
+	    }
+
+	    return null; // Nessuna corrispondenza trovata
+	}
 
     // Metodo per calcolare l'hash MD5 della password
     private String hashMD5(String input) {
