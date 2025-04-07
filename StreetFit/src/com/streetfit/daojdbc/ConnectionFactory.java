@@ -34,22 +34,38 @@ public class ConnectionFactory {
 
     public static void changeRole(Role role) {
         try {
-            connection.close(); // Close existing connection
+            // Chiudi la connessione esistente
+            connection.close();
 
-            try (InputStream input = new FileInputStream("res/db.properties")) {
-                Properties properties = new Properties();
-                properties.load(input);
+            // Crea una nuova connessione usando il file di configurazione
+            connection = createConnectionForRole(role);
 
-                String connectionUrl = properties.getProperty("CONNECTION_URL");
-                String user = properties.getProperty(role.name() + "_USER");
-                String pass = properties.getProperty(role.name() + "_PASS");
-
-                connection = DriverManager.getConnection(connectionUrl, user, pass);
-            } catch (IOException | SQLException e) {
-                e.printStackTrace(); // Handle exceptions here
-            }
         } catch (SQLException e) {
-            e.printStackTrace(); // Handle the case when closing the connection fails
+            // Gestione dell'errore per la chiusura della connessione
+            System.err.println("Error while closing the connection: " + e.getMessage());
+            e.printStackTrace();
         }
     }
+    
+
+    private static Connection createConnectionForRole(Role role) {
+        try (InputStream input = new FileInputStream("res/db.properties")) {
+            Properties properties = new Properties();
+            properties.load(input);
+
+            String connectionUrl = properties.getProperty("CONNECTION_URL");
+            String user = properties.getProperty(role.name() + "_USER");
+            String pass = properties.getProperty(role.name() + "_PASS");
+
+            // Restituisce la nuova connessione
+            return DriverManager.getConnection(connectionUrl, user, pass);
+
+        } catch (IOException | SQLException e) {
+            // Gestione dell'errore per la lettura del file o per la connessione al DB
+            System.err.println("Error while creating connection for role: " + role);
+            e.printStackTrace();
+            return null; // Se si verifica un errore, restituisci null
+        }
+    }
+
 }
