@@ -32,20 +32,24 @@ public class ConnectionFactory {
         return connection;
     }
 
-    public static void changeRole(Role role) throws SQLException {
-        connection.close();
+    public static void changeRole(Role role) {
+        try {
+            connection.close(); // Close existing connection
 
-        try (InputStream input = new FileInputStream("res/db.properties")) {
-            Properties properties = new Properties();
-            properties.load(input);
+            try (InputStream input = new FileInputStream("res/db.properties")) {
+                Properties properties = new Properties();
+                properties.load(input);
 
-            String connectionUrl = properties.getProperty("CONNECTION_URL");
-            String user = properties.getProperty(role.name() + "_USER");
-            String pass = properties.getProperty(role.name() + "_PASS");
+                String connectionUrl = properties.getProperty("CONNECTION_URL");
+                String user = properties.getProperty(role.name() + "_USER");
+                String pass = properties.getProperty(role.name() + "_PASS");
 
-            connection = DriverManager.getConnection(connectionUrl, user, pass);
-        } catch (IOException | SQLException e) {
-            e.printStackTrace();
+                connection = DriverManager.getConnection(connectionUrl, user, pass);
+            } catch (IOException | SQLException e) {
+                e.printStackTrace(); // Handle exceptions here
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the case when closing the connection fails
         }
     }
 }
