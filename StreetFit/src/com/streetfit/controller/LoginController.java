@@ -30,7 +30,7 @@ public class LoginController implements Controller {
         try {
             return loginDAO.getCredentials(username, password);   
         } catch (DAOException e) {
-            throw new RuntimeException("Authentication error: " + e.getMessage());
+            throw new AuthenticationException("Authentication failed for user: " + username, e);
         }
     }
 }
