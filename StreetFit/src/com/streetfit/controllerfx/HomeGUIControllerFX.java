@@ -23,7 +23,8 @@ public class HomeGUIControllerFX {
                     loader = new FXMLLoader(getClass().getResource("ParticipantGUI.fxml"));
                     break;
                 default:
-                    throw new RuntimeException("Invalid credentials");
+                   throw new IllegalArgumentException("Error during authentication: " + e.getMessage());
+}
             }
 
             // Crea la nuova scena
