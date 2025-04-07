@@ -13,13 +13,15 @@ public class HomeGUIControllerCLI implements Controller{
 		
 		
 		if(cred.getRole() == null) {
-            throw new RuntimeException("Invalid credentials");
+          throw new IllegalStateException("Invalid credentials: unknown role " + cred.getRole());
+
         }
 		
 		switch(cred.getRole()) { 
 		case TRAINER -> new TrainerControllerCLI().start();
 		case PARTICIPANT -> new ParticipantControllerCLI().start();
-		default -> throw new RuntimeException("Invalid credentials");
+		default -> throw new IllegalStateException("Invalid credentials: unknown role " + cred.getRole());
+
 			
 		}
 }
