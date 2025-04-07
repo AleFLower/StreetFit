@@ -6,22 +6,27 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import com.streetfit.dao.LoginDAO;
+import com.streetfit.dao.Dao;
 import com.streetfit.exception.DAOException;
 import com.streetfit.model.Credentials;
 import com.streetfit.model.Role;
 
-public class LoginFSDAO implements LoginDAO{
+public class LoginFSDAO implements Dao{
 	private static final String CSV_FILE = "res/users.csv"; // Percorso del file CSV
 	
 
-    @Override
-    public Credentials getCredentials(String username, String password) throws DAOException {
+	public Credentials getCredentials(String username, String password) throws DAOException {
         try (BufferedReader br = new BufferedReader(new FileReader(CSV_FILE))) {
             String line;
-            String ignoredHeader = br.readLine(); // Ignora intestazione CSV
+            boolean headerSkipped = false;
 
             while ((line = br.readLine()) != null) {
+                // Una volta letta l'intestazione, segnalo che è stata saltata
+                if (!headerSkipped) {
+                    headerSkipped = true;
+                    continue; // Continua a leggere la riga successiva
+                }
+
                 String[] data = line.split(",");
                 if (data.length != 3) continue; // Ignora righe malformate
 
@@ -31,13 +36,12 @@ public class LoginFSDAO implements LoginDAO{
                 
                 // Confronta username e password con hash MD5
                 if (fileUsername.equals(username) && filePassword.equals(hashMD5(password))) {
-                	return new Credentials(username, password, Role.valueOf(fileRole.toUpperCase()));
+                    return new Credentials(username, password, Role.valueOf(fileRole.toUpperCase()));
                 }
             }
         } catch (IOException e) {
             throw new DAOException("Error while reading CSV file: " + e.getMessage());
         }
-
         return null; // Nessuna corrispondenza trovata
     }
 
@@ -52,7 +56,7 @@ public class LoginFSDAO implements LoginDAO{
             }
             return hexString.toString();
         } catch (NoSuchAlgorithmException e) {
-        throw new IllegalStateException("MD5 algorithm not available", e);
+        	throw new IllegalStateException("MD5 algorithm not available", e);
         }
     }
 }
