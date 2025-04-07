@@ -29,7 +29,7 @@ public class LoginControllerCLI implements Controller {
             try {
                 credentials = loginController.login(credentials.getUsername(), credentials.getPassword());
             } catch (RuntimeException e) {
-            throw new AuthenticationException("Authentication failed: " + e.getMessage());
+            	throw new IllegalStateException("Authentication failed: " + e.getMessage());
             }
         }
     }
