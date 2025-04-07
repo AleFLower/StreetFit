@@ -52,7 +52,7 @@ public class LoginFSDAO implements LoginDAO{
             }
             return hexString.toString();
         } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("Error while creating MD5", e);
+        throw new IllegalStateException("MD5 algorithm not available", e);
         }
     }
 }
