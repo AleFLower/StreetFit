@@ -23,9 +23,9 @@ public class HomeGUIControllerFX {
                     loader = new FXMLLoader(getClass().getResource("ParticipantGUI.fxml"));
                     break;
                 default:
-                   throw new IllegalArgumentException("Error during authentication: " + e.getMessage());
-}
-            }
+                   throw new IllegalArgumentException("Error during authentication");
+                  }
+            
 
             // Crea la nuova scena
             Scene scene = new Scene(loader.load());
@@ -43,4 +43,3 @@ public class HomeGUIControllerFX {
         }
     }
 }
-
