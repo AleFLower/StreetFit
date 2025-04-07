@@ -42,7 +42,6 @@ public class ConnectionFactory {
 
         } catch (SQLException e) {
             // Gestione dell'errore per la chiusura della connessione
-            System.err.println("Error while closing the connection: " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -61,10 +60,9 @@ public class ConnectionFactory {
             return DriverManager.getConnection(connectionUrl, user, pass);
 
         } catch (IOException | SQLException e) {
-            // Gestione dell'errore per la lettura del file o per la connessione al DB
-            System.err.println("Error while creating connection for role: " + role);
+           
             e.printStackTrace();
-            return null; // Se si verifica un errore, restituisci null
+            return null; 
         }
     }
 
