@@ -18,7 +18,7 @@ public class LoginControllerCLI implements Controller {
           CredentialsBean cred = LoginViewCLI.authenticate();  // La view gestisce l'input dell'utente
         credentials = new Credentials(cred.getUsername(), cred.getPassword(), cred.getRole());
         } catch (Exception e) {
-        	 throw new RuntimeException("Error: " + e.getMessage());
+        	throw new IllegalArgumentException("Error during authentication: " + e.getMessage());
            
         }
 
@@ -29,7 +29,7 @@ public class LoginControllerCLI implements Controller {
             try {
                 credentials = loginController.login(credentials.getUsername(), credentials.getPassword());
             } catch (RuntimeException e) {
-                throw new RuntimeException("Error: " + e.getMessage());
+            throw new AuthenticationException("Authentication failed: " + e.getMessage());
             }
         }
     }
