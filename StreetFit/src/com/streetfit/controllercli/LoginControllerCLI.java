@@ -22,8 +22,7 @@ public class LoginControllerCLI implements Controller {
            
         }
 
-        // Se le credenziali sono valide, continua con il login
-        if (credentials != null) {
+        
             // Passa le credenziali a LoginController per la logica di autenticazione
             LoginController loginController = new LoginController();
             try {
@@ -31,7 +30,7 @@ public class LoginControllerCLI implements Controller {
             } catch (RuntimeException e) {
             	throw new IllegalStateException("Authentication failed: " + e.getMessage());
             }
-        }
+        
     }
 
     // Metodo per ottenere le credenziali, utile in altre parti del programma
@@ -39,5 +38,4 @@ public class LoginControllerCLI implements Controller {
         return credentials;
     }
 }
-
 
