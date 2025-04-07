@@ -15,13 +15,14 @@ public class LoginFSDAO implements Dao{
 	private static final String CSV_FILE = "res/users.csv"; // Percorso del file CSV
 	
 
-	public Credentials getCredentials(String username, String password) throws DAOException {
+	@Override
+    public Credentials getCredentials(String username, String password) throws DAOException {
         try (BufferedReader br = new BufferedReader(new FileReader(CSV_FILE))) {
             String line;
             boolean headerSkipped = false;
 
             while ((line = br.readLine()) != null) {
-                // Una volta letta l'intestazione, segnalo che Ã¨ stata saltata
+                // Una volta letta l'intestazione, segnalo che è stata saltata
                 if (!headerSkipped) {
                     headerSkipped = true;
                     continue; // Continua a leggere la riga successiva

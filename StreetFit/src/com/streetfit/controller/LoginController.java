@@ -1,18 +1,21 @@
 package com.streetfit.controller;
 
 import com.streetfit.dao.FactorySingletonDAO;
-import com.streetfit.dao.LoginDAO;
+
+
+
+import com.streetfit.dao.Dao;
 import com.streetfit.exception.DAOException;
 import com.streetfit.model.Credentials;
 
 public class LoginController implements Controller {
-    private LoginDAO loginDAO;
+    private Dao loginDAO;
 
     public LoginController() {
         try {
             this.loginDAO = FactorySingletonDAO.getDefaultDAO().getLoginDAO();  
         } catch (RuntimeException e) {
-           throw new IllegalStateException("Failed to initialize LoginController due to DAO error", e);
+        	throw new IllegalStateException("Failed to initialize LoginController due to DAO error", e);
         }
     }
 
@@ -30,7 +33,7 @@ public class LoginController implements Controller {
         try {
             return loginDAO.getCredentials(username, password);   
         } catch (DAOException e) {
-        throw new SecurityException("Authentication failed for user: " + username, e);
+        	 throw new SecurityException("Authentication failed for user: " + username, e);
         }
     }
 }

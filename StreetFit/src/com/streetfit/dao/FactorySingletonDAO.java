@@ -35,14 +35,15 @@ public abstract class FactorySingletonDAO {
                         throw new IllegalArgumentException("Error: DAO type not valid -> " + daoType);
                 }
             } catch (IOException e) {
-               throw new IllegalStateException("Error while loading config file: " + e.getMessage(), e);
+            	throw new IllegalStateException("Error while loading config file: " + e.getMessage(), e);
+
             }
         }
         return instance;
     }
 
     // Metodi astratti per le procedure DAO
-    public abstract LoginDAO getLoginDAO();
+    public abstract Dao getLoginDAO();
     
     //other  future methods here
 }

@@ -4,12 +4,12 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Types;
-import com.streetfit.dao.LoginDAO;
+import com.streetfit.dao.Dao;
 import com.streetfit.exception.DAOException;
 import com.streetfit.model.Credentials;
 import com.streetfit.model.Role;
 
-public class LoginProcedureDAO implements LoginDAO {
+public class LoginProcedureDAO implements Dao {
 
     @Override
     public Credentials getCredentials(String username, String password) throws DAOException {
@@ -29,5 +29,4 @@ public class LoginProcedureDAO implements LoginDAO {
         return new Credentials(username, password, Role.fromInt(role));
     }
 }
-
 

@@ -6,7 +6,7 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/23.0.1" 
             xmlns:fx="http://javafx.com/fxml/1" 
-            fx:controller="com.StreetFit.controllerFX.TrainerControllerFX"
+            fx:controller="com.streetfit.controllerfx.TrainerControllerFX"
             prefWidth="400" prefHeight="300">
 
     <Label fx:id="trainerLabel" layoutX="140" layoutY="80" text="Benvenuto, Trainer!" />

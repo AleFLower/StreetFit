@@ -4,7 +4,7 @@ import com.streetfit.daofs.LoginFSDAO;
 
 public class FSFactory extends FactorySingletonDAO{
 
-	public LoginDAO getLoginDAO() {
+	public Dao getLoginDAO() {
 		return new LoginFSDAO();     
 	}
 	

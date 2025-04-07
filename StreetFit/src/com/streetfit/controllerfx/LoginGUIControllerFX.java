@@ -34,7 +34,7 @@ public class LoginGUIControllerFX {
 
         try {
             LoginController loginController = new LoginController();
-            Credentials credentials = loginController.login(username, password);
+            Credentials credentials = loginController.login(username, password);  //attention: it must be the bean! Not directly credentials
 
             if (credentials.getRole() != null) {
             	 Alert alert;
@@ -73,4 +73,3 @@ public class LoginGUIControllerFX {
         javafx.application.Platform.exit();
     }
 }
-
