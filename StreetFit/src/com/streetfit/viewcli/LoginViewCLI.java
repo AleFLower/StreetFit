@@ -15,16 +15,16 @@ public class LoginViewCLI {
 
         while (true) {
             try {
-                System.out.print("username: ");
+                System.out.print("username: "); //NOSONAR
                 String username = reader.readLine();
 
-                System.out.print("password: ");
+                System.out.print("password: ");//NOSONAR
                 String password = reader.readLine();
 
                 return new CredentialsBean(username, password, null);
             } catch (IllegalArgumentException e) {
-                System.out.println("Error: " + e.getMessage());
-                System.out.println("Please try again.\n");
+                System.out.println("Error: " + e.getMessage());//NOSONAR
+                System.out.println("Please try again.\n");//NOSONAR
             }
         }
     }
