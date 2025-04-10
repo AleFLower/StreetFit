@@ -19,7 +19,7 @@ public class DashboardTrainerCLI {
 			System.out.println("-----Welcome to StreetFit----");  //NOSONAR
 			System.out.println("1. Add new stage");//NOSONAR
 		//per il momento, poi vedremo che casi d'uso fare, questa non è un caso d'uso
-			System.out.println("2. View created stage");  
+			System.out.println("2. View created stage");  //NOSONAR
 			System.out.println("3. Manage reviews/comment");//NOSONAR
 			System.out.println("4. Logout");//NOSONAR
 			System.out.println("Please, enter your choice: ");//NOSONAR
