@@ -50,9 +50,11 @@ public class LoginFSDAO implements LoginDao{
 	}
 
     // Metodo per calcolare l'hash MD5 della password
-    private String hashMD5(String input) {
+     private String hashSHA256(String input) {
         try {
-            MessageDigest md = MessageDigest.getInstance("MD5");
+            // Usa SHA-256 al posto di MD5
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+
             byte[] hash = md.digest(input.getBytes());
             StringBuilder hexString = new StringBuilder();
             for (byte b : hash) {
@@ -60,7 +62,7 @@ public class LoginFSDAO implements LoginDao{
             }
             return hexString.toString();
         } catch (NoSuchAlgorithmException e) {
-        	throw new IllegalStateException("MD5 algorithm not available", e);
+            throw new IllegalStateException("SHA-256 algorithm not available", e);
         }
     }
 }
