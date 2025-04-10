@@ -26,9 +26,9 @@ public class AddStageProcedureDAO implements AddStageDao{
 		java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 
 
-		try {
+		try (
 		Connection conn = ConnectionFactory.getConnection();
-		CallableStatement cs = conn.prepareCall("{call addStage(?,?,?,?,?,?,?)}") ;
+		CallableStatement cs = conn.prepareCall("{call addStage(?,?,?,?,?,?,?)}")){ 
 			
 		    cs.setString(1, title);
 		    cs.setString(2, itinerary);
@@ -46,3 +46,4 @@ public class AddStageProcedureDAO implements AddStageDao{
 	}
 
 }
+
