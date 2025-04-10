@@ -32,7 +32,7 @@ public class LoginViewCLI {
 
     public static CredentialsBean authenticate() throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        System.out.print("Prova");
+        System.out.print("Prova ciao");
 
         while (true) {
             try {
