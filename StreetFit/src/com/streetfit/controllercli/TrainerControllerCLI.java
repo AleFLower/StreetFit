@@ -27,6 +27,7 @@ public class TrainerControllerCLI implements Controller{
 	       break;
 	       case 2:
 	    	   System.exit(1);  //just for now
+		   break;
 	//other future cases
 	       default:
 		        throw new IllegalArgumentException("Not a valid argument");
