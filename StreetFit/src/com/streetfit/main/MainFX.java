@@ -21,7 +21,7 @@ public class MainFX extends Application {
      
             primaryStage.show();
         } catch (Exception e) {
-            e.printStackTrace();
+              throw new IllegalArgumentException("Error by loading FXML");
         }
     }
 
