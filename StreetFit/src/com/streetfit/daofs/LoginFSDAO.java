@@ -6,12 +6,12 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import com.streetfit.dao.Dao;
+import com.streetfit.dao.LoginDao;
 import com.streetfit.exception.DAOException;
 import com.streetfit.model.Credentials;
 import com.streetfit.model.Role;
 
-public class LoginFSDAO implements Dao{
+public class LoginFSDAO implements LoginDao{
 	private static final String CSV_FILE = "res/users.csv"; // Percorso del file CSV
 	
 

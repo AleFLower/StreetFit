@@ -24,7 +24,7 @@ public class ConnectionFactory {
 
             connection = DriverManager.getConnection(connectionUrl, user, pass);
         } catch (IOException | SQLException e) {
-            e.printStackTrace();
+        	throw new IllegalArgumentException("Error");
         }
     }
 
@@ -42,8 +42,7 @@ public class ConnectionFactory {
 
         } catch (SQLException e) {
             // Gestione dell'errore per la chiusura della connessione
-          
-            e.printStackTrace();
+          throw new IllegalArgumentException("Error");  //for now, we will adjust later...
         }
     }
     
@@ -63,7 +62,6 @@ public class ConnectionFactory {
         } catch (IOException | SQLException e) {
   
        
-            e.printStackTrace();
             return null; // Se si verifica un errore, restituisci null
         }
     }

@@ -4,7 +4,6 @@ package com.streetfit.controllercli;
 import com.streetfit.model.Credentials;
 import com.streetfit.viewcli.LoginViewCLI;
 import com.streetfit.beans.CredentialsBean;
-import com.streetfit.controller.Controller;
 import com.streetfit.controller.LoginController;
 
 public class LoginControllerCLI implements Controller {

@@ -39,7 +39,7 @@ public class HomeGUIControllerFX {
             stage.show();
 
         } catch (Exception e) {
-            e.printStackTrace();
+          throw new IllegalArgumentException("Error by loading FXML");
         }
     }
 }

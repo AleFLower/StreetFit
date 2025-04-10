@@ -1,13 +1,15 @@
 package com.streetfit.dao;
 
+import com.streetfit.daojdbc.AddStageProcedureDAO;
 import com.streetfit.daojdbc.LoginProcedureDAO;
 
 public class JDBCFactory implements DaoFactory {
 
-    public Dao getLoginDAO() {
+    public LoginDao getLoginDAO() {
         return new LoginProcedureDAO();
     }
     
-    
-    //other  future methods here
+    public AddStageDao getAddStageDao() {
+    	return new AddStageProcedureDAO();
+    }
 }

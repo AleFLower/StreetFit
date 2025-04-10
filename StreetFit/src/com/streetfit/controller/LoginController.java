@@ -1,15 +1,13 @@
 package com.streetfit.controller;
 
 import com.streetfit.dao.FactorySingletonDAO;
+import com.streetfit.dao.LoginDao;
 
-
-
-import com.streetfit.dao.Dao;
 import com.streetfit.exception.DAOException;
 import com.streetfit.model.Credentials;
 
-public class LoginController implements Controller {
-    private Dao loginDAO;
+public class LoginController  {
+    private LoginDao loginDAO;
 
     public LoginController() {
         try {
@@ -19,10 +17,6 @@ public class LoginController implements Controller {
         }
     }
 
-    @Override
-    public void start() {
-        // Il metodo start non fa nulla qui, gestito da CLI o FX
-    }
 
     // Metodo per gestire il login e restituire le credenziali
     public Credentials login(String username, String password) {

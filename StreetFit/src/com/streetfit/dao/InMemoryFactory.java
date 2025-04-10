@@ -1,12 +1,16 @@
 package com.streetfit.dao;
 
+import com.streetfit.daoinmemory.InMemoryAddStageDAO;
 import com.streetfit.daoinmemory.InMemoryLoginDAO;
 
 public class InMemoryFactory implements DaoFactory {
     @Override
-    public Dao getLoginDAO() {
+    public LoginDao getLoginDAO() {
         return new InMemoryLoginDAO();
     }
     
-    //other  future methods here
+    
+  public AddStageDao getAddStageDao() {
+	  return new InMemoryAddStageDAO();
+  }
 }
