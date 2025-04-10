@@ -16,9 +16,9 @@ public class DashboardTrainerCLI {
 		int choice;
 		
 			Scanner sc = new Scanner(System.in) ;
-			System.out.println("-----Welcome to StreetFit----");
+			System.out.println("-----Welcome to StreetFit----");  //NOSONAR
 			System.out.println("1. Add new stage");
-			System.out.println("2. View created stage");  //per il momento, poi vedremo che casi d'uso fare, questa non è un caso d'uso
+			System.out.println("2. View created stage");  //per il momento, poi vedremo che casi d'uso fare, questa non Ã¨ un caso d'uso
 			System.out.println("3. Manage reviews/comment");
 			System.out.println("4. Logout");
 			System.out.println("Please, enter your choice: ");
