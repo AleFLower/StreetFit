@@ -46,12 +46,10 @@ public class JoinStageProcedureDao implements JoinStageDao {
 		ConnectionFactory.changeRole(Role.TRAINER);
 		List <Participation> members = new ArrayList<>();
 		String sql = "SELECT username,titolo,tickets FROM MEMBERS";
+		Connection conn = ConnectionFactory.getConnection(); 
 		
-		try
-		{
-			Connection conn = ConnectionFactory.getConnection(); 
-		
-			PreparedStatement prepare = conn.prepareStatement(sql);
+		try(PreparedStatement prepare = conn.prepareStatement(sql);)
+		{	
 			ResultSet rs = prepare.executeQuery();
 			
 			while(rs.next()) {
@@ -66,7 +64,7 @@ public class JoinStageProcedureDao implements JoinStageDao {
 		
 	}
 		catch(SQLException e) {
-			e.printStackTrace();
+			
 			throw new IllegalStateException("Error");
 		}
 		

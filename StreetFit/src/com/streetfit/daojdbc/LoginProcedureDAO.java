@@ -17,10 +17,8 @@ public class LoginProcedureDAO implements LoginDao {
     	
         int role;
         // Usa try-with-resources per chiudere automaticamente le risorse
-        try {
-        	Connection conn = ConnectionFactory.getConnection();
-             CallableStatement cs = conn.prepareCall("{call login(?,?,?)}");
-
+        Connection conn = ConnectionFactory.getConnection();
+        try(CallableStatement cs = conn.prepareCall("{call login(?,?,?)}");) {
             cs.setString(1, username);
             cs.setString(2, password);
             cs.registerOutParameter(3, Types.NUMERIC);

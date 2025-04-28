@@ -280,7 +280,7 @@ public class TrainerControllerFX {
 	            }
 
 	        } catch (Exception e) {
-	            e.printStackTrace();
+	           
 	        }
 	    }
 	    

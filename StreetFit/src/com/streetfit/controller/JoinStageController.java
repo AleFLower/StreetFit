@@ -33,7 +33,7 @@ public class JoinStageController {
 			dao.registrateParticipation(p);
 		}
 		catch(DAOException e) {
-			e.printStackTrace();
+		
 			throw new IllegalStateException("Dao Error");
 		}
 	}
@@ -49,7 +49,7 @@ public class JoinStageController {
 			members = dao.showMembers();
 		}
 		catch(RuntimeException e) {
-			e.printStackTrace();
+			
 			throw new IllegalStateException("Failed to retrieve members", e);
 		}
 		

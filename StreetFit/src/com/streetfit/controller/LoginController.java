@@ -13,7 +13,7 @@ public class LoginController  {
         try {
             this.loginDAO = FactorySingletonDAO.getDefaultDAO().getLoginDAO();  
         } catch (RuntimeException e) {
-        	e.printStackTrace();
+        
         	throw new IllegalStateException("Failed to initialize LoginController due to DAO error", e);
         }
     }
@@ -28,7 +28,7 @@ public class LoginController  {
         try {
             return loginDAO.getCredentials(username, password);   
         } catch (DAOException e) {
-        	e.printStackTrace();
+        
         	 throw new SecurityException("Authentication failed for user: " + username, e);
         }
     }

@@ -34,17 +34,16 @@ public class AddStageProcedureDAO implements AddStageDao{
 		java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 
 
-		try {  //use try catch because try with resources give problem(close connection)
+		  //use try catch because try with resources give problem(close connection)
 		Connection conn = ConnectionFactory.getConnection();
-		CallableStatement cs = conn.prepareCall("{call addStage(?,?,?,?,?,?)}"); 
-			
+		try (CallableStatement cs = conn.prepareCall("{call addStage(?,?,?,?,?,?)}")) { 
 		    cs.setString(1, title);
 		    cs.setString(2, itinerary);
 		    cs.setString(3, category);
-		    cs.setDate(4, sqlDate); // <-- usi la data convertita
+		    cs.setDate(4, sqlDate); 
 		    cs.setString(5, location);
 		    cs.setInt(6, maxparticipant);
-
+		    
 		    cs.execute();
 		} catch (SQLException e) {
 		    throw new DAOException("Error inserting stage: " + e.getMessage(), e);
@@ -57,30 +56,28 @@ public class AddStageProcedureDAO implements AddStageDao{
 		List <TrainingStage> stageList = new ArrayList<>();
 		
 		String sql = "SELECT titolo,itinerario,categoria,data,luogo,max_partecipanti FROM STAGE";  //remember to give all grants (select grant) for the trainer user
-		
-		try
-		{
-			Connection conn = ConnectionFactory.getConnection(); 
-			PreparedStatement prepare = conn.prepareStatement(sql);
-			ResultSet rs = prepare.executeQuery();
-			
-			while(rs.next()) {
-				TrainingStage stage = new TrainingStage(rs.getString("titolo"), 
-						rs.getString("itinerario"),
-						rs.getString("categoria"),
-						rs.getDate("data"),
-						rs.getString("luogo"), 
-						rs.getInt("max_partecipanti"));
-				
-				stageList.add(stage);
-			}
-		
+		Connection conn = ConnectionFactory.getConnection();
+		try ( 
+		         PreparedStatement prepare = conn.prepareStatement(sql); 
+		         ResultSet rs = prepare.executeQuery()) {
 
-		}catch (SQLException e) {
-		    throw new DAOException("Error inserting stage: " + e.getMessage(), e);
-		}
-		
-		return stageList;
+		        while (rs.next()) {
+		            TrainingStage stage = new TrainingStage(
+		                rs.getString("titolo"), 
+		                rs.getString("itinerario"),
+		                rs.getString("categoria"),
+		                rs.getDate("data"),
+		                rs.getString("luogo"), 
+		                rs.getInt("max_partecipanti")
+		            );
+		            stageList.add(stage);
+		        }
+
+		    } catch (SQLException e) {
+		        throw new DAOException("Error retrieving stages: " + e.getMessage(), e);
+		    }
+
+		    return stageList;
 	}
 
 }

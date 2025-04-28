@@ -48,7 +48,7 @@ public class AddStageController{  //controller that communicates with DAO
 		try {
 			stageList = dao.getStages();
 		}catch(DAOException e) {
-		e.printStackTrace();
+	
 		throw new IllegalStateException("Dao Error");
 	     }
 		

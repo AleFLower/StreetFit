@@ -31,19 +31,27 @@ public class ParticipantControllerCLI{
   
    HomeGUIControllerCLI controller = new HomeGUIControllerCLI();
 	int choice;
-	while(true) {
-	choice = view.showMenu();
-	
-	switch(choice) {
-	
-	case 1: joinStage(cred);
-	break;
-	case 4:
-		controller.start();
-	break;
-	default: System.exit(1); //for the moment...
-	}
-	}
+	boolean running = true; // Introduce a flag
+
+    while (running) {
+        choice = view.showMenu();
+
+        switch (choice) {
+            case 1:
+                joinStage(cred);
+                break;
+            case 4:
+                controller.start();
+                break;
+            case 0: // user selects 0 to exit
+               
+                running = false; // stop the loop safely
+                break;
+            default:
+              throw new IllegalStateException("ciao"); //for the moment
+                // No System.exit() immediately — let user try again
+        }
+    }
 	
 	} 
 	
@@ -58,6 +66,11 @@ public class ParticipantControllerCLI{
 			  chosenstage = controller.getAllStages().get(choice);
 			  
 		}
+		 if (chosenstage == null) {
+		        view.printMessage("Invalid stage choice. Please try again.");
+		        return;  // Exit the method or ask for a valid input again
+		    }
+		 
 	   try {
 		   
 		   HealthFormBean beanform = view.fillHealthForm();
@@ -124,7 +137,7 @@ public class ParticipantControllerCLI{
 	      
 	        
 	   }catch(Exception e) {
-		   e.printStackTrace();
+		   
 		   throw new IllegalStateException("Input error while creating health form");
 	   }
  

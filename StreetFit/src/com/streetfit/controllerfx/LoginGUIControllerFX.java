@@ -55,7 +55,7 @@ public class LoginGUIControllerFX {
             }
 
         } catch (RuntimeException e) {
-        	System.out.println("Error: "+ e.getMessage());
+        	
             showAlert(msg, e.getMessage());
         }
     }
