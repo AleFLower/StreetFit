@@ -14,13 +14,11 @@ import com.streetfit.model.Credentials;
 import com.streetfit.model.HealthForm;
 import com.streetfit.model.Participation;
 import com.streetfit.model.TrainingStage;
+import com.streetfit.strategy.PromotionalEvent;
+import com.streetfit.strategy.StandardTicket;
+import com.streetfit.strategy.TicketStrategy;
+import com.streetfit.strategy.VipStrategy;
 import com.streetfit.viewcli.DashboardParticipantCLI;
-
-import strategy.PromotionalEvent;
-import strategy.StandardTicket;
-import strategy.TicketStrategy;
-import strategy.VipStrategy;
-
 import com.streetfit.chainofresponsibility.*;
 
 public class ParticipantControllerCLI{   
@@ -30,7 +28,7 @@ public class ParticipantControllerCLI{
 	
 
    public void start(Credentials cred) {
-   //ConnectionFactory.changeRole(Role.PARTICIPANT);
+  
    HomeGUIControllerCLI controller = new HomeGUIControllerCLI();
 	int choice;
 	while(true) {
@@ -43,7 +41,7 @@ public class ParticipantControllerCLI{
 	case 4:
 		controller.start();
 	break;
-	default: System.out.println("Not implemented others method  yet");  //momentaneo
+	default: System.exit(1); //for the moment...
 	}
 	}
 	
@@ -84,7 +82,7 @@ public class ParticipantControllerCLI{
 	       TicketStrategy strategy;
 
 	       
-	       //qua in mezzo metti pattern strategy
+	       //qua in mezzo metti pattern com.streetfit.strategy
 	        switch (ticketBean.getTicketType()) {
 	            case "base" -> {
 	            	ticket = new BasicTicket(ticketBean.getQuantity());

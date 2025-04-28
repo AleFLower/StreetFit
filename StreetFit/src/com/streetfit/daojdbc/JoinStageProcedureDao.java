@@ -44,8 +44,8 @@ public class JoinStageProcedureDao implements JoinStageDao {
 	@Override
 	public List<Participation> showMembers() {
 		ConnectionFactory.changeRole(Role.TRAINER);
-		List <Participation> members = new ArrayList<Participation>();
-		String sql = "SELECT * FROM MEMBERS";
+		List <Participation> members = new ArrayList<>();
+		String sql = "SELECT username,titolo,tickets FROM MEMBERS";
 		
 		try
 		{

@@ -32,7 +32,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.util.ArrayList;
+
 import java.util.Date;
 import java.util.List;
 
@@ -186,7 +186,7 @@ public class TrainerControllerFX {
 	    }
 
 	    public void printTable() {  //methods to print things into the table: it will use the general controller, that returns all the created stages, as it communicates with DAO
-	        List<TrainingStage> stageList = new ArrayList<>();
+	        List<TrainingStage> stageList;
 
 	        AddStageController controller = new AddStageController();
 	        stageList = controller.getAllStages(); //
@@ -251,9 +251,7 @@ public class TrainerControllerFX {
 	            alert.setHeaderText(null);
 	            alert.setContentText("Are you sure you want to logout?");
 	            Optional<ButtonType> option = alert.showAndWait();
-
-	            if (option.get().equals(ButtonType.OK)) {
-
+	            if (option.isPresent() && option.get().equals(ButtonType.OK)) {
 	                // TO HIDE YOUR DASHBOARD FORM
 	                logout.getScene().getWindow().hide();
 
@@ -271,19 +269,14 @@ public class TrainerControllerFX {
 	                root.setOnMouseDragged((MouseEvent event) -> {
 	                    stage.setX(event.getScreenX() - x);
 	                    stage.setY(event.getScreenY() - y);
-
-	                    stage.setOpacity(.8);
+	                    stage.setOpacity(0.8);
 	                });
 
-	                root.setOnMouseReleased((MouseEvent event) -> {
-	                    stage.setOpacity(1);
-	                });
+	                root.setOnMouseReleased(event -> stage.setOpacity(1));
 
 	                stage.initStyle(StageStyle.TRANSPARENT);
-
 	                stage.setScene(scene);
 	                stage.show();
-
 	            }
 
 	        } catch (Exception e) {

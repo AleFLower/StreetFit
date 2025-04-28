@@ -40,7 +40,7 @@ public class JoinStageController {
 	
 	public List<Participation> showMembers() {
 		
-		List <Participation> members = new ArrayList<Participation>();
+		List <Participation> members;
 		if(dao == null) {
 			throw new IllegalStateException("Error");
 		}
@@ -65,7 +65,8 @@ public class JoinStageController {
 		//dovremo fare una sorta di join a livello di codice java, non sql, scorro prima lista, poi seconda, confronto i titoli e se si tengo da parte una somma dei tickets e poi sottraggo
 	
 		List <Participation> members = showMembers();
-		List<Integer> counters = new ArrayList<Integer>();
+		List<Integer> counters = new ArrayList<>();
+
 		
 		for(TrainingStage stage : stageList) {
 			int counter = 0;  // Reset qui!

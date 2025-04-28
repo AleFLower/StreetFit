@@ -53,7 +53,7 @@ public class AddStageFSDAO implements AddStageDao {
 	@Override
 	public List<TrainingStage> getStages() throws DAOException {
 		
-		List <TrainingStage> stagelist = new ArrayList<TrainingStage>();
+		List <TrainingStage> stagelist = new ArrayList<>();
 		
 		  try (BufferedReader br = new BufferedReader(new FileReader(CSV_FILE))) {
 	            String line;

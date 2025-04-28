@@ -8,6 +8,9 @@ import com.streetfit.beans.CredentialsBean;
 
 
 public class LoginViewCLI {
+	private LoginViewCLI() {
+        // private constructor to prevent instantiation
+    }
 
     public static CredentialsBean authenticate() throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));

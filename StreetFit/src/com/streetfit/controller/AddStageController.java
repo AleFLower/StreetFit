@@ -1,11 +1,9 @@
 package com.streetfit.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.streetfit.dao.AddStageDao;
 import com.streetfit.dao.FactorySingletonDAO;
-import com.streetfit.daoinmemory.Observer;
 import com.streetfit.model.TrainingStage;
 import com.streetfit.exception.*;
 
@@ -42,7 +40,7 @@ public class AddStageController{  //controller that communicates with DAO
 	
 	public List<TrainingStage> getAllStages() {
 		
-		List <TrainingStage> stageList = new ArrayList<TrainingStage>();
+		List <TrainingStage> stageList;
 		
 		if(dao == null) {
 			throw new IllegalStateException("Error");

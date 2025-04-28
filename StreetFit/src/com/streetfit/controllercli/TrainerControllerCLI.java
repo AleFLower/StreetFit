@@ -6,7 +6,6 @@ import java.util.List;
 import com.streetfit.beans.StageBean;
 import com.streetfit.controller.AddStageController;
 import com.streetfit.controller.JoinStageController;
-import com.streetfit.model.Credentials;
 import com.streetfit.model.Participation;
 import com.streetfit.model.TrainingStage;
 import com.streetfit.viewcli.DashboardTrainerCLI;
@@ -14,12 +13,12 @@ import com.streetfit.viewcli.DashboardTrainerCLI;
 public class TrainerControllerCLI {  
 	
 	private DashboardTrainerCLI view = new DashboardTrainerCLI();  
-	private TrainingStage stage;
+	
 	private JoinStageController joinController= new JoinStageController();
 	private AddStageController addStagecontroller = new AddStageController();
 	
 	
-    public void start(Credentials cred) {
+    public void start() {
     	
     	HomeGUIControllerCLI controller = new HomeGUIControllerCLI();
     	 int choice;
@@ -40,6 +39,7 @@ public class TrainerControllerCLI {
 	    	   break;
 	       case 4:
 	    	   controller.start();
+	    	   break;
 	       default:
 		        throw new IllegalArgumentException("Not a valid argument");
 	        }
@@ -49,7 +49,8 @@ public class TrainerControllerCLI {
 
 
      public void addstage() {  //use case: addStage: build a bean from the view and calls the "general" controller AddStageController
-	   
+       
+       TrainingStage stage;
 	   StageBean stagebean;
 	   try {
 	     stagebean = view.addstage();
@@ -68,7 +69,7 @@ public class TrainerControllerCLI {
 	 }
      
      public void members() {
-    	 List <Participation> members = new ArrayList<Participation>();
+    	 List <Participation> members;
     	 members = joinController.showMembers();
     	 view.printMembers(members);
      }

@@ -15,11 +15,5 @@ public class SpecialTicket extends TicketDecorator {
     public double getPrice() {
         return super.getPrice() + 10.0;  // aggiunta al prezzo
     }
-    public int getQuantity() {
-    	return super.getQuantity();
-    }
-    
-    public void setQuantity(int quantity) {
-    	super.setQuantity(quantity);
-    }
+   
 }

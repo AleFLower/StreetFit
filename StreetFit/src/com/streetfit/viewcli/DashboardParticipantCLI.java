@@ -32,7 +32,7 @@ public class DashboardParticipantCLI {
 	    int choice;
 	    int i = 1;
 
-	    System.out.println("\n===========  Available Stages  ===========\n");
+	    System.out.println("\n===========  Available Stages  ===========\n");//NOSONAR
 
 	    for (TrainingStage stage : stages) {
 	        if (list.get(i - 1) == 0) {   // Skip stages not available
@@ -71,9 +71,8 @@ public class DashboardParticipantCLI {
 	        System.out.print("Are you currently on any medication? : ");//NOSONAR
 	        boolean onMedication = readYesNo();
 
-	        HealthFormBean form = new HealthFormBean(hasInjuries, hasHeartIssues, onMedication);
-
-	        return form;
+	      
+	        return new HealthFormBean(hasInjuries, hasHeartIssues, onMedication);
 	    }
 
 	    private boolean readYesNo() {

@@ -80,10 +80,7 @@
     -fx-border-width: .5px;
     -fx-font-family: Tahoma;
 }
-.textfield:focused{
-    -fx-background-color: #fff;
-    -fx-border-width: 1px;
-}
+
 
 .btn{
     -fx-background-color: #2c2c57;

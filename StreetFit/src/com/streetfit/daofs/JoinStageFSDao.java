@@ -5,16 +5,13 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+
 import java.util.List;
 
 import com.streetfit.dao.JoinStageDao;
 import com.streetfit.exception.DAOException;
 import com.streetfit.model.Participation;
-import com.streetfit.model.TrainingStage;
 
 
 public class JoinStageFSDao implements JoinStageDao {
@@ -38,7 +35,7 @@ public class JoinStageFSDao implements JoinStageDao {
 	@Override
 	public List<Participation> showMembers() {	
 			
-			List <Participation> members = new ArrayList<Participation>();
+			List <Participation> members = new ArrayList<>();
 			
 			  try (BufferedReader br = new BufferedReader(new FileReader(CSV_FILE))) {
 		            String line;

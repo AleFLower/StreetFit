@@ -54,12 +54,13 @@ public class AddStageProcedureDAO implements AddStageDao{
 	
 	public List<TrainingStage> getStages() throws DAOException {
 		
-		List <TrainingStage> stageList = new ArrayList<TrainingStage>();
+		List <TrainingStage> stageList = new ArrayList<>();
 		
-		String sql = "SELECT * FROM STAGE";  //remember to give all grants (select grant) for the trainer user
+		String sql = "SELECT titolo,itinerario,categoria,data,luogo,max_partecipanti FROM STAGE";  //remember to give all grants (select grant) for the trainer user
 		
 		try
-		{Connection conn = ConnectionFactory.getConnection(); {
+		{
+			Connection conn = ConnectionFactory.getConnection(); 
 			PreparedStatement prepare = conn.prepareStatement(sql);
 			ResultSet rs = prepare.executeQuery();
 			
@@ -73,7 +74,7 @@ public class AddStageProcedureDAO implements AddStageDao{
 				
 				stageList.add(stage);
 			}
-		}
+		
 
 		}catch (SQLException e) {
 		    throw new DAOException("Error inserting stage: " + e.getMessage(), e);

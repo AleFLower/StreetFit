@@ -16,7 +16,7 @@ public class HomeGUIControllerCLI {
 
         }
 		switch(cred.getRole()) { 
-		case TRAINER -> new TrainerControllerCLI().start(cred);
+		case TRAINER -> new TrainerControllerCLI().start();
 		case PARTICIPANT -> new ParticipantControllerCLI().start(cred);
 		default -> throw new IllegalArgumentException("Error during authentication: unknown role " + cred.getRole());
 		}

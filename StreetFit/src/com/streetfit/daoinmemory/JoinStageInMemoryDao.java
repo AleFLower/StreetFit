@@ -8,7 +8,7 @@ import com.streetfit.model.Participation;
 
 public class JoinStageInMemoryDao implements JoinStageDao {
 
-	private static List <Participation> members = new ArrayList<Participation>();  //se non static, non funziona, ovviamente...(vedi definizione di attributo static)
+	private static List <Participation> members = new ArrayList<>();  //se non static, non funziona, ovviamente...(vedi definizione di attributo static)
 	@Override
 	public void registrateParticipation(Participation p) {
 		

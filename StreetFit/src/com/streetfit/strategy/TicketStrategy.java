@@ -1,4 +1,4 @@
-package strategy;
+package com.streetfit.strategy;
 
 import com.streetfit.decorator.Ticket;
 
