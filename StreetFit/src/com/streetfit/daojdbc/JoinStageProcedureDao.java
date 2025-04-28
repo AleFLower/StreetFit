@@ -23,11 +23,10 @@ public class JoinStageProcedureDao implements JoinStageDao {
 		String username = p.getUsername();
 		String stage = p.getStage();
 	    int tickets = p.getTicket();
+	    Connection conn = ConnectionFactory.getConnection();
 	    
-	    try {
-	    	Connection conn = ConnectionFactory.getConnection();
-	    	CallableStatement cs = conn.prepareCall("{call add_member(?,?,?)}");
-	    	
+	    try(CallableStatement cs = conn.prepareCall("{call add_member(?,?,?)}");) {
+
 	    	cs.setString(1, username);
 	    	cs.setString(2, stage);
 	    	cs.setInt(3, tickets);
