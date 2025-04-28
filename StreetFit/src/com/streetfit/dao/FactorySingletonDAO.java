@@ -33,9 +33,11 @@ public class FactorySingletonDAO {
                         instance = new InMemoryFactory();
                         break;
                     default:
+                    	
                         throw new IllegalArgumentException("Error: DAO type not valid -> " + daoType);
                 }
             } catch (IOException e) {
+            	
                 throw new IllegalStateException("Error while loading config file: " + e.getMessage(), e);
             }
         }

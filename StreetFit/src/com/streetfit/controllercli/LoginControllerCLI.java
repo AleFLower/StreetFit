@@ -6,11 +6,11 @@ import com.streetfit.viewcli.LoginViewCLI;
 import com.streetfit.beans.CredentialsBean;
 import com.streetfit.controller.LoginController;
 
-public class LoginControllerCLI implements Controller {
+public class LoginControllerCLI {
 
     private Credentials credentials;   // Memorizza le credenziali
     
-    @Override
+  
     public void start() {
         // Recupera le credenziali dall'interfaccia di login
         try {

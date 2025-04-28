@@ -1,8 +1,12 @@
 package com.streetfit.dao;
 
-import com.streetfit.exception.DAOException;
-import com.streetfit.model.Stage;
+import java.util.List;
 
-public interface AddStageDao {
-  public void  addStage(Stage s) throws DAOException;
+import com.streetfit.exception.DAOException;
+import com.streetfit.model.TrainingStage;
+
+public interface AddStageDao {  
+	//methods that every addstage "procedure" must implements
+  public void  addStage(TrainingStage s) throws DAOException;
+  public List<TrainingStage> getStages() throws DAOException;
 }

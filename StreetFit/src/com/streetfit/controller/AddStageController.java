@@ -1,34 +1,59 @@
 package com.streetfit.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.streetfit.dao.AddStageDao;
 import com.streetfit.dao.FactorySingletonDAO;
-import com.streetfit.model.Stage;
+import com.streetfit.daoinmemory.Observer;
+import com.streetfit.model.TrainingStage;
 import com.streetfit.exception.*;
 
 public class AddStageController{  //controller that communicates with DAO
 	
-	private AddStageDao dao;
+	private AddStageDao dao;   //it communicates with DAO, whatever it is(FS, JDBC or MEMORY)
 	
+
+
 	public AddStageController() {
 		try {
-			this.dao = FactorySingletonDAO.getDefaultDAO().getAddStageDao();
+			this.dao = FactorySingletonDAO.getDefaultDAO().getAddStageDao();  //get the DAO for the chosen persistence layer
 		}
 		catch(RuntimeException e) {
 			throw new IllegalStateException("Failed to initialize  due to DAO error", e);
 		}
 	}
 	
-	public void addstage(Stage stage) {
+	public void addstage(TrainingStage stage) {
 		
 		if(dao == null) {
 			throw new IllegalStateException("Error");
 		}
 		
 		try {			
-			dao.addStage(stage);
+			dao.addStage(stage);  //it calls the method that every DAO must implements(it is written in the interface AddStageDAO)
+			  
 		}
 		catch(DAOException e) {
+			
 			throw new IllegalStateException("Dao Error");
 		}
+	}
+	
+	public List<TrainingStage> getAllStages() {
+		
+		List <TrainingStage> stageList = new ArrayList<TrainingStage>();
+		
+		if(dao == null) {
+			throw new IllegalStateException("Error");
+		}
+		try {
+			stageList = dao.getStages();
+		}catch(DAOException e) {
+		e.printStackTrace();
+		throw new IllegalStateException("Dao Error");
+	     }
+		
+		return stageList;
 	}
 }

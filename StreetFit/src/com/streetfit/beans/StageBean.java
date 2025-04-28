@@ -9,17 +9,15 @@ public class StageBean {
     private String category;
     private Date date; // Date format to match SQL DATE
     private String place;
-    private String intensity; // Enum values: 'bassa', 'media', 'alta'
     private int maxParticipants;
 
     // Constructor
-    public StageBean(String title, String itinerary, String category, Date date, String place, String intensity, int maxParticipants) {
+    public StageBean(String title, String itinerary, String category, Date date, String place,  int maxParticipants) {
         this.title = title;
         this.itinerary = itinerary;
         this.category = category;
         this.date = date;
         this.place = place;
-        this.intensity = intensity;
         this.maxParticipants = maxParticipants;
     }
 
@@ -64,13 +62,6 @@ public class StageBean {
         this.place = place;
     }
 
-    public String getIntensity() {
-        return intensity;
-    }
-
-    public void setIntensity(String intensity) {
-        this.intensity = intensity;
-    }
 
     public int getMaxParticipants() {
         return maxParticipants;
@@ -82,7 +73,7 @@ public class StageBean {
 
     // Validation Methods
     public boolean isValid() {
-        return validateTitle() && validateItinerary() && validateCategory() && validateDate() && validatePlace() && validateIntensity() && validateMaxParticipants();
+        return validateTitle() && validateItinerary() && validateCategory() && validateDate() && validatePlace() && validateMaxParticipants();
     }
 
     private boolean validateTitle() {
@@ -94,7 +85,7 @@ public class StageBean {
     }
 
     private boolean validateCategory() {
-        return category != null && (category.equalsIgnoreCase("Functional") || category.equalsIgnoreCase("Yoga") || category.equalsIgnoreCase("Dance")|| category.equalsIgnoreCase("Stretching")||category.equalsIgnoreCase("HIIT") ||category.equalsIgnoreCase("Pilates"));
+        return category != null && (category.equalsIgnoreCase("Functional") || category.equalsIgnoreCase("Yoga") || category.equalsIgnoreCase("HIIT")|| category.equalsIgnoreCase("Stretching")||category.equalsIgnoreCase("hiit") ||category.equalsIgnoreCase("Pilates")||category.equalsIgnoreCase("Crossfit"));
     }
 
     private boolean validateDate() {
@@ -103,10 +94,6 @@ public class StageBean {
 
     private boolean validatePlace() {
         return place != null && !place.trim().isEmpty();
-    }
-
-    private boolean validateIntensity() {
-        return intensity != null && (intensity.equalsIgnoreCase("low") || intensity.equalsIgnoreCase("medium") || intensity.equalsIgnoreCase("high"));
     }
 
     private boolean validateMaxParticipants() {

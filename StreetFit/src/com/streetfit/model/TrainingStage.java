@@ -2,24 +2,22 @@ package com.streetfit.model;
 
 import java.util.Date;
 
-public class Stage {
+public class TrainingStage {
     private String title;            // Title of the stage
     private String itinerary;        // Description of the itinerary
     private String category;         // Category of the stage (e.g., fitness, yoga, etc.)
     private Date date;               // Date of the stage
     private String location;         // Location of the stage
-    private String intensity;        // Intensity of the workout (low, medium, high)
     private int maxParticipants;     // Maximum number of participants
 
     // Constructor to initialize all fields
-    public Stage(String title, String itinerary, String category, Date date, 
-                 String location, String intensity, int maxParticipants) {
+    public TrainingStage(String title, String itinerary, String category, Date date, 
+                 String location, int maxParticipants) {
         this.title = title;
         this.itinerary = itinerary;
         this.category = category;
         this.date = date;
         this.location = location;
-        this.intensity = intensity;
         this.maxParticipants = maxParticipants;
     }
 
@@ -44,9 +42,6 @@ public class Stage {
         return location;
     }
 
-    public String getIntensity() {
-        return intensity;
-    }
 
     public int getMaxParticipants() {
         return maxParticipants;
@@ -73,10 +68,6 @@ public class Stage {
         this.location = location;
     }
 
-    public void setIntensity(String intensity) {
-        this.intensity = intensity;
-    }
-
     public void setMaxParticipants(int maxParticipants) {
         this.maxParticipants = maxParticipants;
     }
@@ -84,13 +75,12 @@ public class Stage {
     // toString() to represent the object as a string
     @Override
     public String toString() {
-        return "Stage{" +
+        return "TrainingStage{" +
                 "title='" + title + '\'' +
                 ", itinerary='" + itinerary + '\'' +
                 ", category='" + category + '\'' +
                 ", date=" + date +
                 ", location='" + location + '\'' +
-                ", intensity='" + intensity + '\'' +
                 ", maxParticipants=" + maxParticipants +
                 '}';
     }

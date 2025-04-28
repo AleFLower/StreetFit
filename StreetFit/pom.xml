@@ -7,6 +7,11 @@
         <version>21</version>
     </dependency>
     <dependency>
+    <groupId>de.jensd</groupId>
+    <artifactId>fontawesomefx</artifactId>
+    <version>8.9</version> <!-- Usa la versione che desideri -->
+</dependency>
+    <dependency>
         <groupId>org.openjfx</groupId>
         <artifactId>javafx-fxml</artifactId>
         <version>21</version>

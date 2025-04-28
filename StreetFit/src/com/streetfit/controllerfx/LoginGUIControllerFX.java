@@ -19,8 +19,6 @@ public class LoginGUIControllerFX {
 	@FXML private PasswordField siPassword;
 	@FXML private Button siLoginBtn;
 
-
-
     @FXML
     public void login() {
         String username = siUsername.getText();

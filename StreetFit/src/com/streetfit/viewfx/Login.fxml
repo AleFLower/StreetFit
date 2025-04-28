@@ -42,7 +42,7 @@
                  
                   <ImageView fitHeight="82.0" fitWidth="76.0" layoutX="112.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="Images/user-128.png" />
+                        <Image url="Images/fit.png" />
                      </image>
                   </ImageView>
                </children>
@@ -62,9 +62,9 @@
                         <Font name="Tahoma" size="20.0" />
                      </font>
                   </Label>
-                  <ImageView fitHeight="96.0" fitWidth="134.0" layoutX="94.0" layoutY="68.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="180.0" fitWidth="200.0" layoutX="63.0" layoutY="68.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="Images/e888cd8d2708d8f0388198fd551a1a00.jpg" />
+                        <Image url="Images/StreetFitLogo.png" />
                      </image>
                   </ImageView>
                </children>
@@ -73,7 +73,11 @@
                <children>
                   <Button fx:id="close" mnemonicParsing="false" onAction="#close" prefHeight="24.0" prefWidth="50.0" styleClass="close" stylesheets="@loginDesign.css" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0">
                      <graphic>
-                      
+                       <ImageView fitHeight="21" fitWidth="21" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="Images/cross.png" />
+                                 </image>
+                              </ImageView>
                      </graphic>
                   </Button>
                </children>
