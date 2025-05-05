@@ -3,9 +3,11 @@ package com.streetfit.controllerfx;
 import com.streetfit.model.Credentials;
 
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
+import javafx.stage.StageStyle; 
 
 public class HomeGUIControllerFX {
 
@@ -17,20 +19,29 @@ public class HomeGUIControllerFX {
             // Carica la scena in base al ruolo dell'utente
             switch (cred.getRole()) {
                 case TRAINER:
-                    loader = new FXMLLoader(getClass().getResource("/com/StreetFit/ViewFX/TrainerGUI.fxml"));
+                    loader = new FXMLLoader(getClass().getResource("/com/streetFit/viewfx/Trainerdashboard.fxml"));
                     break;
                 case PARTICIPANT:
-                    loader = new FXMLLoader(getClass().getResource("ParticipantGUI.fxml"));
+                    loader = new FXMLLoader(getClass().getResource("/com/streetFit/viewfx/ParticipantDashBoard.fxml"));
                     break;
                 default:
-                    throw new RuntimeException("Invalid credentials");
+                   throw new IllegalArgumentException("Error during authentication");
+                  }
+            Parent root = loader.load();
+            Object controller = loader.getController();
+
+            // Controlla che il controller sia un'istanza di ParticipantControllerFX
+            if (controller instanceof ParticipantControllerFX) {
+                // Passa cred al controller
+                ((ParticipantControllerFX) controller).setCredentials(cred);
             }
 
             // Crea la nuova scena
-            Scene scene = new Scene(loader.load());
+            Scene scene = new Scene(root);
             
-            // Imposta lo stile della finestra (puoi rimuovere questa parte se non ti serve)
-            stage.initStyle(StageStyle.DECORATED);
+            
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.getIcons().add(new Image("Images/pull-up-bar.png"));
 
             // Imposta la scena e mostralo
             stage.setScene(scene);
@@ -38,8 +49,8 @@ public class HomeGUIControllerFX {
             stage.show();
 
         } catch (Exception e) {
-            e.printStackTrace();
+        	e.printStackTrace();
+          throw new IllegalArgumentException("Error by loading FXML");
         }
     }
 }
-

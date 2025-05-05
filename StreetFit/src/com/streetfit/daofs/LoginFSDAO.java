@@ -6,32 +6,40 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import com.streetfit.dao.LoginDAO;
+import com.streetfit.dao.LoginDao;
 import com.streetfit.exception.DAOException;
 import com.streetfit.model.Credentials;
 import com.streetfit.model.Role;
 
-public class LoginFSDAO implements LoginDAO{
-	private static final String CSV_FILE = "res/users.csv"; // Percorso del file CSV
-	
 
+public class LoginFSDAO implements LoginDao{
+    private static final String CSV_FILE = "res/users.csv"; // Percorso del file CSV
+    
     @Override
     public Credentials getCredentials(String username, String password) throws DAOException {
         try (BufferedReader br = new BufferedReader(new FileReader(CSV_FILE))) {
             String line;
-            br.readLine(); // Salta l'intestazione
+            boolean headerSkipped = false;
 
             while ((line = br.readLine()) != null) {
-                String[] data = line.split(",");
-                if (data.length != 3) continue; // Ignora righe malformate
+                // Una volta letta l'intestazione, la salto
+                if (!headerSkipped) {
+                    headerSkipped = true;
+                } else {
+                    String[] data = line.split(",");
+                    // Ignora righe malformate
+                    if (data.length != 3) {
+                        continue;
+                    }
 
-                String fileUsername = data[0].trim();
-                String filePassword = data[1].trim();
-                String fileRole = data[2].trim();
-                
-                // Confronta username e password con hash MD5
-                if (fileUsername.equals(username) && filePassword.equals(hashMD5(password))) {
-                	return new Credentials(username, password, Role.valueOf(fileRole.toUpperCase()));
+                    String fileUsername = data[0].trim();
+                    String filePassword = data[1].trim();
+                    String fileRole = data[2].trim();
+
+                    // Confronta username e password (usa SHA-256 ora)
+                    if (fileUsername.equals(username) && filePassword.equals(hashSHA256(password))) {
+                        return new Credentials(username, password, Role.valueOf(fileRole.toUpperCase()));
+                    }
                 }
             }
         } catch (IOException e) {
@@ -41,10 +49,12 @@ public class LoginFSDAO implements LoginDAO{
         return null; // Nessuna corrispondenza trovata
     }
 
-    // Metodo per calcolare l'hash MD5 della password
-    private String hashMD5(String input) {
+    // Metodo per calcolare l'hash SHA-256 della password
+    private String hashSHA256(String input) {
         try {
-            MessageDigest md = MessageDigest.getInstance("MD5");
+            // Usa SHA-256 al posto di MD5
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+
             byte[] hash = md.digest(input.getBytes());
             StringBuilder hexString = new StringBuilder();
             for (byte b : hash) {
@@ -52,7 +62,7 @@ public class LoginFSDAO implements LoginDAO{
             }
             return hexString.toString();
         } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("Error while creating MD5", e);
+            throw new IllegalStateException("SHA-256 algorithm not available", e);
         }
     }
 }

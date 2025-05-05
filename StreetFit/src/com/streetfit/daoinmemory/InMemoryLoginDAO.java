@@ -4,12 +4,12 @@ package com.streetfit.daoinmemory;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.streetfit.dao.LoginDAO;
+import com.streetfit.dao.LoginDao;
 import com.streetfit.exception.DAOException;
 import com.streetfit.model.Credentials;
 import com.streetfit.model.Role;
 
-public class InMemoryLoginDAO implements LoginDAO {
+public class InMemoryLoginDAO implements LoginDao {
 
     private final List<Credentials> users;
 
@@ -18,6 +18,8 @@ public class InMemoryLoginDAO implements LoginDAO {
         // Creiamo utenti predefiniti
         users.add(new Credentials("trainer", "trainer", Role.TRAINER));
         users.add(new Credentials("participant", "participant", Role.PARTICIPANT));
+        users.add(new Credentials("participant2", "participant", Role.PARTICIPANT));
+        users.add(new Credentials("participant3", "participant", Role.PARTICIPANT));
     }
 
     @Override

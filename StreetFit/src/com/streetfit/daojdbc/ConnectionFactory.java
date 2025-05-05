@@ -18,34 +18,52 @@ public class ConnectionFactory {
             Properties properties = new Properties();
             properties.load(input);
 
-            String connection_url = properties.getProperty("CONNECTION_URL");
+            String connectionUrl = properties.getProperty("CONNECTION_URL");
             String user = properties.getProperty("LOGIN_USER");
             String pass = properties.getProperty("LOGIN_PASS");
 
-            connection = DriverManager.getConnection(connection_url, user, pass);
+            connection = DriverManager.getConnection(connectionUrl, user, pass);
         } catch (IOException | SQLException e) {
-            e.printStackTrace();
+        	throw new IllegalArgumentException("Error");
         }
     }
 
-    public static Connection getConnection() throws SQLException {
+    public static Connection getConnection()  {
         return connection;
     }
 
-    public static void changeRole(Role role) throws SQLException {
-        connection.close();
+    public static void changeRole(Role role) {
+        try {
+            // Chiudi la connessione esistente
+            connection.close();
 
+            // Crea una nuova connessione usando il file di configurazione
+            connection = createConnectionForRole(role);
+
+        } catch (SQLException e) {
+            // Gestione dell'errore per la chiusura della connessione
+          throw new IllegalArgumentException("Error");  //for now, we will adjust later...
+        }
+    }
+    
+
+    private static Connection createConnectionForRole(Role role) {
         try (InputStream input = new FileInputStream("res/db.properties")) {
             Properties properties = new Properties();
             properties.load(input);
 
-            String connection_url = properties.getProperty("CONNECTION_URL");
+            String connectionUrl = properties.getProperty("CONNECTION_URL");
             String user = properties.getProperty(role.name() + "_USER");
             String pass = properties.getProperty(role.name() + "_PASS");
 
-            connection = DriverManager.getConnection(connection_url, user, pass);
+            // Restituisce la nuova connessione
+            return DriverManager.getConnection(connectionUrl, user, pass);
+
         } catch (IOException | SQLException e) {
-            e.printStackTrace();
+  
+       
+            return null; // Se si verifica un errore, restituisci null
         }
     }
+
 }

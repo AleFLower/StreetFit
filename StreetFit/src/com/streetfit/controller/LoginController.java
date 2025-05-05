@@ -1,26 +1,23 @@
 package com.streetfit.controller;
 
-import com.streetfit.DAO.FactorySingletonDAO;
-import com.streetfit.DAO.LoginDAO;
+import com.streetfit.dao.FactorySingletonDAO;
+import com.streetfit.dao.LoginDao;
+
 import com.streetfit.exception.DAOException;
 import com.streetfit.model.Credentials;
 
-public class LoginController implements Controller {
-    private Credentials credentials;
-    private LoginDAO loginDAO;
+public class LoginController  {
+    private LoginDao loginDAO;
 
     public LoginController() {
         try {
             this.loginDAO = FactorySingletonDAO.getDefaultDAO().getLoginDAO();  
         } catch (RuntimeException e) {
-           throw new RuntimeException("Error: " + e.getMessage());
+        
+        	throw new IllegalStateException("Failed to initialize LoginController due to DAO error", e);
         }
     }
 
-    @Override
-    public void start() {
-        // Il metodo start non fa nulla qui, gestito da CLI o FX
-    }
 
     // Metodo per gestire il login e restituire le credenziali
     public Credentials login(String username, String password) {
@@ -29,10 +26,10 @@ public class LoginController implements Controller {
         }
 
         try {
-            credentials = loginDAO.getCredentials(username, password);   
-            return credentials;
+            return loginDAO.getCredentials(username, password);   
         } catch (DAOException e) {
-            throw new RuntimeException("Authentication error: " + e.getMessage());
+        
+        	 throw new SecurityException("Authentication failed for user: " + username, e);
         }
     }
 }

@@ -5,12 +5,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-public abstract class FactorySingletonDAO {
-    protected static FactorySingletonDAO instance = null;
+public class FactorySingletonDAO {
 
-    protected FactorySingletonDAO() {}
+    private static DaoFactory instance = null;
 
-    public static FactorySingletonDAO getDefaultDAO() {
+    private FactorySingletonDAO() {}
+
+    public static DaoFactory getDefaultDAO() {
         if (instance == null) {
             Properties properties = new Properties();
             try (InputStream input = new FileInputStream("res/config.properties")) {
@@ -32,18 +33,15 @@ public abstract class FactorySingletonDAO {
                         instance = new InMemoryFactory();
                         break;
                     default:
+                    	
                         throw new IllegalArgumentException("Error: DAO type not valid -> " + daoType);
                 }
             } catch (IOException e) {
-                throw new RuntimeException("Error while loading config file: " + e.getMessage(), e);
+            	
+                throw new IllegalStateException("Error while loading config file: " + e.getMessage(), e);
             }
         }
         return instance;
     }
-
-    // Metodi astratti per le procedure DAO
-    public abstract LoginDAO getLoginDAO();
-    
-    //other  future methods here
 }
 

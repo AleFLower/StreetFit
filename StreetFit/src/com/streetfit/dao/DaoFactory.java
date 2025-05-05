@@ -1,5 +1,8 @@
 package com.streetfit.dao;
 
 public interface DaoFactory {
-	Dao getLoginDAO();
+	//methods to GET the default DAO for every use cases
+	LoginDao getLoginDAO();
+	AddStageDao getAddStageDao();
+	JoinStageDao getJoinStageDao();
 }
