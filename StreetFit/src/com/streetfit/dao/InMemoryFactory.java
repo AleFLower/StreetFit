@@ -1,24 +1,11 @@
 package com.streetfit.dao;
 
-import com.streetfit.daoinmemory.InMemoryAddStageDAO;
 import com.streetfit.daoinmemory.InMemoryLoginDAO;
-import com.streetfit.daoinmemory.JoinStageInMemoryDao;
-
-public class InMemoryFactory implements DaoFactory {
-	
-	//methods to return the procedure at memory level that does the work in the persistence layer
-	
+public class InMemoryFactory extends FactorySingletonDAO {
     @Override
-    public LoginDao getLoginDAO() {
+    public LoginDAO getLoginDAO() {
         return new InMemoryLoginDAO();
     }
     
-    
-  public AddStageDao getAddStageDao() {
-	  return new InMemoryAddStageDAO();
-  }
-  
-  public JoinStageDao getJoinStageDao() {
-	  return new JoinStageInMemoryDao();
-  }
+    //other  future methods here
 }

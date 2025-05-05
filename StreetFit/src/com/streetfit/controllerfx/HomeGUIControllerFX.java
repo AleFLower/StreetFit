@@ -4,9 +4,8 @@ import com.streetfit.model.Credentials;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle; 
+import javafx.stage.StageStyle;
 
 public class HomeGUIControllerFX {
 
@@ -18,22 +17,20 @@ public class HomeGUIControllerFX {
             // Carica la scena in base al ruolo dell'utente
             switch (cred.getRole()) {
                 case TRAINER:
-                    loader = new FXMLLoader(getClass().getResource("/com/streetFit/viewfx/Trainerdashboard.fxml"));
+                    loader = new FXMLLoader(getClass().getResource("/com/StreetFit/ViewFX/TrainerGUI.fxml"));
                     break;
                 case PARTICIPANT:
                     loader = new FXMLLoader(getClass().getResource("ParticipantGUI.fxml"));
                     break;
                 default:
-                   throw new IllegalArgumentException("Error during authentication");
-                  }
-            
+                    throw new RuntimeException("Invalid credentials");
+            }
 
             // Crea la nuova scena
             Scene scene = new Scene(loader.load());
             
-            
-            stage.initStyle(StageStyle.UNDECORATED);
-            stage.getIcons().add(new Image("Images/pull-up-bar.png"));
+            // Imposta lo stile della finestra (puoi rimuovere questa parte se non ti serve)
+            stage.initStyle(StageStyle.DECORATED);
 
             // Imposta la scena e mostralo
             stage.setScene(scene);
@@ -41,8 +38,8 @@ public class HomeGUIControllerFX {
             stage.show();
 
         } catch (Exception e) {
-        	
-          throw new IllegalArgumentException("Error by loading FXML");
+            e.printStackTrace();
         }
     }
 }
+

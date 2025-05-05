@@ -14,49 +14,51 @@ import com.streetfit.controller.LoginController;
 import javafx.stage.Stage;
 
 public class LoginGUIControllerFX {
-	
-	@FXML private TextField siUsername;
-	@FXML private PasswordField siPassword;
-	@FXML private Button siLoginBtn;
+
+    @FXML private TextField si_username;
+    @FXML private PasswordField si_password;
+    @FXML private Button si_loginBtn;
+
+    private HomeGUIControllerFX homeController;  // Riferimento al controller HomeGUI
+
 
     @FXML
     public void login() {
-        String username = siUsername.getText();
-        String password = siPassword.getText();
-        final String msg = "Error";
+        String username = si_username.getText();
+        String password = si_password.getText();
 
         if (username.isEmpty() || password.isEmpty()) {
-            showAlert(msg, "Username e password non possono essere vuoti.");
+            showAlert("Errore", "Username e password non possono essere vuoti.");
             return;
         }
 
         try {
             LoginController loginController = new LoginController();
-            Credentials credentials = loginController.login(username, password);  //attention: it must be the bean! Not directly credentials
+            Credentials credentials = loginController.login(username, password);
 
             if (credentials.getRole() != null) {
             	 Alert alert;
-                
+                // Quando il login è riuscito, passiamo le credenziali al controller della Home
             	 alert = new Alert(AlertType.INFORMATION);
                  alert.setTitle("Information Message");
                  alert.setHeaderText(null);
                  alert.setContentText("Successfully Login!");
                  alert.showAndWait();
-                 siLoginBtn.getScene().getWindow().hide();
+                 si_loginBtn.getScene().getWindow().hide();
        
                  Stage stage = new Stage();
-                 HomeGUIControllerFX homeController = new HomeGUIControllerFX();
+                 homeController = new HomeGUIControllerFX();
               
                  homeController.loadNextScene(stage, credentials);
                  
                 
             } else {
-                showAlert(msg, "Credenziali non valide.");
+                showAlert("Errore", "Credenziali non valide.");
             }
 
         } catch (RuntimeException e) {
-        	
-            showAlert(msg, e.getMessage());
+        	System.out.println("Error: "+ e.getMessage());
+            showAlert("Errore", e.getMessage());
         }
     }
 

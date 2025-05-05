@@ -1,23 +1,12 @@
 package com.streetfit.dao;
 
 import com.streetfit.daofs.LoginFSDAO;
-import com.streetfit.daofs.AddStageFSDAO;
-import com.streetfit.daofs.JoinStageFSDao;
 
-public class FSFactory implements DaoFactory{
-	
-	//methods to return the procedure at file system level that does the work in the persistence layer
+public class FSFactory extends FactorySingletonDAO{
 
-	public LoginDao getLoginDAO() {
+	public LoginDAO getLoginDAO() {
 		return new LoginFSDAO();     
 	}
 	
-	public AddStageDao getAddStageDao() {
-		return new AddStageFSDAO();
-	}
-	
-	public JoinStageDao getJoinStageDao() {
-		return new JoinStageFSDao();
-	}
-	
+	 //other  future methods here
 }
