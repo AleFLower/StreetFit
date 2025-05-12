@@ -24,20 +24,21 @@ public class JoinStageProcedureDao implements JoinStageDao {
 		String username = p.getUsername();
 		String stage = p.getStage();
 	    int tickets = p.getTicket();
+	    double total = p.getTotal();
 	    Connection conn = ConnectionFactory.getConnection();
 	    
-	    try(CallableStatement cs = conn.prepareCall("{call add_member(?,?,?)}");) {
+	    try(CallableStatement cs = conn.prepareCall("{call add_member(?,?,?,?)}");) {
 
 	    	cs.setString(1, username);
 	    	cs.setString(2, stage);
 	    	cs.setInt(3, tickets);
-	    	
+	    	cs.setDouble(4, total);	    	
 	    	cs.execute();
 	    	
 	    }
 	    catch(SQLException e) {
 	    	throw new DAOException("Error on registration: " + e.getMessage(), e);
-	    }
+	    } 
 		
 	}
 
@@ -45,7 +46,7 @@ public class JoinStageProcedureDao implements JoinStageDao {
 	public List<Participation> showMembers() {
 		ConnectionFactory.changeRole(Role.TRAINER);
 		List <Participation> members = new ArrayList<>();
-		String sql = "SELECT username,titolo,tickets FROM MEMBERS";
+		String sql = "SELECT username,titolo,tickets,total FROM MEMBERS";
 		Connection conn = ConnectionFactory.getConnection(); 
 		
 		try(PreparedStatement prepare = conn.prepareStatement(sql);)
@@ -56,7 +57,8 @@ public class JoinStageProcedureDao implements JoinStageDao {
 				Participation p = new Participation(		
 						rs.getString("username"),
 						rs.getString("titolo"),
-						rs.getInt("tickets")	
+						rs.getInt("tickets")	,
+						rs.getDouble("total")
 						);
 				
 				members.add(p);

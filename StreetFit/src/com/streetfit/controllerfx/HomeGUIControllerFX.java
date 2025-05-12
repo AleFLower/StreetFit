@@ -22,6 +22,7 @@ public class HomeGUIControllerFX {
                     loader = new FXMLLoader(getClass().getResource("/com/streetFit/viewfx/Trainerdashboard.fxml"));
                     break;
                 case PARTICIPANT:
+                
                     loader = new FXMLLoader(getClass().getResource("/com/streetFit/viewfx/ParticipantDashBoard.fxml"));
                     break;
                 default:

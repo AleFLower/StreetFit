@@ -25,6 +25,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.AreaChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -45,7 +47,9 @@ import javafx.stage.StageStyle;
 
 
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 //Here, you declare all objects in FXML and declare methods that handle these object and implements the use cases. 
 
@@ -66,11 +70,17 @@ public class TrainerControllerFX {
 	    @FXML
 		private Button membersBtn;
 	    @FXML
+	    private AreaChart<String, Number> dashboard_incomeChart;
+	    @FXML
 	    private Button stagesBtn;
 	    @FXML
 	    private TextField stageTitle;
 	    @FXML
+	    private Label dashboardNM;
+	    @FXML
 	    private TextField stagePlace;
+	    @FXML
+	    private Label dashboardNS;
 	    @FXML
 	    private TextArea stageItinerary;
 	    @FXML
@@ -125,6 +135,8 @@ public class TrainerControllerFX {
 	    @FXML
 	    private TableColumn<Message, String> messageReplyColumn;
 	    @FXML
+	    private Label dashboardIncome;
+	    @FXML
 	    private TextArea replyTextArea;
 	    @FXML
 	    private Button sendReplyButton;
@@ -138,6 +150,7 @@ public class TrainerControllerFX {
 	    private double y = 0;
 	    private static final int NOTIFICATION_DISPLAY_TIME = 3; 
 	    private  JoinStageController joinController = new JoinStageController();
+	    private AddStageController stagecontroller = new AddStageController();
 	    
 	    public TrainerControllerFX() {
 	    	ConnectionFactory.changeRole(Role.TRAINER);
@@ -171,6 +184,11 @@ public class TrainerControllerFX {
 	    	    
 	    	    printRemainingTickets();
 	    	  
+	    	    printCreatedStages();
+	    	    
+	    	    printTotalIncome();
+	    	    
+	    	    populateIncomeChart();
 
 	            loadMessages();
 	            chatListView.setOnMouseClicked(event -> {
@@ -186,7 +204,50 @@ public class TrainerControllerFX {
 	            sendReplyButton.setOnAction(e -> sendReply());
 	    }
 	    
-	    private void loadMessages() {
+	    
+	    
+	    private void printTotalIncome() {
+			List<Participation> members = joinController.showMembers();
+			double total = 0;
+			
+			for(Participation member: members) {
+				total += member.getTotal();
+			}
+			
+			dashboardIncome.setText("€" +String.valueOf(total));
+			
+		}
+
+		private void printCreatedStages() {
+			
+	    	int stages = stagecontroller.getAllStages().size();
+	    	dashboardNS.setText(String.valueOf(stages));
+			
+		}
+		
+		private void populateIncomeChart() {
+		    XYChart.Series<String, Number> series = new XYChart.Series<>();
+		    series.setName("Income by Stage");
+
+		    Map<String, Double> incomePerStage = new LinkedHashMap<>();
+		    List<Participation> participations = joinController.showMembers();
+
+		    for (Participation p : participations) {
+		        String stageTitle = p.getStage(); // Usa direttamente il nome dello stage
+		        incomePerStage.put(stageTitle,
+		            incomePerStage.getOrDefault(stageTitle, 0.0) + p.getTotal());
+		    }
+
+		    for (Map.Entry<String, Double> entry : incomePerStage.entrySet()) {
+		        series.getData().add(new XYChart.Data<>(entry.getKey(), entry.getValue()));
+		    }
+
+		    dashboard_incomeChart.getData().clear();
+		    dashboard_incomeChart.getData().add(series);
+		}
+
+
+		private void loadMessages() {
 	        try {
 	            messages = joinController.retrieveMessages(); // salva la lista originale
 	            ObservableList<String> messageTexts = FXCollections.observableArrayList();
@@ -371,6 +432,7 @@ public class TrainerControllerFX {
 	        
 	        List<TrainingStage> stageList = addStagecontroller.getAllStages();
 	        List<Integer> counters = joinController.getSubscribers(stageList);
+
 	        
 	        // Crea una lista di oggetti per la tabella
 	        ObservableList<TrainingStage> stageDataList = FXCollections.observableArrayList(stageList);
@@ -386,17 +448,25 @@ public class TrainerControllerFX {
 	        remainingTicketsColumn.setCellValueFactory(cellData -> {
 	            int stageIndex = stageDataList.indexOf(cellData.getValue());
 	            int maxParticipants = cellData.getValue().getMaxParticipants();
-	            int currentSubscribers = counters.get(stageIndex);
-	            int remainingTickets = maxParticipants - currentSubscribers;
+	            int remainingTickets = counters.get(stageIndex);
+	            
 	            return new SimpleIntegerProperty(remainingTickets).asObject();
 	        });
 	    }
 	    
 	    public void printMembers() {
 	    	  List<Participation> members;
+	    	  int soldTickets = 0;
 	    	  
 	    	  JoinStageController controller = new JoinStageController();
 	    	  members = controller.showMembers();
+	    	  
+	    	  for(Participation member:members) {
+	    		  soldTickets += member.getTicket();
+	    	  }
+	    	  
+	    	  
+	    	  dashboardNM.setText(String.valueOf(soldTickets));
 	    	  
 	    	  ObservableList<Participation> observableMemberList = FXCollections.observableArrayList(members);
 	    	  membersTableView.setItems(observableMemberList);

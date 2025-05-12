@@ -4,11 +4,14 @@ public class Participation {
     private String username;   // chi si è iscritto
     private String stage;      // a quale stage
     private int ticket;        // tipo di ticket acquistato
+    private double total;
+    
 
-    public Participation(String username, String stage, int ticket) {
+    public Participation(String username, String stage, int ticket, double total) {
         this.username = username;
         this.stage = stage;
         this.ticket = ticket;
+        this.total = total;
     }
 
     public String getUsername() {
@@ -23,6 +26,9 @@ public class Participation {
         return ticket;
     }
 
+    public double getTotal() {
+    	return total;
+    }
     @Override
     public String toString() {
         return "Participation{" +

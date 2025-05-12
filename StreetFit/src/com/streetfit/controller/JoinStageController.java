@@ -126,4 +126,17 @@ public class JoinStageController {
 		
 		return counters;
 	}
+	
+	
+	public double getTotalOutcome() {
+		List <Participation> members = showMembers();
+		double total = 0;
+		
+		for(Participation member:members) {
+				total += member.getTotal();
+		}
+		
+		return total;
+	}
+	
 }

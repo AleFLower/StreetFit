@@ -24,10 +24,11 @@ public class JoinStageFSDao implements JoinStageDao {
 		       String username = p.getUsername();
 		       String stage = p.getStage();
 		       int tickets = p.getTicket();
+		       double total = p.getTotal();
 
 		        try (BufferedWriter writer = new BufferedWriter(new FileWriter(CSV_FILE, true))) {
 		            // Write the data to CSV file in the format: title, itinerary, category, date, location, intensity, maxParticipants
-		            writer.write(String.format("%s,%s,%d%n",username, stage, tickets));
+		            writer.write(String.format("%s,%s,%d,%f%n",username, stage, tickets,total));
 		        } catch (IOException e) {
 		            throw new DAOException("Error writing stage data to file: " + e.getMessage(), e);
 		        }
@@ -49,16 +50,17 @@ public class JoinStageFSDao implements JoinStageDao {
 		                } else {
 		                    String[] data = line.split(",");
 		                    // Ignora righe malformate
-		                    if (data.length != 3) {   //3 columns expected, like in a database.
+		                    if (data.length != 4) {   //3 columns expected, like in a database.
 		                        continue;
 		                    }
 		                    String username = data[0].trim();
 		                    String stage = data[1].trim();
+		                   
 		                  
 		                    int tickets = Integer.parseInt(data[2].trim());
+		                    double total = Double.parseDouble(data[3].trim());
 		                    
-		                    
-		              Participation p = new Participation(username,stage,tickets);
+		              Participation p = new Participation(username,stage,tickets,total);
 		                 members.add(p);
 		                 
 		                }

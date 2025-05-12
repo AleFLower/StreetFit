@@ -22,3 +22,4 @@ public class VipStrategy implements TicketStrategy{
         return total;
     }
 }
+ 

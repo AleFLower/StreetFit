@@ -145,7 +145,7 @@ public class ParticipantControllerCLI{
 	        message = new Message(cred.getUsername(), reply);
 	        }
 	         
-	        Participation p = new Participation(cred.getUsername(),chosenstage.getTitle(), ticket.getQuantity());
+	        Participation p = new Participation(cred.getUsername(),chosenstage.getTitle(), ticket.getQuantity(),total);
 	        
 	        joinstagecontroller.registrateMember(p,message);
 	        view.printMessage("Registration successful");	        

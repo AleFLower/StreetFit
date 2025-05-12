@@ -1,5 +1,6 @@
 package com.streetfit.controllerfx;
 
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,6 +40,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
@@ -70,6 +72,7 @@ public class ParticipantControllerFX {
 	private TableView<TrainingStage> stageTable;
 	 @FXML
 	private Button logout;
+	 
 	 @FXML
 		private Button membersBtn;
 	 @FXML
@@ -104,6 +107,12 @@ public class ParticipantControllerFX {
 	    @FXML
 	    private TableColumn<TrainingStage, String> placeColumn;
 	    @FXML
+	    private Label dashboardNT;
+	    @FXML
+	    private Label dashboardOUT;
+	    @FXML
+	    private Label dashboardNS;
+	    @FXML
 	    private TableColumn<TrainingStage, String> itineraryColumn;
 	    @FXML
 	    private TableColumn<TrainingStage, String> categoryColumn;
@@ -125,7 +134,9 @@ public class ParticipantControllerFX {
 	
 	    private JoinStageController joinStagecontroller = new JoinStageController();
 	 
-	 public void initialize() {
+	
+
+	public void initialize() {
 		 
 		 
 		 
@@ -135,10 +146,11 @@ public class ParticipantControllerFX {
    	  categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
    	  dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
    	  ticketsLeftsColumn.setCellValueFactory(cellData -> {
-   	    TrainingStage stage = cellData.getValue();
+   	  TrainingStage stage = cellData.getValue();
    	    
    	    
    	    int remaining = stage.getMaxParticipants();  // valore di partenza
+   	    int stages = 0;
 
    	    try {
    	        List<Participation> all = joinStagecontroller.showMembers();
@@ -147,6 +159,30 @@ public class ParticipantControllerFX {
    	                        .mapToInt(Participation::getTicket)
    	                        .sum();
    	        remaining -= booked;
+   	        
+   	        for(Participation member:all) {
+   	        	if(member.getUsername().equals(cred.getUsername())) {
+   	        		stages+=1;
+   	        	}
+   	        }
+   	        
+   	        dashboardNS.setText(String.valueOf(stages));
+   	        
+   	     List<Participation> members = joinStagecontroller.showMembers();
+ 		double total = 0;
+ 		int tickets = 0;
+ 		
+ 		for(Participation member:members) {
+ 			if(member.getUsername().equals(cred.getUsername())) {
+ 				total+=member.getTotal();
+ 				tickets+= member.getTicket();
+ 			}
+ 		}
+ 		
+ 	   dashboardOUT.setText("€"+ String.valueOf(total));
+ 	   dashboardNT.setText(String.valueOf(tickets));
+   	        
+   	        
    	    } catch (Exception e) {
    	        e.printStackTrace(); // oppure logga
    	    }
@@ -200,12 +236,41 @@ public class ParticipantControllerFX {
    	}
    	    }
    	});
+   	
+  
 
    	  
 	 }
 	 
-	 
-    public void switchForm(ActionEvent event) {
+	private void updateDashboardInfo() {
+	    try {
+	        List<Participation> all = joinStagecontroller.showMembers();
+	        
+	        long stages = all.stream()
+	                .filter(p -> p.getUsername().equals(cred.getUsername()))
+	                .count();
+
+	        double total = all.stream()
+	                .filter(p -> p.getUsername().equals(cred.getUsername()))
+	                .mapToDouble(Participation::getTotal)
+	                .sum();
+	        int tickets = all.stream()
+	        	    .filter(p -> p.getUsername().equals(cred.getUsername()))
+	        	    .mapToInt(Participation::getTicket)
+	        	    .sum();
+
+
+	        dashboardNS.setText(String.valueOf(stages));
+	        dashboardOUT.setText("€" + total);
+	        dashboardNT.setText(String.valueOf(tickets));
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	}
+
+
+	public void switchForm(ActionEvent event) {
    	 if (event.getSource() == dashboardBtn) {
 
             dashboardForm.setVisible(true);
@@ -342,7 +407,7 @@ public class ParticipantControllerFX {
     	        return;
     	    }
     	   
-    	    Participation participation = new Participation(cred.getUsername(), selectedStage.getTitle(), quantity);
+    	    Participation participation = new Participation(cred.getUsername(), selectedStage.getTitle(), quantity,total);   //forse devo crearci una entita ticket proprio e non solo una quantità?
     	    JoinStageController joinstagecontroller = new JoinStageController();
     	    String question = questionTextArea.getText().trim();
     	    Message message = null;
@@ -354,8 +419,9 @@ public class ParticipantControllerFX {
     	    joinstagecontroller.registrateMember(participation, message);
     	    questionTextArea.clear();
     	  
-
+ 
     	    showAlert(Alert.AlertType.INFORMATION, "Success", "Participation successful! Ticket Total: " + total + " €");
+    	    updateDashboardInfo();
     	
     }
 

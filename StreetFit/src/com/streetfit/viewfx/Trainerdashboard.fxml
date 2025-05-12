@@ -21,6 +21,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.HBox?>
 
 
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.streetfit.controllerfx.TrainerControllerFX">
@@ -90,9 +91,45 @@
                               <Line endX="100.0" layoutX="111.0" layoutY="152.0" startX="-100.0" stroke="WHITE" />
                               
                               
-                              <Button fx:id="dashboardBtn" layoutX="21.0" layoutY="186.0" mnemonicParsing="false" prefHeight="35.0" onAction = "#switchForm" prefWidth="180.0" styleClass="nav-btn" stylesheets="@dashboardDesign.css" text="Dashboard" />
-                              <Button fx:id="stagesBtn" layoutX="21.0" layoutY="232.0" mnemonicParsing="false" prefHeight="35.0" onAction = "#switchForm" prefWidth="180.0" styleClass="nav-btn" stylesheets="@dashboardDesign.css" text="Add stages" />
-                              <Button fx:id="membersBtn" layoutX="21.0" layoutY="278.0" mnemonicParsing="false" prefHeight="35.0" onAction = "#switchForm" prefWidth="180.0" styleClass="nav-btn" stylesheets="@dashboardDesign.css" text="Members" />
+                              <Button fx:id="dashboardBtn" layoutX="21.0" layoutY="186.0" mnemonicParsing="false" prefHeight="35.0" onAction = "#switchForm" prefWidth="180.0" styleClass="nav-btn" stylesheets="@dashboardDesign.css" text="Dashboard">
+                              <graphic>
+        <HBox spacing="10.0">
+            <!-- Icona a sinistra del testo -->
+            <ImageView fx:id="dashboardIcon" fitHeight="30" fitWidth="30" pickOnBounds="true" preserveRatio="true">
+                <image>
+                    <Image url="Images/dashboard (1).png"/>
+                </image>
+            </ImageView>
+           
+        </HBox>
+    </graphic>
+                               </Button>
+                              <Button fx:id="stagesBtn" layoutX="21.0" layoutY="232.0" mnemonicParsing="false" prefHeight="35.0" onAction = "#switchForm" prefWidth="180.0" styleClass="nav-btn" stylesheets="@dashboardDesign.css" text="Add stages" >
+                                                 <graphic>
+       
+            <!-- Icona a sinistra del testo -->
+            <ImageView fx:id="dashboardIcon" fitHeight="30" fitWidth="30" pickOnBounds="true" preserveRatio="true">
+                <image>
+                    <Image url="Images/plus (1).png"/>
+                </image>
+            </ImageView>
+           
+     
+    </graphic>
+    </Button>
+                              <Button fx:id="membersBtn" layoutX="21.0" layoutY="278.0" mnemonicParsing="false" prefHeight="35.0" onAction = "#switchForm" prefWidth="180.0" styleClass="nav-btn" stylesheets="@dashboardDesign.css" text="Members" >
+                                                             <graphic>
+       
+            <!-- Icona a sinistra del testo -->
+            <ImageView fx:id="dashboardIcon" fitHeight="30" fitWidth="30" pickOnBounds="true" preserveRatio="true">
+                <image>
+                    <Image url="Images/user (1).png."/> 
+                </image>
+            </ImageView>
+           
+        
+    </graphic>
+    </Button>
                               <Button fx:id="logout" layoutX="14.0" layoutY="509.0" mnemonicParsing="false" onAction = "#logout" stylesheets="@dashboardDesign.css">
                                  <graphic>
                                   <ImageView fitHeight="21" fitWidth="25" pickOnBounds="true" preserveRatio="true">
@@ -112,7 +149,22 @@
                                     <Font size="15.0" />
                                  </font>
                               </Label>
-                              <Button fx:id="messageBtn" layoutX="20.0" layoutY="324.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="180.0" onAction = "#switchForm" styleClass="nav-btn" stylesheets="@dashboardDesign.css" text="Q&amp;A" />
+                              <Button fx:id="messageBtn" layoutX="20.0" layoutY="324.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="180.0" onAction = "#switchForm" styleClass="nav-btn" stylesheets="@dashboardDesign.css" text="Q&amp;A" >
+                             
+                                                                                 <graphic>
+        
+            <!-- Icona a sinistra del testo -->
+            <ImageView fx:id="dashboardIcon" fitHeight="30" fitWidth="30" pickOnBounds="true" preserveRatio="true" layoutX = "10.0">
+                <image>
+                    <Image url="Images/question.png"/> 
+                </image>
+            </ImageView>
+            
+           
+       
+    </graphic>
+    </Button>
+                             
                               <ImageView fitHeight="52.0" fitWidth="54.0" layoutX="86.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="Images/personal.png" />
@@ -142,13 +194,19 @@
                                     <AnchorPane layoutX="14.0" layoutY="9.0" prefHeight="135.0" prefWidth="246.0" styleClass="nav" stylesheets="@dashboardDesign.css">
                                        <children>
          
+         <!-- Aggiungi l'immagine in alto a sinistra -->
+        <ImageView layoutX="10.0" layoutY="10.0" fitHeight="40" fitWidth="40" preserveRatio="true">
+            <image>
+                <Image url="Images/user (1).png" />
+            </image>
+        </ImageView>
                                           
-                                          <Label fx:id="dashboard_NM" alignment="CENTER_RIGHT" layoutX="84.0" layoutY="14.0" prefHeight="17.0" prefWidth="148.0" text="0" textFill="WHITE">
+                                          <Label fx:id="dashboardNM" alignment="CENTER_RIGHT" layoutX="84.0" layoutY="14.0" prefHeight="17.0" prefWidth="148.0" text="0" textFill="WHITE">
                                              <font>
                                                 <Font name="Tahoma" size="17.0" />
                                              </font>
                                           </Label>
-                                          <Label alignment="CENTER" layoutX="84.0" layoutY="97.0" prefHeight="17.0" prefWidth="148.0" text="Number of Members" textFill="WHITE">
+                                          <Label alignment="CENTER" layoutX="84.0" layoutY="97.0" prefHeight="17.0" prefWidth="148.0" text="Sold tickets" textFill="WHITE">
                                              <font>
                                                 <Font name="Tahoma" size="15.0" />
                                              </font>
@@ -158,9 +216,14 @@
                                     <AnchorPane layoutX="304.0" layoutY="10.0" prefHeight="135.0" prefWidth="246.0" styleClass="nav" stylesheets="@dashboardDesign.css">
                                        <children>
                                         
+                                <!-- Aggiungi l'immagine in alto a sinistra -->
+        <ImageView layoutX="10.0" layoutY="10.0" fitHeight="40" fitWidth="40" preserveRatio="true">
+            <image>
+                <Image url="Images/outdoor.png" />
+            </image>
+        </ImageView>          
                                         
-                                        
-                                          <Label fx:id="dashboard_NC" alignment="CENTER_RIGHT" layoutX="84.0" layoutY="17.0" prefHeight="17.0" prefWidth="148.0" text="0" textFill="WHITE">
+                                          <Label fx:id="dashboardNS" alignment="CENTER_RIGHT" layoutX="84.0" layoutY="17.0" prefHeight="17.0" prefWidth="148.0" text="0" textFill="WHITE">
                                              <font>
                                                 <Font name="Tahoma" size="17.0" />
                                              </font>
@@ -171,11 +234,46 @@
                                              </font>
                                           </Label>
                                        </children>
+                                       </AnchorPane>
+                                         <AnchorPane layoutX="594.0" layoutY="9.0" prefHeight="135.0" prefWidth="246.0" styleClass="nav" stylesheets="@dashboardDesign.css">
+                                        <children>
+                                        
+                                              <!-- Aggiungi l'immagine in alto a sinistra -->
+        <ImageView layoutX="10.0" layoutY="10.0" fitHeight="40" fitWidth="40" preserveRatio="true">
+            <image>
+                <Image url="Images/icons8-euro-64.png" />
+            </image>
+        </ImageView>        
+                                        
+                                          <Label fx:id="dashboardIncome" alignment="CENTER_RIGHT" layoutX="84.0" layoutY="17.0" prefHeight="17.0" prefWidth="148.0" text="€0.0" textFill="WHITE">
+                                             <font>
+                                                <Font name="Tahoma" size="17.0" />
+                                             </font>
+                                          </Label>
+                                          <Label alignment="CENTER" layoutX="84.0" layoutY="100.0" prefHeight="17.0" prefWidth="148.0" text="Total income" textFill="WHITE">
+                                             <font>
+                                                <Font name="Tahoma" size="15.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
                                     </AnchorPane>
-                                    <AnchorPane layoutX="594.0" layoutY="9.0" prefHeight="135.0" prefWidth="246.0"  stylesheets="@dashboardDesign.css">
+                                    <AnchorPane layoutX="800.0" layoutY="9.0" prefHeight="135.0" prefWidth="246.0"  stylesheets="@dashboardDesign.css">
                     
-                                      
-                                       <Label fx:id="notificationLabel" layoutX="84.0" layoutY="17.0"  text="" style="-fx-background-color: rgba(0, 0, 0, 0.7); -fx-text-fill: white; -fx-padding: 10px;" visible="false"/>
+                          <Label fx:id="notificationLabel"
+       layoutX="84.0"
+       layoutY="17.0"
+       prefWidth="150"  
+       wrapText="true"
+       text=""
+       style="-fx-background-color: rgba(0, 0, 0, 0.75);
+              -fx-text-fill: white;
+              -fx-padding: 10px 15px;
+              -fx-background-radius: 10px;
+              -fx-font-size: 14px;
+              -fx-font-family: 'Segoe UI', 'Tahoma';
+              -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 10, 0.2, 2, 2);"
+       visible="false"/>
+                                    
                                       
                                     </AnchorPane>
                                  </children>
@@ -188,13 +286,23 @@
                                  <children>
                                     <AnchorPane layoutX="12.0" layoutY="13.0" prefHeight="325.0" prefWidth="1090.0">
                                        <children>
-                                              <TableView fx:id="infoTable" layoutX="183.0" layoutY="-44.0" prefHeight="356.0" prefWidth="500.0" AnchorPane.bottomAnchor="0.0"  AnchorPane.topAnchor="0.0">
+                                              <TableView fx:id="infoTable" layoutX="15.0" layoutY="-50.0" prefHeight="300.0" prefWidth="500.0" AnchorPane.bottomAnchor="0.0"  AnchorPane.topAnchor="0.0">
                                                  <columns>
-                                                        <TableColumn fx:id="stageColumn" prefWidth="120.0" text="Stage" />
+                                                        <TableColumn fx:id="stageColumn" prefWidth="180.0" text="Stage" />
                                                          <TableColumn fx:id="dataColumn" prefWidth="140.0" text="Date" />
                                                          <TableColumn fx:id="remainingTicketsColumn" prefWidth="180.0" text="Remaining Tickets" />
                                                  </columns>
                                        </TableView>
+                                       </children>
+                                       <children>
+                                             <AreaChart fx:id="dashboard_incomeChart" layoutX="500.0" layoutY="-10.0" prefHeight="356.0" prefWidth="600" title="Income Data Chart" >
+                                            <xAxis>
+                                              <CategoryAxis side="BOTTOM" />
+                                            </xAxis>
+                                            <yAxis>
+                                              <NumberAxis side="LEFT" />
+                                            </yAxis>
+                                          </AreaChart>
                                        </children>
                                     </AnchorPane>
                                  </children>
@@ -287,19 +395,25 @@
                         <AnchorPane fx:id="membersForm" layoutX="61.0" layoutY="120.0" prefHeight="555.0" prefWidth="880.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               
-                              <AnchorPane layoutX="13.0" layoutY="15.0" prefHeight="295.0" prefWidth="855.0" stylesheets="@dashboardDesign.css">
+                              <AnchorPane layoutX="13.0" layoutY="15.0" prefHeight="530.0" prefWidth="1150.0" stylesheets="@dashboardDesign.css">
                                  <styleClass>
                                     <String fx:value="white-bg" />
                                     <String fx:value="shadow" />
                                  </styleClass>
                                  <children>
-                                    <TableView fx:id="membersTableView" layoutX="12.0" layoutY="15.0" prefHeight="300.0" prefWidth="400.0">
+                                    <TableView fx:id="membersTableView" layoutX="12.0" layoutY="40.0" prefHeight="450.0" prefWidth="550.0">
                                       <columns>
-                                        <TableColumn fx:id="membersUsername" prefWidth="85.0" text="Username" />
-                                        <TableColumn fx:id="membersStage" prefWidth="165.0" text="Stage" />
-                                          <TableColumn fx:id="membersTickets" prefWidth="149.0" text="Tickets" />
+                                        <TableColumn fx:id="membersUsername" prefWidth="135.0" text="Username" />
+                                        <TableColumn fx:id="membersStage" prefWidth="235.0" text="Stage" />
+                                          <TableColumn fx:id="membersTickets" prefWidth="179.0" text="Tickets" />
                                       </columns>
                                     </TableView>
+                                    
+            <ImageView layoutX="600" layoutY="20" fitHeight="500.0" fitWidth="950.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="Images/Streetworkout.jpg" />
+            </image>
+        </ImageView>                        
                                  </children>
                               </AnchorPane>
                               
