@@ -31,6 +31,22 @@ public class InMemoryLoginDAO implements LoginDao {
         }
         throw new DAOException("Not valid credentials");
     }
+
+	@Override
+	public void signup(Credentials cred) throws DAOException {
+		if(cred != null) {
+			for(Credentials credentials:users) {
+				if(credentials.getUsername().equals(cred.getUsername())) {
+					throw new IllegalStateException("A user already exists with that username");
+				}	
+			}
+			users.add(cred);
+		}
+		for(Credentials user:users) {
+			System.out.println(user.getUsername());
+		}
+		
+	}
 }
 
 

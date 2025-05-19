@@ -1,6 +1,6 @@
 
 .side-form{
-    -fx-background-color: linear-gradient(to top right, #2c2c57, #392b78);
+    -fx-background-color: linear-gradient(to top right, #ff3c3c, #b30000);
     -fx-border-color: #000;
     -fx-border-width: .4px .2px .4px .4px;
 }
@@ -35,14 +35,14 @@
 }
 
 .login-btn{
-    -fx-background-color: linear-gradient(to top right, #2c2c57, #392b78);
+    -fx-background-color: linear-gradient(to top right, #ff3c3c, #b30000);
     -fx-cursor: hand;
     -fx-text-fill: #fff;
     -fx-font-size: 14px;
     -fx-font-family: Arial;
 }
 .login-btn:hover{
-    -fx-background-color: linear-gradient(to top right, #404082, #3f2ba4);
+    -fx-background-color: linear-gradient(to top right, #ff3c3c, #b30000);
 }
 
 .textfield{

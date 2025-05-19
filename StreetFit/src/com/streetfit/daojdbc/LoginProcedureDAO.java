@@ -30,5 +30,23 @@ public class LoginProcedureDAO implements LoginDao {
     
         return new Credentials(username, password, Role.fromInt(role));
     }
+
+	@Override
+	public void signup(Credentials cred) throws DAOException {
+		
+		Connection conn =  ConnectionFactory.getConnection();
+		
+		try {
+			CallableStatement cs = conn.prepareCall("{call  signup_user_md5(?,?,?)}");
+			cs.setString(1, cred.getUsername());
+			cs.setString(2, cred.getPassword());
+			cs.setString(3,cred.getRole().toString());
+			cs.executeQuery();
+		}
+		catch (SQLException e) {
+            throw new DAOException("Signup error: " + e.getMessage());
+        }
+		
+	}
 }
 

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import com.streetfit.chainofresponsibility.FitnessCheckHandler;
 import com.streetfit.chainofresponsibility.HealthCheckHandler;
@@ -128,6 +129,22 @@ public class ParticipantControllerFX {
 	    private Button messageBtn;
 	    @FXML
 	    private ListView<String> messagesListView;
+	    @FXML private AnchorPane subForm;
+	    @FXML
+	    private Button subBtn;
+	    @FXML
+	    private TableView<Participation> joinedStagesTable;
+
+	    @FXML
+	    private TableColumn<Participation, String> stageTitleColumn;
+
+	    @FXML
+	    private TableColumn<Participation, Integer> ticketColumn;
+
+	    @FXML
+	    private TableColumn<Participation, Double> totalColumn;
+
+	    
 	    
 	    private double x = 0;
 	    private double y = 0;
@@ -139,6 +156,10 @@ public class ParticipantControllerFX {
 	public void initialize() {
 		 
 		 
+		stageTitleColumn.setCellValueFactory(new PropertyValueFactory<>("stage"));
+		ticketColumn.setCellValueFactory(new PropertyValueFactory<>("ticket"));
+		totalColumn.setCellValueFactory(new PropertyValueFactory<>("total"));
+
 		 
 	  nameColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
    	  placeColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
@@ -241,6 +262,21 @@ public class ParticipantControllerFX {
 
    	  
 	 }
+	
+	private void loadUserParticipations() {
+	    try {
+	        List<Participation> all = joinStagecontroller.showMembers();
+	        List<Participation> userParticipations = all.stream()
+	                .filter(p -> p.getUsername().equals(cred.getUsername()))
+	                .collect(Collectors.toList());
+
+	        ObservableList<Participation> observableList = FXCollections.observableArrayList(userParticipations);
+	        joinedStagesTable.setItems(observableList);
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	}
 	 
 	private void updateDashboardInfo() {
 	    try {
@@ -276,20 +312,30 @@ public class ParticipantControllerFX {
             dashboardForm.setVisible(true);
             stageForm.setVisible(false);
              messageForm.setVisible(false);
-          //  payment_Form.setVisible(false);
+           subForm.setVisible(false);
 
         } else if (event.getSource() == joinstagesBtn) {
 
        	 dashboardForm.setVisible(false);
          stageForm.setVisible(true);   
          messageForm.setVisible(false);
+         subForm.setVisible(false);
         } 
         else if(event.getSource()==messageBtn) {
         	loadMessages(); // Carica i messaggi
         	dashboardForm.setVisible(false);
             stageForm.setVisible(false);
             messageForm.setVisible(true);
+            subForm.setVisible(false);
         }
+        else if(event.getSource()== subBtn) {
+        	dashboardForm.setVisible(false);
+            stageForm.setVisible(false);
+            messageForm.setVisible(false);
+            subForm.setVisible(true);
+            loadUserParticipations(); // Carica i dati utente
+        }
+   	 
    }
     public void printTable() {  //methods to print things into the table: it will use the general controller, that returns all the created stages, as it communicates with DAO
         List<TrainingStage> stageList;

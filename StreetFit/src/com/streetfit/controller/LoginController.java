@@ -18,6 +18,16 @@ public class LoginController  {
         }
     }
 
+    public void signup(Credentials cred) {
+    	   if (loginDAO == null) {
+               throw new IllegalStateException("Error");
+           }
+    	   try {
+              loginDAO.signup(cred);   
+           } catch (DAOException e) {
+        		 throw new SecurityException("Signup failed");
+           }
+    }
 
     // Metodo per gestire il login e restituire le credenziali
     public Credentials login(String username, String password) {

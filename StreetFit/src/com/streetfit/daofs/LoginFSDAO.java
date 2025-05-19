@@ -65,4 +65,40 @@ public class LoginFSDAO implements LoginDao{
             throw new IllegalStateException("SHA-256 algorithm not available", e);
         }
     }
+
+    @Override
+    public void signup(Credentials cred) throws DAOException {
+        // Controlla se lo username esiste già
+        try (BufferedReader br = new BufferedReader(new FileReader(CSV_FILE))) {
+            String line;
+            boolean headerSkipped = false;
+
+            while ((line = br.readLine()) != null) {
+                if (!headerSkipped) {
+                    headerSkipped = true;
+                    continue;
+                }
+                String[] data = line.split(",");
+                if (data.length >= 1 && data[0].trim().equalsIgnoreCase(cred.getUsername())) {
+                    throw new DAOException("Username already exists.");
+                }
+            }
+        } catch (IOException e) {
+            throw new DAOException("Error reading CSV file: " + e.getMessage());
+        }
+
+        // Aggiungi le credenziali (scrittura in append)
+        try (java.io.FileWriter fw = new java.io.FileWriter(CSV_FILE, true)) {
+            String hashedPassword = hashSHA256(cred.getPassword());
+            String newLine = String.format("%s,%s,%s%n",
+                cred.getUsername(),
+                hashedPassword,
+                cred.getRole().name()
+            );
+            fw.write(newLine);
+        } catch (IOException e) {
+            throw new DAOException("Error writing to CSV file: " + e.getMessage());
+        }
+    }
+
 }

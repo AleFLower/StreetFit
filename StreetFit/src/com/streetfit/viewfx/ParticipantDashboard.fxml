@@ -129,7 +129,20 @@
                               
                               
                               
-                              <Button fx:id="membersBtn" layoutX="21.0" layoutY="278.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="180.0" styleClass="nav-btn" stylesheets="@dashboardDesign.css" text="View stages" />
+                              <Button fx:id="subBtn" layoutX="21.0" layoutY="278.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="180.0" onAction = "#switchForm" styleClass="nav-btn" stylesheets="@dashboardDesign.css" text="Subscribtion" >
+                            <graphic>
+                             <HBox spacing="10.0">
+            <!-- Icona a sinistra del testo -->
+            <ImageView fx:id="subIcon" fitHeight="30" fitWidth="30" pickOnBounds="true" preserveRatio="true">
+                <image>
+                    <Image url="Images/tickets.png"/>
+                </image>
+            </ImageView>
+           
+        </HBox>
+        </graphic>
+        </Button>
+    
                               <Button fx:id="logout" layoutX="14.0" layoutY="509.0" mnemonicParsing="false" onAction = "#logout"  stylesheets="@dashboardDesign.css">
                                  <graphic>
                                   <ImageView fitHeight="21" fitWidth="25" pickOnBounds="true" preserveRatio="true">
@@ -394,98 +407,30 @@
     </children>
 </AnchorPane>
                         
-                        <AnchorPane fx:id="members_form" layoutX="61.0" layoutY="120.0" prefHeight="555.0" prefWidth="880.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <children>
-                              <AnchorPane layoutX="13.0" layoutY="14.0" prefHeight="204.0" prefWidth="855.0" stylesheets="@dashboardDesign.css">
-                                 <styleClass>
-                                    <String fx:value="white-bg" />
-                                    <String fx:value="shadow" />
-                                 </styleClass>
-                                 <children>
-                                    <Label layoutX="42.0" layoutY="24.0" text="Member ID:">
-                                       <font>
-                                          <Font name="Tahoma" size="14.0" />
-                                       </font>
-                                    </Label>
-                                    <TextField fx:id="members_customerId" layoutX="126.0" layoutY="20.0" prefHeight="25.0" prefWidth="116.0" styleClass="textfield" stylesheets="@dashboardDesign.css" />
-                                    <Label layoutX="76.0" layoutY="58.0" text="Name:">
-                                       <font>
-                                          <Font name="Tahoma" size="14.0" />
-                                       </font>
-                                    </Label>
-                                    <TextField fx:id="members_name" layoutX="126.0" layoutY="54.0" prefHeight="25.0" prefWidth="175.0" styleClass="textfield" stylesheets="@dashboardDesign.css" />
-                                    <Label layoutX="63.0" layoutY="93.0" text="Address:">
-                                       <font>
-                                          <Font name="Tahoma" size="14.0" />
-                                       </font>
-                                    </Label>
-                                    <TextArea fx:id="members_caddress" layoutX="126.0" layoutY="90.0" prefHeight="79.0" prefWidth="175.0" styleClass="textfield" stylesheets="@dashboardDesign.css" />
-                                    <Label layoutX="335.0" layoutY="24.0" text="Phone #:">
-                                       <font>
-                                          <Font name="Tahoma" size="14.0" />
-                                       </font>
-                                    </Label>
-                                    <TextField fx:id="members_phoneNum" layoutX="402.0" layoutY="20.0" prefHeight="25.0" prefWidth="175.0" styleClass="textfield" stylesheets="@dashboardDesign.css" />
-                                    <Label layoutX="343.0" layoutY="58.0" text="Gender:">
-                                       <font>
-                                          <Font name="Tahoma" size="14.0" />
-                                       </font>
-                                    </Label>
-                                    <ComboBox fx:id="members_gender" layoutX="402.0" layoutY="55.0" prefWidth="150.0" promptText="Choose..." styleClass="textfield" stylesheets="@dashboardDesign.css" />
-                                    <Label layoutX="334.0" layoutY="93.0" text="Schedule:">
-                                       <font>
-                                          <Font name="Tahoma" size="14.0" />
-                                       </font>
-                                    </Label>
-                                    <ComboBox fx:id="members_schedule" layoutX="402.0" layoutY="90.0" prefWidth="150.0" promptText="Choose..." styleClass="textfield" stylesheets="@dashboardDesign.css" />
-                                    <Label layoutX="613.0" layoutY="24.0" text="Start Date:">
-                                       <font>
-                                          <Font name="Tahoma" size="14.0" />
-                                       </font>
-                                    </Label>
-                                    <DatePicker fx:id="members_startDate" layoutX="689.0" layoutY="21.0" prefHeight="25.0" prefWidth="143.0" styleClass="textfield" stylesheets="@dashboardDesign.css" />
-                                    <Label layoutX="616.0" layoutY="58.0" text="End Date:">
-                                       <font>
-                                          <Font name="Tahoma" size="14.0" />
-                                       </font>
-                                    </Label>
-                                    <DatePicker fx:id="members_endDate" layoutX="689.0" layoutY="55.0" prefHeight="25.0" prefWidth="143.0" styleClass="textfield" stylesheets="@dashboardDesign.css" />
-                                    <Label layoutX="634.0" layoutY="93.0" text="Status:">
-                                       <font>
-                                          <Font name="Tahoma" size="14.0" />
-                                       </font>
-                                    </Label>
-                                    <ComboBox fx:id="members_status" layoutX="689.0" layoutY="90.0" prefWidth="150.0" promptText="Choose..." styleClass="textfield" stylesheets="@dashboardDesign.css" />
-                                    <Button fx:id="members_addBtn" layoutX="414.0" layoutY="153.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="93.0" styleClass="btn" stylesheets="@dashboardDesign.css" text="Add" />
-                                    <Button fx:id="members_clearBtn" layoutX="520.0" layoutY="153.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="93.0" styleClass="btn" stylesheets="@dashboardDesign.css" text="Clear" />
-                                    <Button fx:id="members_updateBtn" layoutX="640.0" layoutY="153.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="93.0" styleClass="btn" stylesheets="@dashboardDesign.css" text="Update" />
-                                    <Button fx:id="members_deleteBtn" layoutX="746.0" layoutY="153.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="93.0" styleClass="btn" stylesheets="@dashboardDesign.css" text="Delete" />
-                                 </children>
-                              </AnchorPane>
-                              <AnchorPane layoutX="13.0" layoutY="246.0" prefHeight="295.0" prefWidth="855.0" stylesheets="@dashboardDesign.css">
-                                 <styleClass>
-                                    <String fx:value="white-bg" />
-                                    <String fx:value="shadow" />
-                                 </styleClass>
-                                 <children>
-                                    <TableView fx:id="members_tableView" layoutX="12.0" layoutY="15.0" prefHeight="266.0" prefWidth="831.0">
-                                      <columns>
-                                        <TableColumn fx:id="members_col_customerID" prefWidth="85.0" text="Member ID" />
-                                        <TableColumn fx:id="members_col_name" prefWidth="115.0" text="Name" />
-                                          <TableColumn fx:id="members_col_address" prefWidth="149.0" text="Address" />
-                                          <TableColumn fx:id="members_col_phoneNum" prefWidth="89.0" text="Phone #" />
-                                          <TableColumn fx:id="members_col_gender" prefWidth="78.0" text="Gender" />
-                                          <TableColumn fx:id="members_col_schedule" prefWidth="78.0" text="Schedule" />
-                                          <TableColumn fx:id="members_col_startDate" prefWidth="86.0" text="Start Date" />
-                                          <TableColumn fx:id="members_col_endDate" prefWidth="83.0" text="End Date" />
-                                          <TableColumn fx:id="members_col_status" prefWidth="65.0" text="Status" />
-                                      </columns>
-                                    </TableView>
-                                 </children>
-                              </AnchorPane>
-                              <Separator layoutX="13.0" layoutY="232.0" prefHeight="6.0" prefWidth="858.0" />
-                           </children>
-                        </AnchorPane>
+                        <AnchorPane fx:id="subForm" layoutX="61.0" layoutY="120.0" prefHeight="555.0" prefWidth="880.0" visible="false"
+            AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <children>
+        <VBox spacing="20.0" alignment="TOP_CENTER" AnchorPane.topAnchor="20.0" AnchorPane.leftAnchor="20.0"  AnchorPane.bottomAnchor="20.0">
+            <children>
+                <Label text="Stages You Joined" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+                <TableView fx:id="joinedStagesTable" prefHeight="400.0" prefWidth="500.0" >
+                    <columns>
+                        <TableColumn fx:id="stageTitleColumn" text="Stage Title" prefWidth="200"/>
+                        <TableColumn fx:id="ticketColumn" text="Tickets Bought" prefWidth="100"/>
+                        <TableColumn fx:id="totalColumn" text="Total Paid (€)" prefWidth="200"/>
+                    </columns>
+                </TableView>
+                  </children>
+                 
+        </VBox>
+         <ImageView layoutX="700.0" layoutY="70.0" fitWidth="400.0" fitHeight="400.0" pickOnBounds="true" preserveRatio="true">
+    <image>
+        <Image url="Images/people.png" />
+    </image>
+</ImageView>
+    </children>
+</AnchorPane>
+                        
                         <AnchorPane fx:id="messageForm" prefHeight="555.0" prefWidth="880.0" visible="false" 
             AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" 
             AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">

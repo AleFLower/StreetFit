@@ -8,6 +8,7 @@ public class HomeGUIControllerCLI {
 	public void start() {
 		//i have to retrieve login information from loginController		
 		LoginControllerCLI controller = new LoginControllerCLI();
+		
 		controller.start();
 		Credentials cred = controller.getCred();   
 		
