@@ -11,6 +11,7 @@ import com.streetfit.decorator.BasicTicket;
 import com.streetfit.decorator.SpecialTicket;
 import com.streetfit.decorator.Ticket;
 import com.streetfit.decorator.VipTicket;
+import com.streetfit.exception.InvalidStageChoiceException;
 import com.streetfit.model.Credentials;
 import com.streetfit.model.HealthForm;
 import com.streetfit.model.Participation;
@@ -65,101 +66,87 @@ public class ParticipantControllerCLI{
 	
 	} 
 	
-	public void joinStage() {
-		
-		AddStageController controller = new AddStageController();
-		int choice = view.printAllStages(controller.getAllStages(),joinstagecontroller.getSubscribers(controller.getAllStages()));
-		TrainingStage chosenstage = null;
-		double total=0;
-		
-		if(choice >= 0 && choice < controller.getAllStages().size()) {
-			  chosenstage = controller.getAllStages().get(choice);
-			  
-		}
-		 if (chosenstage == null) {
-		        view.printMessage("Invalid stage choice. Please try again.");
-		        return;  // Exit the method or ask for a valid input again
-		    }
-		 
-	   try {
-		   
-		   HealthFormBean beanform = view.fillHealthForm();
-		   HealthForm form = new HealthForm(beanform.hasInjuries(), beanform.hasHeartIssues(), beanform.isPhysicallyFit());
-		   
-		   //create handler with polimorphysm
-		   //per il momento, per testare chain of resp. la metto qui, ma forse va messa nel controller generale perche mi serve anche per la FX
-		      
+   public void joinStage() {
+	    AddStageController controller = new AddStageController();
+	    List<TrainingStage> stages = controller.getAllStages();
+	    int choice = view.printAllStages(stages, joinstagecontroller.getSubscribers(stages));
+	    double total = 0;
+	    TrainingStage chosenStage;
+
+	    try {
+	        if (choice < 0 || choice >= stages.size()) {
+	            throw new InvalidStageChoiceException(choice, stages.size());
+	        }
+
+	        chosenStage = stages.get(choice);
+
+	        HealthFormBean beanform = view.fillHealthForm();
+	        HealthForm form = new HealthForm(beanform.hasInjuries(), beanform.hasHeartIssues(), beanform.isPhysicallyFit());
+
+	        // Chain of Responsibility
 	        HealthCheckHandler heartCheck = new HeartCheckHandler();
-	        HealthCheckHandler injuryCheck  = new InjuriesCheckHandler();
+	        HealthCheckHandler injuryCheck = new InjuriesCheckHandler();
 	        HealthCheckHandler isPhysicallyCheck = new FitnessCheckHandler();
-	        
-	        //let's concatenate all
+
 	        injuryCheck.setNext(heartCheck);
 	        heartCheck.setNext(isPhysicallyCheck);
-	        
-	        if(injuryCheck.handle(form)) {  //solo se passi tutti i controlli allora potrai acquistare il biglietto
-		   
-		   TicketBean ticketBean = view.selectTicket();
-	       Ticket ticket;
-	       
-	       TicketStrategy strategy;
 
-	       
-	       //qua in mezzo metti pattern com.streetfit.strategy
-	        switch (ticketBean.getTicketType()) {
-	            case "base" -> {
-	            	ticket = new BasicTicket(ticketBean.getQuantity());
-	            	strategy = new StandardTicket();
-	            	total = strategy.applyEvents(ticket);
+	        if (injuryCheck.handle(form)) {
+	            TicketBean ticketBean = view.selectTicket();
+	            Ticket ticket;
+	            TicketStrategy strategy;
+
+	            switch (ticketBean.getTicketType()) {
+	                case "base" -> {
+	                    ticket = new BasicTicket(ticketBean.getQuantity());
+	                    strategy = new StandardTicket();
+	                    total = strategy.applyEvents(ticket);
+	                }
+	                case "special" -> {
+	                    ticket = new SpecialTicket(new BasicTicket(ticketBean.getQuantity()));
+	                    strategy = new PromotionalEvent();
+	                    total = strategy.applyEvents(ticket);
+	                }
+	                case "vip" -> {
+	                    ticket = new VipTicket(new BasicTicket(ticketBean.getQuantity()));
+	                    strategy = new VipStrategy();
+	                    total = strategy.applyEvents(ticket);
+	                }
+	                default -> {
+	                    view.printMessage("Invalid ticket type.");
+	                    return;
+	                }
 	            }
-	        
-	            case "special" -> {
-	            	ticket = new SpecialTicket(new BasicTicket(ticketBean.getQuantity()));
-	            	strategy = new PromotionalEvent();
-	            	total = strategy.applyEvents(ticket);
-	            }
-	            case "vip" -> {
-	            ticket = new VipTicket(new BasicTicket(ticketBean.getQuantity()));
-	            strategy = new VipStrategy();
-            	total = strategy.applyEvents(ticket);
-	            }
-	            default -> {
-	                view.printMessage("Invalid ticket type.");
+
+	            List<Integer> members = joinstagecontroller.getSubscribers(stages);
+	            if (ticket.getQuantity() > members.get(choice)) {
+	                view.printMessage("Cannot purchase the ticket. Not enough available slots.");
 	                return;
 	            }
+
+	            view.printTicketSummary(ticket.getDescription(), total);
+
+	            String reply = view.getMessage();
+	            Message message = null;
+	            if (!reply.isEmpty()) {
+	                message = new Message(cred.getUsername(), reply);
+	            }
+
+	            Participation p = new Participation(cred.getUsername(), chosenStage.getTitle(), ticket.getQuantity(), total);
+	            joinstagecontroller.registrateMember(p, message);
+
+	            view.printMessage("Registration successful!");
 	        }
-	    
-	        List <Integer> members = joinstagecontroller.getSubscribers(controller.getAllStages());
-	        if(ticket.getQuantity() > members.get(choice)) {
-	        	view.printMessage("Cannot purchase the ticket");
-	        	return;
-	        }
-	        
-	        
-	        view.printTicketSummary(ticket.getDescription(), total);
-	        
-	        String reply = view.getMessage();
-	        Message message = null;
-	        
-	        if(!reply.isEmpty()) {
-	        message = new Message(cred.getUsername(), reply);
-	        }
-	         
-	        Participation p = new Participation(cred.getUsername(),chosenstage.getTitle(), ticket.getQuantity(),total);
-	        
-	        joinstagecontroller.registrateMember(p,message);
-	        view.printMessage("Registration successful");	        
-	        
-	        }
-	      
-	        
-	   }catch(Exception e) {
-		   
-		   throw new IllegalStateException("Input error while creating health form");
-	   }
- 
-	
+
+	    } catch (InvalidStageChoiceException e) {
+	        // 🎯 Gestione vera e propria, non solo propagazione
+	        view.printMessage("Error: " + e.getMessage());
+	        view.printMessage("Please enter a valid stage number between 0 and " + (e.getMaxIndex() - 1));
+	    } catch (Exception e) {
+	        view.printMessage("An unexpected error occurred: " + e.getMessage());
+	    }
 	}
+
 	
 	public void handleMessage() {
 		 List<Message> messages = joinstagecontroller.retrieveMessages();

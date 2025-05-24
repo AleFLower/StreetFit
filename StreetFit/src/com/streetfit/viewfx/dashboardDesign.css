@@ -32,7 +32,7 @@
 }
 
 .nav{
-    -fx-background-color: linear-gradient(to top right, #2c2c57, #392b78);
+    -fx-background-color: linear-gradient(to top right, #ff3c3c, #b30000);
 }
 .nav-border{
     -fx-border-color: #000;
@@ -75,7 +75,7 @@
 .textfield{
     -fx-background-color: #efefef;
     -fx-background-radius: 4px;
-    -fx-border-color: linear-gradient(to top right, #2c2c57, #392b78);
+    -fx-border-color: linear-gradient(to top right, #ff3c3c, #b30000);
     -fx-border-radius: 4px;
     -fx-border-width: .5px;
     -fx-font-family: Tahoma;
@@ -83,19 +83,19 @@
 
 
 .btn{
-    -fx-background-color: #2c2c57;
+    -fx-background-color:#ff3c3c ;
     -fx-background-radius: 6px;
     -fx-cursor: hand;
     -fx-text-fill: #fff;
     -fx-font-size: 14px;
 }
 .btn:hover{
-    -fx-background-color: #392b78;
+    -fx-background-color:#b30000 ;
 }
 
 .table-view{
     -fx-background-color: transparent;
-    -fx-border-color: linear-gradient(to top right, #2c2c57, #392b78);
+    -fx-border-color: linear-gradient(to top right, #ff3c3c, #b30000);
     -fx-border-radius: 8px;
     -fx-border-width: 2px;
     -fx-padding: 0px;
@@ -104,7 +104,7 @@
     -fx-alignment: CENTER;
 }
 .table-view .column-header-background{
-    -fx-background-color: linear-gradient(to top right, #2c2c57, #392b78);
+    -fx-background-color: linear-gradient(to top right, #ff3c3c, #b30000);
     -fx-background-radius: 8px 8px 0px 0px;
 }
 .table-view .column-header, .filter{
@@ -120,7 +120,7 @@
     -fx-background-color: #f5f5f5; /* Colore di sfondo grigio chiaro */
     -fx-background-radius: 10px;
     -fx-padding: 15px;
-    -fx-border-color: #2c2c57; /* Bordo di colore blu scuro */
+    -fx-border-color: #ff3c3c; /* Bordo di colore blu scuro */
     -fx-border-width: 2px;
     -fx-border-radius: 10px;
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 10, 0, 0, 10);
@@ -129,7 +129,7 @@
 /* Label per il titolo della sezione */
 .ticket-selection label {
     -fx-font-size: 16px;
-    -fx-text-fill: #2c2c57; /* Colore del testo blu scuro */
+    -fx-text-fill: #ff3c3c; /* Colore del testo blu scuro */
     -fx-font-weight: bold;
     -fx-padding: 0 0 10px 0; /* Distanza tra il label e il campo */
 }
@@ -138,7 +138,7 @@
 .ticket-selection .combo-box {
     -fx-background-color: #fff;
     -fx-background-radius: 6px;
-    -fx-border-color: #2c2c57; /* Colore del bordo blu scuro */
+    -fx-border-color: #ff3c3c; /* Colore del bordo blu scuro */
     -fx-border-radius: 6px;
     -fx-border-width: 1px;
     -fx-padding: 5px;
@@ -160,7 +160,7 @@
 .ticket-selection .spinner {
     -fx-background-color: #fff;
     -fx-background-radius: 6px;
-    -fx-border-color: #2c2c57; /* Bordo blu scuro */
+    -fx-border-color: #ff3c3c; /* Bordo blu scuro */
     -fx-border-radius: 6px;
     -fx-border-width: 1px;
     -fx-padding: 5px;
@@ -169,18 +169,18 @@
 }
 
 .ticket-selection .spinner .spinner-button {
-    -fx-background-color: #2c2c57;
+    -fx-background-color: #ff3c3c;
     -fx-text-fill: #fff;
     -fx-border-radius: 6px;
     -fx-padding: 5px;
 }
 
 .ticket-selection .spinner .spinner-button:hover {
-    -fx-background-color: #392b78;
+    -fx-background-color:#b30000;
 }
 /* Bottone per selezionare il biglietto */
 .select-ticket-btn {
-    -fx-background-color: #2c2c57; /* Colore di sfondo blu scuro */
+    -fx-background-color: #ff3c3c; /* Colore di sfondo blu scuro */
     -fx-background-radius: 6px;    /* Bordo arrotondato */
     -fx-text-fill: #fff;           /* Colore del testo bianco */
     -fx-font-size: 16px;           /* Dimensione del testo */
@@ -191,14 +191,14 @@
 }
 
 .select-ticket-btn:hover {
-    -fx-background-color: #392b78; /* Colore di sfondo blu più chiaro quando il bottone è in hover */
+    -fx-background-color: #b30000; /* Colore di sfondo blu più chiaro quando il bottone è in hover */
     -fx-background-radius: 6px;    /* Mantieni il bordo arrotondato */
     -fx-text-fill: #fff;           /* Mantieni il testo bianco */
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.5), 10, 0, 0, 10); /* Ombra più forte */
 }
 
 .select-ticket-btn:pressed {
-    -fx-background-color: #5041a7; /* Colore di sfondo quando il bottone è premuto */
+    -fx-background-color: #b30000; /* Colore di sfondo quando il bottone è premuto */
     -fx-background-radius: 6px;    /* Mantieni il bordo arrotondato */
     -fx-text-fill: #fff;           /* Mantieni il testo bianco */
 }

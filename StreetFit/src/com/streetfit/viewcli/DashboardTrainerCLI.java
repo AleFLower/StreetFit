@@ -72,7 +72,7 @@ public class DashboardTrainerCLI {
 	}
 	  // Metodo per visualizzare le notifiche
     public void displayNotification(String message) {
-        System.out.println(message);
+        System.out.println(message); //NOSONAR
         try {
             Thread.sleep(2000); // Simula il "toast" per 2 secondi per ogni notifica
         } catch (InterruptedException e) {
@@ -114,36 +114,36 @@ public class DashboardTrainerCLI {
 	
 	public boolean printMessages(List<Message> messages) {
 	    if (messages == null || messages.isEmpty()) {
-	        System.out.println("No messages to display.");
+	        System.out.println("No messages to display."); //NOSONAR
 	        return false;
 	    }
 
-	    System.out.println("========= Messages =========");
+	    System.out.println("========= Messages =========");//NOSONAR
 
 	    int count = 1;
 	    for (Message msg : messages) {
-	        System.out.println("Message #" + count++);
-	        System.out.println("From:    " + msg.getFromUser());
-	        System.out.println("Content: " + msg.getContent());
+	        System.out.println("Message #" + count++); //NOSONAR
+	        System.out.println("From:    " + msg.getFromUser());//NOSONAR
+	        System.out.println("Content: " + msg.getContent());//NOSONAR
 
 	        if (msg.hasReply()) {
-	            System.out.println("Reply:   " + msg.getReply());
+	            System.out.println("Reply:   " + msg.getReply());//NOSONAR
 	        } else {
-	            System.out.println("Reply:   [No reply yet]");
+	            System.out.println("Reply:   [No reply yet]");//NOSONAR
 	        }
 
-	        System.out.println("-----------------------------");
+	        System.out.println("-----------------------------");//NOSONAR
 	    }
 	    
 	    
 
-	    System.out.println("========= End of List =========");
+	    System.out.println("========= End of List =========");//NOSONAR
 	    
 	    return true;
 	}
 	
 	public int replyToMessages() {
-		System.out.println("Select a message you want to reply to(0 to exit): ");
+		System.out.println("Select a message you want to reply to(0 to exit): ");//NOSONAR
 		int choice = sc.nextInt();
 		sc.nextLine(); // <=== Consuma il newline rimasto nel buffer
 		return choice;
@@ -151,7 +151,7 @@ public class DashboardTrainerCLI {
 	}
 	
 	public String askReplyContent() {
-	    System.out.print("Enter your reply: ");
+	    System.out.print("Enter your reply: ");//NOSONAR
 	    String reply = sc.nextLine();
 	    return reply;
 	}

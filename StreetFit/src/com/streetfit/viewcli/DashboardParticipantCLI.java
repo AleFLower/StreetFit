@@ -99,36 +99,36 @@ public class DashboardParticipantCLI {
 	    
 		public boolean printMessages(List<Message> messages) {
 		    if (messages == null || messages.isEmpty()) {
-		        System.out.println("No messages to display.");
+		        System.out.println("No messages to display.");//NOSONAR
 		        return false;
 		    }
 
-		    System.out.println("========= Messages =========");
+		    System.out.println("========= Messages ========="); //NOSONAR
 
 		    int count = 1;
 		    for (Message msg : messages) {
-		        System.out.println("Message #" + count++);
-		        System.out.println("Content: " + msg.getContent());
+		        System.out.println("Message #" + count++); //NOSONAR
+		        System.out.println("Content: " + msg.getContent()); //NOSONAR
 
 		        if (msg.hasReply()) {
-		            System.out.println("Reply:   " + msg.getReply());
+		            System.out.println("Reply:   " + msg.getReply()); //NOSONAR
 		        } else {
-		            System.out.println("Reply:   [No reply yet]");
+		            System.out.println("Reply:   [No reply yet]"); //NOSONAR
 		        }
 
-		        System.out.println("-----------------------------");
+		        System.out.println("-----------------------------"); //NOSONAR
 		    }
 		    
 		    
 
-		    System.out.println("========= End of List =========");	    
+		    System.out.println("========= End of List =========");	    //NOSONAR
 		    return true;
 		}
 	    
 	    public String getMessage() {
 	    	String reply;
 	    	
-	    	System.out.println("Do you want to ask anything to the trainer?");    //APPLY OBSERVER PATTERN HERE TO NOTIFY, THAT WORKS ONLY "IN MEMORY"(IN MEMORY ALSO FOR FS, DBMS TYPE)
+	    	System.out.println("Do you want to ask anything to the trainer?"); //NOSONAR   
 	    	reply = sc.nextLine();
 	    	
 	    	return reply;
