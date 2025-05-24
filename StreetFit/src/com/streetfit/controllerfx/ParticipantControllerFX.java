@@ -205,7 +205,7 @@ public class ParticipantControllerFX {
    	        
    	        
    	    } catch (Exception e) {
-   	        e.printStackTrace(); // oppure logga
+   	       
    	    }
 
    	    return new javafx.beans.property.SimpleIntegerProperty(remaining).asObject();
@@ -252,7 +252,7 @@ public class ParticipantControllerFX {
    	    int available = newSelection.getMaxParticipants() - booked;
    	    ticketsLeft.setText(String.valueOf(available));
    	} catch (Exception e) {
-   	    e.printStackTrace();
+   	   
    	    ticketsLeft.setText("N/A");
    	}
    	    }
@@ -274,7 +274,7 @@ public class ParticipantControllerFX {
 	        joinedStagesTable.setItems(observableList);
 
 	    } catch (Exception e) {
-	        e.printStackTrace();
+	        
 	    }
 	}
 	 
@@ -301,7 +301,7 @@ public class ParticipantControllerFX {
 	        dashboardNT.setText(String.valueOf(tickets));
 
 	    } catch (Exception e) {
-	        e.printStackTrace();
+	       
 	    }
 	}
 

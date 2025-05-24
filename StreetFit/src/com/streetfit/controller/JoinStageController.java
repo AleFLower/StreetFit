@@ -58,7 +58,7 @@ public class JoinStageController {
 			messages = dao.retrieveMessage();
 		}
 		catch(DAOException e) {
-			e.printStackTrace();
+			
 			throw new IllegalStateException("Failed to retrieve messages", e);
 		}
 		
@@ -75,7 +75,7 @@ public class JoinStageController {
 			dao.updateMessage(m);
 		}
          catch(DAOException e) {
-			e.printStackTrace();
+			
 			throw new IllegalStateException("Failed to retrieve messages", e);
 		}
 	}
@@ -91,7 +91,7 @@ public class JoinStageController {
 			members = dao.showMembers();
 		}
 		catch(RuntimeException e) {
-			e.printStackTrace();
+			
 			throw new IllegalStateException("Failed to retrieve members", e);
 		}
 		
