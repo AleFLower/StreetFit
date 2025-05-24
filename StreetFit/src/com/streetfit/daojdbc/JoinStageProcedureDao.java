@@ -78,10 +78,9 @@ public class JoinStageProcedureDao implements JoinStageDao {
 	    ConnectionFactory.changeRole(Role.PARTICIPANT);
 
 	    String sql = "{call insert_message(?, ?, ?)}";
-	    try {
-	    	Connection conn = ConnectionFactory.getConnection();
-	        CallableStatement cs = conn.prepareCall(sql) ;
-
+	    Connection conn = ConnectionFactory.getConnection();
+	    try(  CallableStatement cs = conn.prepareCall(sql) ;) {
+	    	
 	        cs.setString(1, m.getFromUser());
 	        cs.setString(2, m.getContent());
 	        cs.setString(3, m.getReply() != null ? m.getReply() : null);
@@ -100,9 +99,10 @@ public class JoinStageProcedureDao implements JoinStageDao {
 
 	    List<Message> messages = new ArrayList<>();
 	    String sql = "SELECT from_user,content,reply FROM Messages";
-
-	    try {Connection conn = ConnectionFactory.getConnection();
-	         PreparedStatement ps = conn.prepareStatement(sql);
+	    Connection conn = ConnectionFactory.getConnection();
+	    
+	    try( PreparedStatement ps = conn.prepareStatement(sql);) {
+	        
 	         ResultSet rs = ps.executeQuery();
 
 	        while (rs.next()) {
@@ -125,9 +125,9 @@ public class JoinStageProcedureDao implements JoinStageDao {
 
 	public void updateMessage(Message updatedMessage) throws DAOException {
 	    String sql = "CALL update_message_reply(?, ?, ?)";  // Chiamata alla procedura
-
-	    try {Connection conn = ConnectionFactory.getConnection();
-	         CallableStatement cs = conn.prepareCall(sql) ;
+	    Connection conn = ConnectionFactory.getConnection();
+	    try( CallableStatement cs = conn.prepareCall(sql) ;) {
+	        
 
 	        // Impostiamo i parametri della procedura (p_from_user, p_content, p_reply)
 	        cs.setString(1, updatedMessage.getFromUser());  // User che ha inviato il messaggio

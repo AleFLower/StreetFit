@@ -36,8 +36,7 @@ public class LoginProcedureDAO implements LoginDao {
 		
 		Connection conn =  ConnectionFactory.getConnection();
 		
-		try {
-			CallableStatement cs = conn.prepareCall("{call  signup_user_md5(?,?,?)}");
+		try(CallableStatement cs = conn.prepareCall("{call  signup_user_md5(?,?,?)}");) {	
 			cs.setString(1, cred.getUsername());
 			cs.setString(2, cred.getPassword());
 			cs.setString(3,cred.getRole().toString());
