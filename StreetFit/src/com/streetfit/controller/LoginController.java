@@ -25,7 +25,7 @@ public class LoginController  {
     	   try {
               loginDAO.signup(cred);   
            } catch (DAOException e) {
-        	   e.printStackTrace();
+        	 
         		 throw new SecurityException("Signup failed");
            }
     }
@@ -39,7 +39,7 @@ public class LoginController  {
         try {
             return loginDAO.getCredentials(username, password);   
         } catch (DAOException e) {
-         e.printStackTrace();
+        
         	 throw new SecurityException("Authentication failed for user: " + username, e);
         }
     }

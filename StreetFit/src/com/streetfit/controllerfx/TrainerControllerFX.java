@@ -235,7 +235,7 @@ public class TrainerControllerFX {
 		    for (Participation p : participations) {
 		        String title = p.getStage(); // Usa direttamente il nome dello stage
 		        incomePerStage.put(title,
-		            incomePerStage.getOrDefault(stageTitle, 0.0) + p.getTotal());
+		            incomePerStage.getOrDefault(title, 0.0) + p.getTotal());
 		    }
 
 		    for (Map.Entry<String, Double> entry : incomePerStage.entrySet()) {
@@ -329,7 +329,7 @@ public class TrainerControllerFX {
 	            try {
 	            	Thread.sleep(NOTIFICATION_DISPLAY_TIME * 1000L);
 	            } catch (InterruptedException e) {
-	                
+	            	throw new IllegalStateException("Error");//just for now
 	            }
 	            javafx.application.Platform.runLater(() -> notificationLabel.setVisible(false));
 	        }).start();

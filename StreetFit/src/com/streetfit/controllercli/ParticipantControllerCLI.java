@@ -158,7 +158,7 @@ public class ParticipantControllerCLI{
     			 userMessage.add(m);
     		 }
     	 }
-    	 boolean areThereMessages=view.printMessages(userMessage);
+    	 view.printMessages(userMessage);
     	 
 	}
 }

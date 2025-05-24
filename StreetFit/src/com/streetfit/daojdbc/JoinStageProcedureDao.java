@@ -99,7 +99,7 @@ public class JoinStageProcedureDao implements JoinStageDao {
 	    ConnectionFactory.changeRole(Role.TRAINER);
 
 	    List<Message> messages = new ArrayList<>();
-	    String sql = "SELECT * FROM Messages";
+	    String sql = "SELECT from_user,content,reply FROM Messages";
 
 	    try {Connection conn = ConnectionFactory.getConnection();
 	         PreparedStatement ps = conn.prepareStatement(sql);

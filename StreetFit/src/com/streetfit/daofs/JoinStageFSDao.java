@@ -100,25 +100,23 @@ public class JoinStageFSDao implements JoinStageDao {
 	        boolean headerSkipped = false;
 
 	        while ((line = br.readLine()) != null) {
+	            // Salta la prima riga con intestazione solo una volta
 	            if (!headerSkipped) {
-	                headerSkipped = true;  // Salta la prima riga con intestazione
-	                continue;
+	                headerSkipped = true;
+	            } else {
+	                // Se la riga non è vuota e contiene almeno 2 campi
+	                if (!line.trim().isEmpty()) {
+	                    String[] data = line.split(",", -1); // Usa -1 per preservare campi vuoti come reply
+
+	                    if (data.length >= 2) {
+	                        String fromUser = data[0].trim();
+	                        String content = data[1].trim();
+	                        String reply = data.length > 2 ? data[2].trim() : "";
+
+	                        messages.add(new Message(fromUser, content, reply));
+	                    }
+	                }
 	            }
-
-	            if (line.trim().isEmpty()) {
-	                continue;
-	            }
-
-	            String[] data = line.split(",", -1); // Usa -1 per preservare campi vuoti come reply
-
-	            if (data.length >= 2) {
-	                String fromUser = data[0].trim();
-	                String content = data[1].trim();
-	                String reply = data.length > 2 ? data[2].trim() : "";
-
-	                messages.add(new Message(fromUser, content, reply));
-	            }
-	            // Nessun 'else' richiesto: se i dati sono incompleti, la riga viene ignorata
 	        }
 	    } catch (IOException e) {
 	        throw new DAOException("Error reading message data from file: " + e.getMessage(), e);
@@ -126,6 +124,7 @@ public class JoinStageFSDao implements JoinStageDao {
 
 	    return messages;
 	}
+
 
 
 	

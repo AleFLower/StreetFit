@@ -200,7 +200,7 @@ public class ParticipantControllerFX {
  			}
  		}
  		
- 	   dashboardOUT.setText("€"+ String.valueOf(total));
+ 	   dashboardOUT.setText("€"+ total);
  	   dashboardNT.setText(String.valueOf(tickets));
    	        
    	        
@@ -258,8 +258,6 @@ public class ParticipantControllerFX {
    	    }
    	});
    	
-  
-
    	  
 	 }
 	
@@ -282,7 +280,7 @@ public class ParticipantControllerFX {
 	    try {
 	        List<Participation> all = joinStagecontroller.showMembers();
 	        
-	        long stages = all.stream()
+	                all.stream()
 	                .filter(p -> p.getUsername().equals(cred.getUsername()))
 	                .count();
 
@@ -531,7 +529,7 @@ public class ParticipantControllerFX {
             }
 
         } catch (Exception e) {
-        	e.printStackTrace();
+        	
         	throw new IllegalStateException("Error");//just for now
         }
     }
