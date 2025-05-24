@@ -14,12 +14,13 @@ public class InMemoryLoginDAO implements LoginDao {
     private final List<Credentials> users;
 
     public InMemoryLoginDAO() {
+    	String roleParticipant = "participant";
         users = new ArrayList<>();
         // Creiamo utenti predefiniti
         users.add(new Credentials("trainer", "trainer", Role.TRAINER));
-        users.add(new Credentials("participant", "participant", Role.PARTICIPANT));
-        users.add(new Credentials("participant2", "participant", Role.PARTICIPANT));
-        users.add(new Credentials("participant3", "participant", Role.PARTICIPANT));
+        users.add(new Credentials("participant", roleParticipant, Role.PARTICIPANT));
+        users.add(new Credentials("participant2", roleParticipant, Role.PARTICIPANT));
+        users.add(new Credentials("participant3", roleParticipant, Role.PARTICIPANT));
     }
 
     @Override
@@ -41,9 +42,6 @@ public class InMemoryLoginDAO implements LoginDao {
 				}	
 			}
 			users.add(cred);
-		}
-		for(Credentials user:users) {
-			System.out.println(user.getUsername());
 		}
 		
 	}

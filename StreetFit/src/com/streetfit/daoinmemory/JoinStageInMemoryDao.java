@@ -38,7 +38,6 @@ public class JoinStageInMemoryDao implements JoinStageDao {
 
 	@Override
 	public List<Message> retrieveMessage() throws DAOException {
-		// TODO Auto-generated method stub
 		return messages;
 	}
 

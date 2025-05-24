@@ -205,7 +205,7 @@ public class ParticipantControllerFX {
    	        
    	        
    	    } catch (Exception e) {
-   	       
+   	       throw new IllegalStateException("Error");//just for now
    	    }
 
    	    return new javafx.beans.property.SimpleIntegerProperty(remaining).asObject();
@@ -274,7 +274,7 @@ public class ParticipantControllerFX {
 	        joinedStagesTable.setItems(observableList);
 
 	    } catch (Exception e) {
-	        
+	    	throw new IllegalStateException("Error");//just for now
 	    }
 	}
 	 
@@ -296,12 +296,12 @@ public class ParticipantControllerFX {
 	        	    .sum();
 
 
-	        dashboardNS.setText(String.valueOf(stages));
+	        dashboardOUT.setText("€" + total);
 	        dashboardOUT.setText("€" + total);
 	        dashboardNT.setText(String.valueOf(tickets));
 
 	    } catch (Exception e) {
-	       
+	    	throw new IllegalStateException("Error");//just for now
 	    }
 	}
 
@@ -355,7 +355,7 @@ public class ParticipantControllerFX {
         // Ottieni i messaggi dal controller per il partecipante specificato
         List<Message> messages = joinStagecontroller.retrieveMessages();
         
-        List<Message> userMessage = new ArrayList<Message>();
+        List<Message> userMessage = new ArrayList<>();
    	 
    	 for(Message m : messages) {
    		 if(m.getFromUser().equals(cred.getUsername())) {
@@ -417,7 +417,7 @@ public class ParticipantControllerFX {
 
     	    Ticket ticket;
     	    TicketStrategy strategy;
-    	    double total = 0.0;
+    	   double total;
 
     	    if (ticketTypeText.contains("Basic")) {
     	        ticket = new BasicTicket(quantity);
@@ -507,7 +507,7 @@ public class ParticipantControllerFX {
                 logout.getScene().getWindow().hide();
 
                 // LINK YOUR LOGIN FORM
-                Parent root = FXMLLoader.load(getClass().getResource("/com/streetfit/viewfx/Login.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("/ViewFxml/Login.fxml"));
 
                 Stage stage = new Stage();
                 Scene scene = new Scene(root);
@@ -531,7 +531,8 @@ public class ParticipantControllerFX {
             }
 
         } catch (Exception e) {
-           
+        	e.printStackTrace();
+        	throw new IllegalStateException("Error");//just for now
         }
     }
 

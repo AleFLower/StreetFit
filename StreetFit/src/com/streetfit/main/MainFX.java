@@ -14,7 +14,7 @@ public class MainFX extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-        	FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/streetFit/ViewFX/Login.fxml"));
+        	FXMLLoader loader = new FXMLLoader(getClass().getResource("/ViewFxml/Login.fxml"));
 
             Scene scene = new Scene(loader.load());
             primaryStage.initStyle(StageStyle.UNDECORATED);

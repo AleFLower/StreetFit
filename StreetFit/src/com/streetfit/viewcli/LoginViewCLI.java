@@ -17,11 +17,11 @@ public class LoginViewCLI {
 	
 	public static int showMenu() {
 		Scanner sc = new Scanner(System.in) ;
-			System.out.println("Welcome to streetFit");
-			System.out.println("1.Signup");
-			System.out.println("2.Login");
-			System.out.println("3.Login with Google");
-			System.out.println("Enter your choice: ");
+			System.out.println("Welcome to streetFit"); //NOSONAR
+			System.out.println("1.Signup");  //NOSONAR
+			System.out.println("2.Login"); //NOSONAR
+			System.out.println("3.Login with Google");  //NOSONAR
+			System.out.println("Enter your choice: "); //NOSONAR
 			return sc.nextInt();
 			
 	}

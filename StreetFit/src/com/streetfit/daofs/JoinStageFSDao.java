@@ -18,6 +18,7 @@ import com.streetfit.model.Participation;
 public class JoinStageFSDao implements JoinStageDao {
 	
 	  private static final String CSV_FILE = "res/Members.csv";
+	  private static final String CSVMESS_FILE = "res/Messages.csv";
 	
 	public void registrateParticipation(Participation p) throws DAOException {
 		  
@@ -75,16 +76,13 @@ public class JoinStageFSDao implements JoinStageDao {
 	@Override
 	public void depositMessage(Message m) throws DAOException {
 		
-		final String CSV_FILE = "res/Messages.csv";
-		
-
 	    // Prepara i dati da scrivere nel file (colonne: fromUser, content, reply)
 	    String messageData = String.format("%s,%s,%s%n", 
 	                                      m.getFromUser(),   // fromUser
 	                                      m.getContent(),    // content
 	                                      m.getReply() != null ? m.getReply() : ""); // reply (if any, else empty string)
 
-	    try (BufferedWriter writer = new BufferedWriter(new FileWriter(CSV_FILE, true))) {
+	    try (BufferedWriter writer = new BufferedWriter(new FileWriter(CSVMESS_FILE, true))) {
 	        // Scrivi il messaggio nel file CSV
 	        writer.write(messageData);  // Aggiungi una nuova riga con i dati del messaggio
 	    } catch (IOException e) {
@@ -95,10 +93,9 @@ public class JoinStageFSDao implements JoinStageDao {
 
 	@Override
 	public List<Message> retrieveMessage() throws DAOException {
-	    final String CSV_FILE = "res/Messages.csv";
 	    List<Message> messages = new ArrayList<>();
 
-	    try (BufferedReader br = new BufferedReader(new FileReader(CSV_FILE))) {
+	    try (BufferedReader br = new BufferedReader(new FileReader(CSVMESS_FILE))) {
 	        String line;
 	        boolean headerSkipped = false;
 
@@ -108,20 +105,20 @@ public class JoinStageFSDao implements JoinStageDao {
 	                continue;
 	            }
 
-	            if (line.trim().isEmpty()) continue;
+	            if (line.trim().isEmpty()) {
+	                continue;
+	            }
 
-	            // Usa -1 per preservare campi vuoti come reply
-	            String[] data = line.split(",", -1);
+	            String[] data = line.split(",", -1); // Usa -1 per preservare campi vuoti come reply
 
-	            // Almeno fromUser e content devono esserci
-	            if (data.length < 2) continue;
+	            if (data.length >= 2) {
+	                String fromUser = data[0].trim();
+	                String content = data[1].trim();
+	                String reply = data.length > 2 ? data[2].trim() : "";
 
-	            String fromUser = data[0].trim();
-	            String content = data[1].trim();
-	            String reply = data.length > 2 ? data[2].trim() : "";
-
-	            Message message = new Message(fromUser, content, reply);
-	            messages.add(message);
+	                messages.add(new Message(fromUser, content, reply));
+	            }
+	            // Nessun 'else' richiesto: se i dati sono incompleti, la riga viene ignorata
 	        }
 	    } catch (IOException e) {
 	        throw new DAOException("Error reading message data from file: " + e.getMessage(), e);
@@ -130,14 +127,14 @@ public class JoinStageFSDao implements JoinStageDao {
 	    return messages;
 	}
 
+
 	
 	@Override
 	public void updateMessage(Message updatedMessage) throws DAOException {
-	    final String CSV_FILE = "res/Messages.csv";
 	    List<Message> allMessages = new ArrayList<>();
 
 	    // Step 1: Leggi tutti i messaggi
-	    try (BufferedReader reader = new BufferedReader(new FileReader(CSV_FILE))) {
+	    try (BufferedReader reader = new BufferedReader(new FileReader(CSVMESS_FILE))) {
 	        String line;
 	        while ((line = reader.readLine()) != null) {
 	            String[] parts = line.split(",", -1); // -1 to keep empty strings
@@ -167,7 +164,7 @@ public class JoinStageFSDao implements JoinStageDao {
 	    }
 
 	    // Step 3: Sovrascrivi il file con i dati aggiornati
-	    try (BufferedWriter writer = new BufferedWriter(new FileWriter(CSV_FILE))) {
+	    try (BufferedWriter writer = new BufferedWriter(new FileWriter(CSVMESS_FILE))) {
 	        for (Message m : allMessages) {
 	            writer.write(String.format("%s,%s,%s%n",
 	                    m.getFromUser(),

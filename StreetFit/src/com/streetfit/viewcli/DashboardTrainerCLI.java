@@ -27,7 +27,7 @@ public class DashboardTrainerCLI {
 		//per il momento, poi vedremo che casi d'uso fare, questa non e un caso d'uso
 		System.out.println("2. Members");  //NOSONAR
 		System.out.println("3. Created stages");//NOSONAR
-		System.out.println("4. Q&A");
+		System.out.println("4. Q&A");//NOSONAR
 		System.out.println("5. Logout");//NOSONAR
 		System.out.println("Please, enter your choice: ");//NOSONAR
 			
@@ -152,8 +152,7 @@ public class DashboardTrainerCLI {
 	
 	public String askReplyContent() {
 	    System.out.print("Enter your reply: ");//NOSONAR
-	    String reply = sc.nextLine();
-	    return reply;
+	    return  sc.nextLine();
 	}
 
 	

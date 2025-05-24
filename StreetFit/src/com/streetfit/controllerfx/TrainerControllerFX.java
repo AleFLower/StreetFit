@@ -70,7 +70,7 @@ public class TrainerControllerFX {
 	    @FXML
 		private Button membersBtn;
 	    @FXML
-	    private AreaChart<String, Number> dashboard_incomeChart;
+	    private AreaChart<String, Number> dashboardIncomeChart;
 	    @FXML
 	    private Button stagesBtn;
 	    @FXML
@@ -214,7 +214,7 @@ public class TrainerControllerFX {
 				total += member.getTotal();
 			}
 			
-			dashboardIncome.setText("€" +String.valueOf(total));
+			dashboardIncome.setText("€" +total);
 			
 		}
 
@@ -233,8 +233,8 @@ public class TrainerControllerFX {
 		    List<Participation> participations = joinController.showMembers();
 
 		    for (Participation p : participations) {
-		        String stageTitle = p.getStage(); // Usa direttamente il nome dello stage
-		        incomePerStage.put(stageTitle,
+		        String title = p.getStage(); // Usa direttamente il nome dello stage
+		        incomePerStage.put(title,
 		            incomePerStage.getOrDefault(stageTitle, 0.0) + p.getTotal());
 		    }
 
@@ -242,8 +242,8 @@ public class TrainerControllerFX {
 		        series.getData().add(new XYChart.Data<>(entry.getKey(), entry.getValue()));
 		    }
 
-		    dashboard_incomeChart.getData().clear();
-		    dashboard_incomeChart.getData().add(series);
+		    dashboardIncomeChart.getData().clear();
+		    dashboardIncomeChart.getData().add(series);
 		}
 
 
@@ -313,9 +313,9 @@ public class TrainerControllerFX {
 	                    String msg = n.getMessage();
 	                    javafx.application.Platform.runLater(() -> notificationLabel.setText(msg));
 	                    try {
-	                        Thread.sleep(NOTIFICATION_DISPLAY_TIME * 1000); // NOTIFICATION_DISPLAY_TIME è già definito a 3
+	                    	Thread.sleep(NOTIFICATION_DISPLAY_TIME * 1000L); // NOTIFICATION_DISPLAY_TIME è già definito a 3
 	                    } catch (InterruptedException e) {
-	                       
+	                    	throw new IllegalStateException("Error");//just for now
 	                    }
 	                }
 	                javafx.application.Platform.runLater(() -> notificationLabel.setVisible(false));
@@ -327,9 +327,9 @@ public class TrainerControllerFX {
 	        notificationLabel.setText(msg);
 	        new Thread(() -> {
 	            try {
-	                Thread.sleep(NOTIFICATION_DISPLAY_TIME * 1000);
+	            	Thread.sleep(NOTIFICATION_DISPLAY_TIME * 1000L);
 	            } catch (InterruptedException e) {
-	              
+	                
 	            }
 	            javafx.application.Platform.runLater(() -> notificationLabel.setVisible(false));
 	        }).start();
@@ -447,7 +447,7 @@ public class TrainerControllerFX {
 	        // Calcola i biglietti rimanenti e mostra il valore nella colonna
 	        remainingTicketsColumn.setCellValueFactory(cellData -> {
 	            int stageIndex = stageDataList.indexOf(cellData.getValue());
-	            int maxParticipants = cellData.getValue().getMaxParticipants();
+	           
 	            int remainingTickets = counters.get(stageIndex);
 	            
 	            return new SimpleIntegerProperty(remainingTickets).asObject();
@@ -479,7 +479,7 @@ public class TrainerControllerFX {
 	               stageForm.setVisible(false);
 	               membersForm.setVisible(false); 
 	               messageForm.setVisible(false);
-	             //  payment_Form.setVisible(false);
+	         
 
 	           } else if (event.getSource() == stagesBtn) {
 
@@ -516,7 +516,7 @@ public class TrainerControllerFX {
 	                logout.getScene().getWindow().hide();
 
 	                // LINK YOUR LOGIN FORM
-	                Parent root = FXMLLoader.load(getClass().getResource("/com/streetfit/viewfx/Login.fxml"));
+	                Parent root = FXMLLoader.load(getClass().getResource("/ViewFxml/Login.fxml"));
 
 	                Stage stage = new Stage();
 	                Scene scene = new Scene(root);
@@ -540,7 +540,7 @@ public class TrainerControllerFX {
 	            }
 
 	        } catch (Exception e) {
-	           
+	        	throw new IllegalStateException("Error");//just for now
 	        }
 	    }
 	    

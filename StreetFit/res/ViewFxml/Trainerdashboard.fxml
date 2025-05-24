@@ -295,7 +295,7 @@
                                        </TableView>
                                        </children>
                                        <children>
-                                             <AreaChart fx:id="dashboard_incomeChart" layoutX="500.0" layoutY="-10.0" prefHeight="356.0" prefWidth="600" title="Income Data Chart" >
+                                             <AreaChart fx:id="dashboardIncomeChart" layoutX="500.0" layoutY="-10.0" prefHeight="356.0" prefWidth="600" title="Income Data Chart" >
                                             <xAxis>
                                               <CategoryAxis side="BOTTOM" />
                                             </xAxis>

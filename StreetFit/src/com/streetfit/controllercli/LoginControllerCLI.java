@@ -43,13 +43,11 @@ public class LoginControllerCLI {
     	try {
 			CredentialsBean cred = LoginViewCLI.signup();
 			loginController.signup(new Credentials(cred.getUsername(),cred.getPassword(), cred.getRole()));
-			System.out.println("Signup successful");  //just for log
 			
 		} catch (IOException e) {
 			
-			
+		throw new IllegalStateException("Error");  //just for now	
 		}
-		
     
 	}
 

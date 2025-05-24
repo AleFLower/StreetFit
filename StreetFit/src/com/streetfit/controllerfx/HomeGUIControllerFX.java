@@ -19,11 +19,10 @@ public class HomeGUIControllerFX {
             // Carica la scena in base al ruolo dell'utente
             switch (cred.getRole()) {
                 case TRAINER:
-                    loader = new FXMLLoader(getClass().getResource("/com/streetFit/viewfx/Trainerdashboard.fxml"));
+                    loader = new FXMLLoader(getClass().getResource("/ViewFxml/Trainerdashboard.fxml"));
                     break;
                 case PARTICIPANT:
-                
-                    loader = new FXMLLoader(getClass().getResource("/com/streetFit/viewfx/ParticipantDashBoard.fxml"));
+                    loader = new FXMLLoader(getClass().getResource("/ViewFxml/ParticipantDashBoard.fxml"));
                     break;
                 default:
                    throw new IllegalArgumentException("Error during authentication");
@@ -50,7 +49,7 @@ public class HomeGUIControllerFX {
             stage.show();
 
         } catch (Exception e) {
-        	
+        	e.printStackTrace();
           throw new IllegalArgumentException("Error by loading FXML");
         }
     }

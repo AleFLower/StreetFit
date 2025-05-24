@@ -150,9 +150,7 @@ public class ParticipantControllerCLI{
 	
 	public void handleMessage() {
 		 List<Message> messages = joinstagecontroller.retrieveMessages();
-    	 List<Message> userMessage = new ArrayList<Message>();
-    	 
-    	 System.out.println(cred.getUsername());
+    	 List<Message> userMessage = new ArrayList<>();
     	 
     	 for(Message m : messages) {
     		 if(m.getFromUser().equals(cred.getUsername())) {
@@ -161,7 +159,6 @@ public class ParticipantControllerCLI{
     		 }
     	 }
     	 boolean areThereMessages=view.printMessages(userMessage);
-    	 if(!areThereMessages) return;
     	 
 	}
 }
