@@ -315,7 +315,7 @@ public class TrainerControllerFX {
 	                    try {
 	                        Thread.sleep(NOTIFICATION_DISPLAY_TIME * 1000); // NOTIFICATION_DISPLAY_TIME è già definito a 3
 	                    } catch (InterruptedException e) {
-	                        e.printStackTrace();
+	                       
 	                    }
 	                }
 	                javafx.application.Platform.runLater(() -> notificationLabel.setVisible(false));
