@@ -47,7 +47,7 @@ public class LoginControllerCLI {
 			
 		} catch (IOException e) {
 			
-			e.printStackTrace();  //per ora
+			
 		}
 		
     
