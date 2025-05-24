@@ -37,7 +37,7 @@ public class ParticipantControllerCLI{
 
    public void start() {
   
-   HomeGUIControllerCLI controller = new HomeGUIControllerCLI();
+	   HomeGUIControllerCLI controller = new HomeGUIControllerCLI();
 	int choice;
 	boolean running = true; // Introduce a flag
 
@@ -52,8 +52,9 @@ public class ParticipantControllerCLI{
             	handleMessage();
             	break;
             case 3:
-                controller.start();
-                break;
+              controller.start();
+              break;
+                
             case 0: // user selects 0 to exit
                
                 running = false; // stop the loop safely

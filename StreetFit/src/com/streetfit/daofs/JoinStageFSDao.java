@@ -94,36 +94,38 @@ public class JoinStageFSDao implements JoinStageDao {
 	@Override
 	public List<Message> retrieveMessage() throws DAOException {
 	    List<Message> messages = new ArrayList<>();
-
+	    
 	    try (BufferedReader br = new BufferedReader(new FileReader(CSVMESS_FILE))) {
 	        String line;
 	        boolean headerSkipped = false;
-
+	        
 	        while ((line = br.readLine()) != null) {
-	            // Salta la prima riga con intestazione solo una volta
-	            if (!headerSkipped) {
-	                headerSkipped = true;
-	            } else {
-	                // Se la riga non è vuota e contiene almeno 2 campi
+	            // Skip the header row only once
+	            if (headerSkipped) {
 	                if (!line.trim().isEmpty()) {
-	                    String[] data = line.split(",", -1); // Usa -1 per preservare campi vuoti come reply
-
+	                    String[] data = line.split(",", -1); // Use -1 to preserve empty fields like reply
 	                    if (data.length >= 2) {
-	                        String fromUser = data[0].trim();
-	                        String content = data[1].trim();
-	                        String reply = data.length > 2 ? data[2].trim() : "";
-
-	                        messages.add(new Message(fromUser, content, reply));
+	                        messages.add(createMessage(data));
 	                    }
 	                }
+	            } else {
+	                headerSkipped = true; // Skip header
 	            }
 	        }
 	    } catch (IOException e) {
 	        throw new DAOException("Error reading message data from file: " + e.getMessage(), e);
 	    }
-
 	    return messages;
 	}
+
+	// Helper function to create a Message from the CSV data
+	private Message createMessage(String[] data) {
+	    String fromUser = data[0].trim();
+	    String content = data[1].trim();
+	    String reply = (data.length > 2) ? data[2].trim() : "";
+	    return new Message(fromUser, content, reply);
+	}
+
 
 
 

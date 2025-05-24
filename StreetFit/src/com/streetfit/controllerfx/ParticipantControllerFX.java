@@ -280,9 +280,6 @@ public class ParticipantControllerFX {
 	    try {
 	        List<Participation> all = joinStagecontroller.showMembers();
 	        
-	                all.stream()
-	                .filter(p -> p.getUsername().equals(cred.getUsername()))
-	                .count();
 
 	        double total = all.stream()
 	                .filter(p -> p.getUsername().equals(cred.getUsername()))
