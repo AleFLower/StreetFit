@@ -314,8 +314,9 @@ public class TrainerControllerFX {
 	                    javafx.application.Platform.runLater(() -> notificationLabel.setText(msg));
 	                    try {
 	                    	Thread.sleep(NOTIFICATION_DISPLAY_TIME * 1000L); // NOTIFICATION_DISPLAY_TIME è già definito a 3
-	                    } catch (Exception e) {
-	                    	throw new IllegalStateException("Error");//just for now
+	                    } catch (InterruptedException e) {
+	                    	Thread.currentThread().interrupt();
+	    	                return;
 	                    }
 	                }
 	                javafx.application.Platform.runLater(() -> notificationLabel.setVisible(false));
@@ -328,8 +329,9 @@ public class TrainerControllerFX {
 	        new Thread(() -> {
 	            try {
 	            	Thread.sleep(NOTIFICATION_DISPLAY_TIME * 1000L);
-	            } catch (Exception e) {
-	            	throw new IllegalStateException("Error");//just for now
+	            } catch (InterruptedException e) {
+	            	Thread.currentThread().interrupt();
+	                return;
 	            }
 	            javafx.application.Platform.runLater(() -> notificationLabel.setVisible(false));
 	        }).start();
@@ -553,4 +555,3 @@ public class TrainerControllerFX {
 	        javafx.application.Platform.exit();
 	    }
 	}
-
