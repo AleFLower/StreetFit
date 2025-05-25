@@ -9,7 +9,6 @@ public class NotificationQueue {
     private static NotificationQueue instance;
     private final Queue<TrainerNotification> queue = new LinkedList<>();
 
-    private NotificationQueue() {}
 
     public static synchronized NotificationQueue getInstance() {
         if (instance == null) {
