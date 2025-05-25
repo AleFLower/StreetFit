@@ -1,6 +1,7 @@
 package com.streetfit.main;
 
-import com.streetfit.controllercli.StartControllerCLI;
+import com.streetfit.controllercli.HomeGUIControllerCLI;
+
 
 public class MainCLI {
 	private MainCLI() {
@@ -9,7 +10,7 @@ public class MainCLI {
 
 	public static void run() {
 		
-		StartControllerCLI.start();
+	HomeGUIControllerCLI.start();
 		
 	}
 

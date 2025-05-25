@@ -25,7 +25,7 @@ public class TrainerControllerCLI {
     public void start() {
     	
     	 int choice;
-    	 
+    	 HomeGUIControllerCLI controller = new HomeGUIControllerCLI();
     	 trainerLogin();
     	 
    while(true) { 
@@ -45,8 +45,7 @@ public class TrainerControllerCLI {
 	    	   handleMessages();
 	    	   break;
 	       case 5:
-	    	   StartControllerCLI.start();
-	    	   break;
+	    	   return;
 	    	   
 	       default:
 		        throw new IllegalArgumentException("Not a valid argument");
