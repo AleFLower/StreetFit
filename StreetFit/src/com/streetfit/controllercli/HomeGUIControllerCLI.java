@@ -10,7 +10,7 @@ public class HomeGUIControllerCLI {
 	            Credentials cred = loginAndGetCredentials();
 	            
 	            if (cred.getRole() == null) {
-	                System.out.println("Login failed. Please try again.");
+	               
 	                continue; // Restart login
 	            }
 
