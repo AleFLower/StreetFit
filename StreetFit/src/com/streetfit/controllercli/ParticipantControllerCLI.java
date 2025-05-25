@@ -37,7 +37,7 @@ public class ParticipantControllerCLI{
 
    public void start() {
   
-	   HomeGUIControllerCLI controller = new HomeGUIControllerCLI();
+	  
 	int choice;
 	boolean running = true; // Introduce a flag
 

@@ -25,7 +25,7 @@ public class TrainerControllerCLI {
     public void start() {
     	
     	 int choice;
-    	 HomeGUIControllerCLI controller = new HomeGUIControllerCLI();
+    	
     	 trainerLogin();
     	 
    while(true) { 
