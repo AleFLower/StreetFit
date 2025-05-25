@@ -153,113 +153,112 @@ public class ParticipantControllerFX {
 	 
 	
 
-	public void initialize() {
-		 
-		 
-		stageTitleColumn.setCellValueFactory(new PropertyValueFactory<>("stage"));
-		ticketColumn.setCellValueFactory(new PropertyValueFactory<>("ticket"));
-		totalColumn.setCellValueFactory(new PropertyValueFactory<>("total"));
+	    public void initialize() {
+	        setupStageTableColumns();
+	        setupDashboardBindings();
+	        setupSpinner();
+	        setupRowSelection();
+	        printTable();
+	    }
 
-		 
-	  nameColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
-   	  placeColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
-   	  itineraryColumn.setCellValueFactory(new PropertyValueFactory<>("itinerary"));
-   	  categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
-   	  dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
-   	  ticketsLeftsColumn.setCellValueFactory(cellData -> {
-   	  TrainingStage stage = cellData.getValue();
-   	    
-   	    
-   	    int remaining = stage.getMaxParticipants();  // valore di partenza
-   	    int stages = 0;
+	    private void setupStageTableColumns() {
+	        stageTitleColumn.setCellValueFactory(new PropertyValueFactory<>("stage"));
+	        ticketColumn.setCellValueFactory(new PropertyValueFactory<>("ticket"));
+	        totalColumn.setCellValueFactory(new PropertyValueFactory<>("total"));
+	        
+	        nameColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+	        placeColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
+	        itineraryColumn.setCellValueFactory(new PropertyValueFactory<>("itinerary"));
+	        categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
+	        dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+	    }
 
-   	    try {
-   	        List<Participation> all = joinStagecontroller.showMembers();
-   	        int booked = all.stream()
-   	                        .filter(p -> p.getStage().equals(stage.getTitle()))
-   	                        .mapToInt(Participation::getTicket)
-   	                        .sum();
-   	        remaining -= booked;
-   	        
-   	        for(Participation member:all) {
-   	        	if(member.getUsername().equals(cred.getUsername())) {
-   	        		stages+=1;
-   	        	}
-   	        }
-   	        
-   	        dashboardNS.setText(String.valueOf(stages));
-   	        
-   	     List<Participation> members = joinStagecontroller.showMembers();
- 		double total = 0;
- 		int tickets = 0;
- 		
- 		for(Participation member:members) {
- 			if(member.getUsername().equals(cred.getUsername())) {
- 				total+=member.getTotal();
- 				tickets+= member.getTicket();
- 			}
- 		}
- 		
- 	   dashboardOUT.setText("€"+ total);
- 	   dashboardNT.setText(String.valueOf(tickets));
-   	        
-   	        
-   	    } catch (Exception e) {
-   	       throw new IllegalStateException("Error");//just for now
-   	    }
+	    private void setupDashboardBindings() {
+	        ticketsLeftsColumn.setCellValueFactory(cellData -> {
+	            TrainingStage stage = cellData.getValue();
 
-   	    return new javafx.beans.property.SimpleIntegerProperty(remaining).asObject();
-   	});
-   	  
-   	printTable();
-   	
-    // Imposta un intervallo per il Spinner (da 1 a 10, con passo di 1)
-    SpinnerValueFactory.IntegerSpinnerValueFactory valueFactory =
-        new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 1);
-    
-    // Imposta il valueFactory al Spinner
-    ticketQuantitySpinner.setValueFactory(valueFactory);
+	            int remaining = stage.getMaxParticipants();
+	            int stages = 0;
 
-   	//per selezionare una riga e mostrarla negli altri campi per fare select
-   	stageTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-   	    if (newSelection != null) {
-   	        stageTitle.setText(newSelection.getTitle());
-   	        stagePlace.setText(newSelection.getLocation());
-   	        stageItinerary.setText(newSelection.getItinerary());
-   	        stageCategory.setValue(newSelection.getCategory());
-   	     if (newSelection.getDate() != null) {
-   	           
-   	    	 java.util.Date utilDate = newSelection.getDate();
-             java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime()); // Conversione manuale
+	            try {
+	                List<Participation> all = joinStagecontroller.showMembers();
+	                int booked = all.stream()
+	                                .filter(p -> p.getStage().equals(stage.getTitle()))
+	                                .mapToInt(Participation::getTicket)
+	                                .sum();
+	                remaining -= booked;
 
-             // Convertiamo sqlDate in LocalDate
-             LocalDate localDate = sqlDate.toLocalDate();
+	                for (Participation member : all) {
+	                    if (member.getUsername().equals(cred.getUsername())) {
+	                        stages += 1;
+	                    }
+	                }
 
-             // Impostiamo la data nel DatePicker
-             stageDate.setValue(localDate);
-   	    } else {
-   	        stageDate.setValue(null);
-   	    }
-   	  JoinStageController joinController = new JoinStageController();
+	                dashboardNS.setText(String.valueOf(stages));
 
-   	try {
-   	    List<Participation> all = joinController.showMembers();
-   	    int booked = all.stream()
-   	                    .filter(p -> p.getStage().equals(newSelection.getTitle()))
-   	                    .mapToInt(Participation::getTicket)
-   	                    .sum();
+	                List<Participation> members = joinStagecontroller.showMembers();
+	                double total = 0;
+	                int tickets = 0;
 
-   	    int available = newSelection.getMaxParticipants() - booked;
-   	    ticketsLeft.setText(String.valueOf(available));
-   	} catch (Exception e) {
-   	   
-   	    ticketsLeft.setText("N/A");
-   	}
-   	    }
-   	});
-   	
-   	  
-	 }
+	                for (Participation member : members) {
+	                    if (member.getUsername().equals(cred.getUsername())) {
+	                        total += member.getTotal();
+	                        tickets += member.getTicket();
+	                    }
+	                }
+
+	                dashboardOUT.setText("€" + total);
+	                dashboardNT.setText(String.valueOf(tickets));
+
+	            } catch (Exception e) {
+	                throw new IllegalStateException("Error");//just for now
+	            }
+
+	            return new javafx.beans.property.SimpleIntegerProperty(remaining).asObject();
+	        });
+	    }
+
+	    private void setupSpinner() {
+	        SpinnerValueFactory.IntegerSpinnerValueFactory valueFactory =
+	            new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 1);
+	        ticketQuantitySpinner.setValueFactory(valueFactory);
+	    }
+
+	    private void setupRowSelection() {
+	        stageTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+	            if (newSelection != null) {
+	                stageTitle.setText(newSelection.getTitle());
+	                stagePlace.setText(newSelection.getLocation());
+	                stageItinerary.setText(newSelection.getItinerary());
+	                stageCategory.setValue(newSelection.getCategory());
+
+	                if (newSelection.getDate() != null) {
+	                    java.util.Date utilDate = newSelection.getDate();
+	                    java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+	                    LocalDate localDate = sqlDate.toLocalDate();
+	                    stageDate.setValue(localDate);
+	                } else {
+	                    stageDate.setValue(null);
+	                }
+
+	                JoinStageController joinController = new JoinStageController();
+
+	                try {
+	                    List<Participation> all = joinController.showMembers();
+	                    int booked = all.stream()
+	                                    .filter(p -> p.getStage().equals(newSelection.getTitle()))
+	                                    .mapToInt(Participation::getTicket)
+	                                    .sum();
+
+	                    int available = newSelection.getMaxParticipants() - booked;
+	                    ticketsLeft.setText(String.valueOf(available));
+	                } catch (Exception e) {
+	                    ticketsLeft.setText("N/A");
+	                }
+	            }
+	        });
+	    }
+
 	
 	private void loadUserParticipations() {
 	    try {

@@ -555,3 +555,4 @@ public class TrainerControllerFX {
 	        javafx.application.Platform.exit();
 	    }
 	}
+

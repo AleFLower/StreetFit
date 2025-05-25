@@ -37,7 +37,7 @@ public class ParticipantControllerCLI{
 
    public void start() {
   
-	   HomeGUIControllerCLI controller = new HomeGUIControllerCLI();
+	  
 	int choice;
 	boolean running = true; // Introduce a flag
 
@@ -52,7 +52,7 @@ public class ParticipantControllerCLI{
             	handleMessage();
             	break;
             case 3:
-              controller.start();
+              StartControllerCLI.start();
               break;
                 
             case 0: // user selects 0 to exit

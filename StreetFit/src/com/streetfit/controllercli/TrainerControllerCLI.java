@@ -25,7 +25,7 @@ public class TrainerControllerCLI {
     public void start() {
     	
     	 int choice;
-    	 HomeGUIControllerCLI controller = new HomeGUIControllerCLI();
+    	 
     	 trainerLogin();
     	 
    while(true) { 
@@ -45,7 +45,7 @@ public class TrainerControllerCLI {
 	    	   handleMessages();
 	    	   break;
 	       case 5:
-	    	   controller.start();
+	    	   StartControllerCLI.start();
 	    	   break;
 	    	   
 	       default:
