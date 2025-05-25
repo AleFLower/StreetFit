@@ -3,7 +3,7 @@ package com.streetfit.controllercli;
 import com.streetfit.model.Credentials;
 
 public class HomeGUIControllerCLI {
-
+private HomeGUIControllerCLI() {}
 	
 	  public static void start() {
 	        while (true) {
