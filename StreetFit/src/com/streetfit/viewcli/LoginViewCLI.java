@@ -39,10 +39,9 @@ public class LoginViewCLI {
             logger.info("password: ");
             String password = reader.readLine();
 
-            // suppongo che nel mio sistema ci siano un trainer e piu partecipanti per ora
             return new CredentialsBean(username, password, Role.PARTICIPANT);
         } catch (IllegalArgumentException e) {
-            logger.info("Error: " + e.getMessage());
+            logger.info("Error: {}", e.getMessage());
             logger.info("Please try again.\n");
         }
 
@@ -62,9 +61,10 @@ public class LoginViewCLI {
 
                 return new CredentialsBean(username, password, null);
             } catch (IllegalArgumentException e) {
-                logger.info("Error: " + e.getMessage());
+                logger.info("Error: {}", e.getMessage());
                 logger.info("Please try again.\n");
             }
         }
     }
 }
+
