@@ -1,4 +1,4 @@
-package test.java.com.streetfit.test;
+package test.java.com.streetfit;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
