@@ -54,6 +54,7 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+        
 
         <!-- Mockito Dependencies for Mocking -->
         <dependency>
@@ -87,6 +88,26 @@
             <artifactId>fontawesomefx</artifactId>
             <version>8.9</version>
         </dependency>
+        <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-api</artifactId>
+        <version>5.7.2</version> <!-- Directly use the version here -->
+        <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-engine</artifactId>
+        <version>5.7.2</version> <!-- Ensure version consistency -->
+        <scope>test</scope>
+    </dependency>
+
+    <!-- JUnit Platform Launcher for running tests with Maven -->
+    <dependency>
+        <groupId>org.junit.platform</groupId>
+        <artifactId>junit-platform-launcher</artifactId>
+        <version>1.7.2</version>
+        <scope>test</scope>
+    </dependency>
 
         <!-- AssertJ for Advanced Assertions (Optional) -->
         <dependency>
