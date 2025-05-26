@@ -52,10 +52,13 @@ public class ParticipantControllerCLI{
             	handleMessage();
             	break;
             case 3:
-             return;
+            	  searchStage();
+                  break;
             case 4:
-                searchStage();
-                break;
+              printStages();
+              break;
+            case 5:
+            	return;
                 
             case 0: // user selects 0 to exit
                
@@ -68,8 +71,19 @@ public class ParticipantControllerCLI{
     }
 	
 	} 
-	
-   public void joinStage() {
+   public void printStages() {
+	    // Ottieni le stage a cui l'utente è unito
+	    List<TrainingStage> userStages = joinstagecontroller.getStagesForUser(cred.getUsername());
+
+	    if (userStages.isEmpty()) {
+	        view.printMessage("You are not joined to any stage.");
+	    } else {
+	        view.printStages(userStages);
+	    }
+	}
+
+
+public void joinStage() {
 	    AddStageController controller = new AddStageController();
 	    List<TrainingStage> stages = controller.getAllStages();
 	    int choice = view.printAllStages(stages, joinstagecontroller.getSubscribers(stages));

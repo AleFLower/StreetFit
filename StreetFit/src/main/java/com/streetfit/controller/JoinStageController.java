@@ -145,4 +145,34 @@ public class JoinStageController {
 	        throw new IllegalStateException("Failed to remove participation", e);
 	    }
 	}
+	
+	public List<TrainingStage> getStagesForUser(String username) {
+	    List<Participation> members = showMembers();
+	    List<TrainingStage> userStages = new ArrayList<>();
+
+	    for (Participation participation : members) {
+	        if (participation.getUsername().equals(username)) {
+	            // Trova il TrainingStage corrispondente alla partecipazione
+	            TrainingStage stage = findStageByTitle(participation.getStage());
+	            if (stage != null) {
+	                userStages.add(stage);
+	            }
+	        }
+	    }
+	    return userStages;
+	}
+
+	// Metodo che restituisce la stage in base al titolo, qui presupponiamo che la stage abbia un metodo getTitle
+	private TrainingStage findStageByTitle(String title) {
+	   AddStageController controller = new AddStageController();
+	   
+	    List<TrainingStage> allStages = controller.getAllStages();
+	    for (TrainingStage stage : allStages) {
+	        if (stage.getTitle().equals(title)) {
+	            return stage;
+	        }
+	    }
+	    return null; // Se non trova una stage corrispondente
+	}
+
 }

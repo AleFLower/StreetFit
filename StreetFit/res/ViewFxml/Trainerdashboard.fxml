@@ -24,7 +24,7 @@
 <?import javafx.scene.layout.HBox?>
 
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.streetfit.controllerfx.TrainerControllerFX">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.com.streetfit.controllerfx.TrainerControllerFX">
    <children>
       <AnchorPane fx:id="mainForm" prefHeight="200.0" prefWidth="200.0">
          <children>
@@ -401,7 +401,7 @@
                                     <String fx:value="shadow" />
                                  </styleClass>
                                  <children>
-                                    <TableView fx:id="membersTableView" layoutX="12.0" layoutY="40.0" prefHeight="450.0" prefWidth="550.0">
+                                    <TableView fx:id="membersTableView" layoutX="12.0" layoutY="25.0" prefHeight="450.0" prefWidth="550.0">
                                       <columns>
                                         <TableColumn fx:id="membersUsername" prefWidth="135.0" text="Username" />
                                         <TableColumn fx:id="membersStage" prefWidth="235.0" text="Stage" />
@@ -409,7 +409,7 @@
                                       </columns>
                                     </TableView>
                                     
-                                    <Button fx:id="removeMemberBtn" layoutX="13.0" layoutY="535" onAction="#removeSelectedMember" text="Remove Member" />
+                                    <Button fx:id="removeMemberBtn" layoutX="13.0" layoutY="490" onAction="#removeSelectedMember" text="Remove Member" styleClass="btn" stylesheets="@dashboardDesign.css"/>
                                     
                                     
             <ImageView layoutX="600" layoutY="20" fitHeight="500.0" fitWidth="950.0" pickOnBounds="true" preserveRatio="true">

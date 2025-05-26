@@ -19,8 +19,9 @@ public class DashboardParticipantCLI {
         CLIHelper.print("-----Welcome to StreetFit----");
         CLIHelper.print("1. Join a stage");
         CLIHelper.print("2. Your Q&A");
-        CLIHelper.print("3. Logout");
-        CLIHelper.print("4. Search stage by keyword");
+        CLIHelper.print("3.Search stage by keyword");
+        CLIHelper.print("4.Stages you joined ");
+        CLIHelper.print("5.Logout ");
         CLIHelper.print("Please, enter your choice: ");
 
         choice = sc.nextInt();
@@ -37,8 +38,21 @@ public class DashboardParticipantCLI {
         int choice;
         int i = 1;
 
+        // Controlla se la lista stages è vuota
+        if (stages.isEmpty()) {
+            CLIHelper.print("No stages available.");
+            return -1;
+        }
+
+        // Assicurati che list abbia la stessa dimensione di stages
+        if (list.size() != stages.size()) {
+            CLIHelper.print("Error: The list of availability is not aligned with the stages list.");
+            return -1;
+        }
+
         CLIHelper.print("\n=========== Available Stages ===========\n");
 
+        // Itera su tutte le stage
         for (TrainingStage stage : stages) {
             if (list.get(i - 1) == 0) {  // Skip stages not available
                 i++;
@@ -62,6 +76,28 @@ public class DashboardParticipantCLI {
 
         return choice;
     }
+    
+    public void printStages(List<TrainingStage> stages) {
+        if (stages.isEmpty()) {
+            CLIHelper.print("You have not joined any stage.");
+        } else {
+            CLIHelper.print("\n=========== Your Joined Stages ===========\n");
+
+            int i = 1;
+            for (TrainingStage stage : stages) {
+                CLIHelper.print("Stage " + i + ":");
+                CLIHelper.print(" Title: " + stage.getTitle());
+                CLIHelper.print(" Itinerary: " + stage.getItinerary());
+                CLIHelper.print(" Category: " + stage.getCategory());
+                CLIHelper.print(" Date: " + stage.getDate());
+                CLIHelper.print(" Location: " + stage.getLocation());
+                CLIHelper.print(" Max Participants: " + stage.getMaxParticipants());
+                CLIHelper.print("----------------------------------------------\n");
+                i++;
+            }
+        }
+    }
+
 
     public HealthFormBean fillHealthForm() {
         CLIHelper.print("\n--- Fill in your Health Form ---");
