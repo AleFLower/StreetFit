@@ -1,21 +1,51 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <dependencies>
-    <!-- Dipendenza JavaFX per FXML -->
-    <dependency>
-        <groupId>org.openjfx</groupId>
-        <artifactId>javafx-controls</artifactId>
-        <version>21</version>
-    </dependency>
-     <!-- SLF4J API -->
-    <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-api</artifactId>
-        <version>1.8.0-beta4</version> <!-- Or the version that you're using -->
-    </dependency>
-     <dependency>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.streetFit</groupId>
+    <artifactId>StreetFit</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>StreetFit</name>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <sonar.organization>aleflower</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <junit.version>5.7.2</junit.version> <!-- Define JUnit version here -->
+    </properties>
+
+    <dependencies>
+        <!-- JavaFX Dependencies -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>21</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>21</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <version>21</version>
+        </dependency>
+
+        <!-- SLF4J for Logging -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.8.0-beta4</version> <!-- Or the version you're using -->
+        </dependency>
+
+        <!-- JUnit 5 Dependencies -->
+        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>${junit.version}</version>
+            <version>${junit.version}</version> <!-- Use the JUnit version defined in properties -->
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -24,66 +54,54 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
-          <!-- Dipendenza per Mockito -->
-    <dependency>
-        <groupId>org.mockito</groupId>
-        <artifactId>mockito-core</artifactId>
-        <version>3.9.0</version>
-        <scope>test</scope>
-    </dependency>
+        
 
-    <!-- Dipendenza per la compatibilità tra JUnit e Mockito -->
-    <dependency>
-        <groupId>org.mockito</groupId>
-        <artifactId>mockito-junit-jupiter</artifactId>
-        <version>3.9.0</version>
-        <scope>test</scope>
-    </dependency>
+        <!-- Mockito Dependencies for Mocking -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>3.9.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>3.9.0</version>
+            <scope>test</scope>
+        </dependency>
 
-    <!-- Logback Classic Binding -->
-    <dependency>
-        <groupId>ch.qos.logback</groupId>
-        <artifactId>logback-classic</artifactId>
-        <version>1.2.11</version> <!-- Or the latest version -->
-    </dependency>
+        <!-- Logback for Logging (Required by SLF4J) -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.11</version> <!-- Or the latest version -->
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>1.2.11</version> <!-- Or the latest version -->
+        </dependency>
 
-    <!-- Logback Core (required by logback-classic) -->
-    <dependency>
-        <groupId>ch.qos.logback</groupId>
-        <artifactId>logback-core</artifactId>
-        <version>1.2.11</version> <!-- Or the latest version -->
-    </dependency>
-    
-    <dependency>
-    <groupId>de.jensd</groupId>
-    <artifactId>fontawesomefx</artifactId>
-    <version>8.9</version> <!-- Usa la versione che desideri -->
-</dependency>
-    <dependency>
-        <groupId>org.openjfx</groupId>
-        <artifactId>javafx-fxml</artifactId>
-        <version>21</version>
-    </dependency>
-    <dependency>
-        <groupId>org.openjfx</groupId>
-        <artifactId>javafx-graphics</artifactId>
-        <version>21</version>
-    </dependency>
-    <!-- Dipendenza per JUnit 5 -->
-    <dependency>
+        <!-- FontAwesomeFX for Icon Fonts in JavaFX -->
+        <dependency>
+            <groupId>de.jensd</groupId>
+            <artifactId>fontawesomefx</artifactId>
+            <version>8.9</version>
+        </dependency>
+        <dependency>
         <groupId>org.junit.jupiter</groupId>
         <artifactId>junit-jupiter-api</artifactId>
-        <version>5.7.2</version> <!-- Puoi usare l'ultima versione disponibile -->
+        <version>5.7.2</version> <!-- Directly use the version here -->
         <scope>test</scope>
     </dependency>
     <dependency>
         <groupId>org.junit.jupiter</groupId>
         <artifactId>junit-jupiter-engine</artifactId>
-        <version>5.7.2</version> <!-- Assicurati che la versione corrisponda a quella sopra -->
+        <version>5.7.2</version> <!-- Ensure version consistency -->
         <scope>test</scope>
     </dependency>
 
-    <!-- Dipendenza per l'esecuzione dei test con Maven -->
+    <!-- JUnit Platform Launcher for running tests with Maven -->
     <dependency>
         <groupId>org.junit.platform</groupId>
         <artifactId>junit-platform-launcher</artifactId>
@@ -91,75 +109,59 @@
         <scope>test</scope>
     </dependency>
 
-    <!-- Dipendenza per il Mocking (Mockito) -->
-    <dependency>
-        <groupId>org.mockito</groupId>
-        <artifactId>mockito-core</artifactId>
-        <version>3.9.0</version> <!-- Puoi usare l'ultima versione disponibile -->
-        <scope>test</scope>
-    </dependency>
+        <!-- AssertJ for Advanced Assertions (Optional) -->
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>3.19.0</version>
+            <scope>test</scope>
+        </dependency>
 
-    <!-- Dipendenza per la gestione dei log (se desideri usarla) -->
-    <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-api</artifactId>
-        <version>1.7.32</version>
-        <scope>test</scope>
-    </dependency>
+        <!-- JUnit Platform Launcher (Required for running JUnit tests with Maven) -->
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-launcher</artifactId>
+            <version>1.7.2</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
-    <!-- Dipendenza per le asserzioni avanzate (Opzionale, utile per asserzioni complesse) -->
-    <dependency>
-        <groupId>org.assertj</groupId>
-        <artifactId>assertj-core</artifactId>
-        <version>3.19.0</version>
-        <scope>test</scope>
-    </dependency>
-</dependencies>
+    <build>
+        <sourceDirectory>src</sourceDirectory>
+        <resources>
+            <resource>
+                <directory>src</directory>
+                <excludes>
+                    <exclude>**/*.java</exclude>
+                </excludes>
+            </resource>
+        </resources>
 
-
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-       <sonar.organization>aleflower</sonar.organization>
-    <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-</properties>
-
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.streetFit</groupId>
-  <artifactId>StreetFit</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>StreetFit</name>
-  <build>
-  
-    <sourceDirectory>src</sourceDirectory>
-    <resources>
-      <resource>
-        <directory>src</directory>
-        <excludes>
-          <exclude>**/*.java</exclude>
-        </excludes>
-      </resource>
-    </resources>
-    <plugins>
-      <plugin>
+       <plugins>
+    <!-- Maven Compiler Plugin -->
+    <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.13.0</version>
+        <version>3.8.1</version> <!-- Updated to a more recent version -->
         <configuration>
-          <release>15</release>
+            <release>15</release> <!-- Ensure your Java version matches here -->
         </configuration>
-      </plugin>
-       <!-- Plugin per eseguire i test con Maven -->
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <version>3.0.0-M5</version>
-            <executions>
-                <execution>
-                    <goals>
-                        <goal>test</goal>
-                    </goals>
-                </execution>
-            </executions>
-        </plugin>
-    </plugins>
-  </build>
+    </plugin>
+
+    <!-- Maven Surefire Plugin for Running Tests -->
+    <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.0.0-M5</version> <!-- Use a more recent version for JUnit 5 compatibility -->
+        <executions>
+            <execution>
+                <goals>
+                    <goal>test</goal>
+                </goals>
+            </execution>
+        </executions>
+    </plugin>
+</plugins>
+
+    </build>
+
 </project>
