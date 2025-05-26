@@ -35,41 +35,76 @@ public class DashboardTrainerCLI {
     }
 
     public StageBean addstage() throws IOException {
-        try {BufferedReader reader = new BufferedReader(new InputStreamReader(System.in)) ;
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        String title = "", itinerary = "", category = "", place = "";
+        Date date = null;
+        int maxParticipants = -1;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+        // Title
+        while (true) {
             CLIHelper.print("Enter the title of the stage: ");
-            String title = reader.readLine();
+            title = reader.readLine();
+            if (title != null && !title.trim().isEmpty()) break;
+            CLIHelper.printError("Title cannot be empty. Please try again.");
+        }
 
+        // Itinerary
+        while (true) {
             CLIHelper.print("Enter the workout itinerary: ");
-            String itinerary = reader.readLine();
+            itinerary = reader.readLine();
+            if (itinerary != null && !itinerary.trim().isEmpty()) break;
+            CLIHelper.printError("Itinerary cannot be empty. Please try again.");
+        }
 
+        // Category
+        while (true) {
             CLIHelper.print("Enter the category of the stage (Functional, Yoga, Dance, Stretching): ");
-            String category = reader.readLine();
+            category = reader.readLine().trim();
+            if (category.matches("(?i)Functional|Yoga|Dance|Stretching")) break;
+            CLIHelper.printError("Invalid category. Allowed: Functional, Yoga, Dance, Stretching.");
+        }
 
+        // Date
+        while (true) {
             CLIHelper.print("Enter the date of the stage (format: yyyy-MM-dd): ");
             String dateString = reader.readLine();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            Date date = null;
             try {
                 date = sdf.parse(dateString);
+                break;
             } catch (Exception e) {
-                CLIHelper.printError("Invalid date format. Please enter the date in yyyy-MM-dd format.");
-                return null;
+                CLIHelper.printError("Invalid date format. Try again (yyyy-MM-dd).");
             }
+        }
 
+        // Place
+        while (true) {
             CLIHelper.print("Enter the place of the stage: ");
-            String place = reader.readLine();
+            place = reader.readLine();
+            if (place != null && !place.trim().isEmpty()) break;
+            CLIHelper.printError("Place cannot be empty.");
+        }
 
+        // Participants
+        while (true) {
             CLIHelper.print("Enter the maximum number of participants: ");
-            int maxParticipants = Integer.parseInt(reader.readLine());
-
-            StageBean stagebean = new StageBean(title, itinerary, category, date, place, maxParticipants);
-            if (stagebean.isValid()) {
-                return stagebean;
+            try {
+                maxParticipants = Integer.parseInt(reader.readLine());
+                if (maxParticipants > 0) break;
+                else CLIHelper.printError("Number must be positive.");
+            } catch (NumberFormatException e) {
+                CLIHelper.printError("Invalid number. Please enter a valid integer.");
             }
-        }catch(IOException e) {}
-        
+        }
+
+        StageBean stagebean = new StageBean(title, itinerary, category, date, place, maxParticipants);
+        if (stagebean.isValid()) {
+            return stagebean;
+        }
+
         return null;
     }
+
 
     public void displayNotification(String message) {
         CLIHelper.displayNotification(message);

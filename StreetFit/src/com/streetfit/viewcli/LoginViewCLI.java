@@ -32,29 +32,91 @@ public class LoginViewCLI {
     }
 
     public static CredentialsBean signup() throws IOException {
-        try {
-            CLIHelper.print("username: ");
-            String username = reader.readLine();
+        String username = "";
+        String password = "";
 
-            CLIHelper.print("password: ");
-            String password = reader.readLine();
+        // Username validation loop
+        while (true) {
+            CLIHelper.print("Username: ");
+            username = reader.readLine().trim();
 
-            return new CredentialsBean(username, password, Role.PARTICIPANT);
-        } catch (IllegalArgumentException e) {
-            CLIHelper.printError("Error: " + e.getMessage());
-            CLIHelper.print("Please try again.\n");
-            return null;
+            // Check if username is empty or too short
+            if (username.isEmpty()) {
+                CLIHelper.printError("Username cannot be empty.");
+                continue;
+            }
+            if (username.length() < 4) {
+                CLIHelper.printError("Username too short (minimum 4 characters).");
+                continue;
+            }
+            // Check if username contains only valid characters (letters, numbers, .-_)
+            if (!username.matches("^[a-zA-Z0-9._-]+$")) {
+                CLIHelper.printError("Username can only contain letters, digits, '.', '_', or '-'.");
+                continue;
+            }
+            break;
         }
+
+        // Password validation loop
+        while (true) {
+            CLIHelper.print("Password: ");
+            password = reader.readLine().trim();
+
+            // Check if password is empty or too short
+            if (password.isEmpty()) {
+                CLIHelper.printError("Password cannot be empty.");
+                continue;
+            }
+            if (password.length() < 6) {
+                CLIHelper.printError("Password too short (minimum 6 characters).");
+                continue;
+            }
+            // Check if password contains at least one digit
+            if (!password.matches(".*\\d.*")) {
+                CLIHelper.printError("Password must contain at least one digit.");
+                continue;
+            }
+            // Check if password contains both upper and lowercase letters
+            if (!password.matches(".*[a-z].*") || !password.matches(".*[A-Z].*")) {
+                CLIHelper.printError("Password must contain both uppercase and lowercase letters.");
+                continue;
+            }
+            break;
+        }
+
+        // Return a new CredentialsBean with the validated username and password
+        return new CredentialsBean(username, password, Role.PARTICIPANT);
     }
 
     public static CredentialsBean authenticate() throws IOException {
-        CLIHelper.print("username: ");
-        String username = reader.readLine();
+        String username = "";
+        String password = "";
 
-        CLIHelper.print("password: ");
-        String password = reader.readLine();
+        // Username validation loop
+        while (true) {
+            CLIHelper.print("Username: ");
+            username = reader.readLine().trim();
 
+            if (username.isEmpty()) {
+                CLIHelper.printError("Username cannot be empty.");
+                continue;
+            }
+            break;
+        }
+
+        // Password validation loop
+        while (true) {
+            CLIHelper.print("Password: ");
+            password = reader.readLine().trim();
+
+            if (password.isEmpty()) {
+                CLIHelper.printError("Password cannot be empty.");
+                continue;
+            }
+            break;
+        }
+
+        // Return a new CredentialsBean with the provided username and password
         return new CredentialsBean(username, password, null);
     }
 }
-

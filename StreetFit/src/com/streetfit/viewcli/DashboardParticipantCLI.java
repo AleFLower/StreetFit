@@ -88,18 +88,35 @@ public class DashboardParticipantCLI {
     }
 
     public TicketBean selectTicket() {
-        CLIHelper.print("Choose your ticket type:");
-        CLIHelper.print("base - Basic Ticket (10€)");
-        CLIHelper.print("special - Includes T-shirt and bag (20€)");
-        CLIHelper.print("vip - Includes T-shirt, bag, headphones, and shoes (35€)");
-        CLIHelper.print("Ticket type: ");
-        String type = sc.nextLine();
+        String type;
+        int qty;
 
-        CLIHelper.print("How many tickets? ");
-        int qty = Integer.parseInt(sc.nextLine());
+        while (true) {
+            CLIHelper.print("Choose your ticket type:");
+            CLIHelper.print("base - Basic Ticket (10€)");
+            CLIHelper.print("special - Includes T-shirt and bag (20€)");
+            CLIHelper.print("vip - Includes T-shirt, bag, headphones, and shoes (35€)");
+            CLIHelper.print("Ticket type: ");
+            type = sc.nextLine().trim().toLowerCase();
+
+            if (type.matches("base|special|vip")) break;
+            CLIHelper.printError("Invalid ticket type. Please enter base, special, or vip.");
+        }
+
+        while (true) {
+            CLIHelper.print("How many tickets? ");
+            try {
+                qty = Integer.parseInt(sc.nextLine());
+                if (qty > 0) break;
+                else CLIHelper.printError("Quantity must be a positive number.");
+            } catch (NumberFormatException e) {
+                CLIHelper.printError("Invalid input. Please enter a number.");
+            }
+        }
 
         return new TicketBean(type, qty);
     }
+
 
     public boolean printMessages(List<Message> messages) {
         if (messages == null || messages.isEmpty()) {
