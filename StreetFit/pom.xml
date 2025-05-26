@@ -48,58 +48,7 @@
             <version>${junit.version}</version> <!-- Use the JUnit version defined in properties -->
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
-        
 
-        <!-- Mockito Dependencies for Mocking -->
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>3.9.0</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-junit-jupiter</artifactId>
-            <version>3.9.0</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- Logback for Logging (Required by SLF4J) -->
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>1.2.11</version> <!-- Or the latest version -->
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-core</artifactId>
-            <version>1.2.11</version> <!-- Or the latest version -->
-        </dependency>
-
-        <!-- FontAwesomeFX for Icon Fonts in JavaFX -->
-        <dependency>
-            <groupId>de.jensd</groupId>
-            <artifactId>fontawesomefx</artifactId>
-            <version>8.9</version>
-        </dependency>
-        <dependency>
-        <groupId>org.junit.jupiter</groupId>
-        <artifactId>junit-jupiter-api</artifactId>
-        <version>5.7.2</version> <!-- Directly use the version here -->
-        <scope>test</scope>
-    </dependency>
-    <dependency>
-        <groupId>org.junit.jupiter</groupId>
-        <artifactId>junit-jupiter-engine</artifactId>
-        <version>5.7.2</version> <!-- Ensure version consistency -->
-        <scope>test</scope>
-    </dependency>
 
     <!-- JUnit Platform Launcher for running tests with Maven -->
     <dependency>
@@ -117,13 +66,6 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- JUnit Platform Launcher (Required for running JUnit tests with Maven) -->
-        <dependency>
-            <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-launcher</artifactId>
-            <version>1.7.2</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
     <build>
