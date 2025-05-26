@@ -138,5 +138,11 @@ public class JoinStageController {
 		
 		return total;
 	}
-	
+	public void removeParticipation(String username, String stage) {
+	    try {
+	        dao.removeParticipation(username, stage);
+	    } catch (DAOException e) {
+	        throw new IllegalStateException("Failed to remove participation", e);
+	    }
+	}
 }

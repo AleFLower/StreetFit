@@ -474,6 +474,35 @@ public class TrainerControllerFX {
 	    	  membersTableView.setItems(observableMemberList);
 	    }
 	    
+	    @FXML
+	    private void removeSelectedMember() {
+	        Participation selected = membersTableView.getSelectionModel().getSelectedItem();
+
+	        if (selected == null) {
+	            showAlert("Warning", "Please select a member to remove.", Alert.AlertType.WARNING);
+	            return;
+	        }
+
+	        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+	        confirm.setTitle("Confirm Removal");
+	        confirm.setHeaderText(null);
+	        confirm.setContentText("Are you sure you want to remove member " + selected.getUsername() + " from stage " + selected.getStage() + "?");
+
+	        Optional<ButtonType> result = confirm.showAndWait();
+	        if (result.isPresent() && result.get() == ButtonType.OK) {
+	            try {
+	                joinController.removeParticipation(selected.getUsername(), selected.getStage());
+	                showAlert("Success", "Member removed successfully.", Alert.AlertType.INFORMATION);
+	                printMembers();  // aggiorna la tabella
+	                printRemainingTickets(); // aggiorna i ticket rimasti
+	                printTotalIncome(); // aggiorna il totale incassato
+	            } catch (Exception e) {
+	                showAlert("Error", "Failed to remove member. " + e.getMessage(), Alert.AlertType.ERROR);
+	            }
+	        }
+	    }
+
+	    
 	    public void switchForm(ActionEvent event) {
 	      	 if (event.getSource() == dashboardBtn) {
 

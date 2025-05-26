@@ -143,5 +143,21 @@ public class JoinStageProcedureDao implements JoinStageDao {
 	    }
 	}
 
+	@Override
+	public void removeParticipation(String username, String stage) throws DAOException {
+	    ConnectionFactory.changeRole(Role.TRAINER); 
+
+	    String sql = "{call remove_member(?, ?)}";
+	    Connection conn = ConnectionFactory.getConnection();
+
+	    try (CallableStatement cs = conn.prepareCall(sql)) {
+	        cs.setString(1, username);
+	        cs.setString(2, stage);
+
+	        cs.execute();
+	    } catch (SQLException e) {
+	        throw new DAOException("Error removing participation: " + e.getMessage(), e);
+	    }
+	}
 
 }

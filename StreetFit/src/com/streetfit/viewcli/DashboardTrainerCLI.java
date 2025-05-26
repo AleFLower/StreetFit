@@ -173,4 +173,24 @@ public class DashboardTrainerCLI {
 	  public void printMessage(String message) {
 	        System.out.println(message);//NOSONAR
 	    }
+	  
+	  public boolean askIfRemoveMember() {
+		    System.out.print("Do you want to remove a participation? (y/n): ");
+		   
+		    String input = sc.nextLine();
+		    return input.equalsIgnoreCase("y");
+		}
+
+		public String askUsernameToRemove() {
+		    System.out.print("Enter the username to remove: ");
+		   
+		    return sc.nextLine().trim();
+		}
+
+		public String askStageToRemove() {
+		    System.out.print("Enter the stage title: ");
+	
+		    return sc.nextLine().trim();
+		}
+
 }

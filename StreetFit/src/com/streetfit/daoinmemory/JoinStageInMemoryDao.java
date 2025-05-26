@@ -52,6 +52,21 @@ public class JoinStageInMemoryDao implements JoinStageDao {
 	    }
 	    throw new IllegalStateException("Message not found to update");
 	}
+	
+	public void removeParticipation(String username, String stage) throws DAOException {
+        boolean found = false;
+        for (int i = 0; i < members.size(); i++) {
+            Participation p = members.get(i);
+            if (p.getUsername().equals(username) && p.getStage().equals(stage)) {
+                members.remove(i);
+                found = true;
+                break;
+            }
+        }
 
+        if (!found) {
+            throw new DAOException("Participation not found for user " + username + " in stage " + stage);
+        }
+    }
 
 }

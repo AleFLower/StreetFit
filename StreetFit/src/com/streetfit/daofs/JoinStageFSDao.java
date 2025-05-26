@@ -176,6 +176,31 @@ public class JoinStageFSDao implements JoinStageDao {
 	        throw new DAOException("Error writing updated messages to file: " + e.getMessage(), e);
 	    }
 	}
+	
+	@Override
+	public void removeParticipation(String username, String stage) throws DAOException {
+	    List<Participation> allParticipations = showMembers(); // carica da CSV
+	    boolean removed = allParticipations.removeIf(p ->
+	            p.getUsername().equals(username) && p.getStage().equals(stage));
+
+	    if (!removed) {
+	        throw new DAOException("Participation not found for user " + username + " in stage " + stage);
+	    }
+
+	    // Sovrascrivi il file
+	    try (BufferedWriter writer = new BufferedWriter(new FileWriter(CSV_FILE, false))) {
+	        for (Participation p : allParticipations) {
+	            writer.write(String.format("%s,%s,%d,%.2f%n",
+	                    p.getUsername(),
+	                    p.getStage(),
+	                    p.getTicket(),
+	                    p.getTotal()));
+	        }
+	    } catch (IOException e) {
+	        throw new DAOException("Error writing to participation file", e);
+	    }
+	}
+
 
 
 

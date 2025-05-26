@@ -13,5 +13,5 @@ public interface JoinStageDao {
 	void depositMessage(Message m) throws DAOException;
 	List<Message> retrieveMessage()throws DAOException;
 	void updateMessage(Message updatedMessage) throws DAOException;
-
+	void removeParticipation(String username, String stage) throws DAOException;  
 }

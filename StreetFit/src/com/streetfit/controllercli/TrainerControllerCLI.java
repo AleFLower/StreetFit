@@ -92,10 +92,23 @@ public class TrainerControllerCLI {
 	 }
      
      public void members() {
-    	 List <Participation> members;
-    	 members = joinController.showMembers();
-    	 view.printMembers(members);
-     }
+    	    List<Participation> members = joinController.showMembers();
+    	    view.printMembers(members);
+
+    	    boolean remove = view.askIfRemoveMember(); // nuovo metodo nella view
+    	    if (!remove) return;
+
+    	    String username = view.askUsernameToRemove(); // metodo input view
+    	    String stage = view.askStageToRemove();       // metodo input view
+
+    	    try {
+    	        joinController.removeParticipation(username, stage);
+    	        view.printMessage("✅ Participation successfully removed.");
+    	    } catch (Exception e) {
+    	        view.printMessage("❌ Error removing participation: " + e.getMessage());
+    	    }
+    	}
+
      
      public void getNumberOfSub() {
     	 //retrieve the stage list

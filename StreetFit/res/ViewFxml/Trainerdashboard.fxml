@@ -409,6 +409,9 @@
                                       </columns>
                                     </TableView>
                                     
+                                    <Button fx:id="removeMemberBtn" layoutX="13.0" layoutY="535" onAction="#removeSelectedMember" text="Remove Member" />
+                                    
+                                    
             <ImageView layoutX="600" layoutY="20" fitHeight="500.0" fitWidth="950.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="Images/Streetworkout.jpg" />

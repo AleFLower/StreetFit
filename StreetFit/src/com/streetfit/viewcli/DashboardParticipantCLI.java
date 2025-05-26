@@ -30,7 +30,7 @@ public class DashboardParticipantCLI {
 	}
 	
 	public String askSearchKeyword() {
-	    System.out.print("Enter keyword (title/category/place): ");
+	    System.out.print("Enter keyword (title/category/place): "); //NOSONAR
 	    return sc.nextLine().trim();
 	}
 	
