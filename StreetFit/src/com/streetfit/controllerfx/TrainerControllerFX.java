@@ -338,73 +338,55 @@ public class TrainerControllerFX {
 	    }
 
 
-	    public void addStage() {   //it calls, as every GUI controller, the general controller to implement the use case
-	    	
-	        String title = stageTitle.getText().trim(); // Rimuovi spazi bianchi all'inizio e alla fine
+	    public void addStage() {
+	        String title = stageTitle.getText().trim();
 	        String location = stagePlace.getText().trim();
 	        String itinerary = stageItinerary.getText().trim();
 	        String selectedCategory = stageCategory.getValue();
 	        String selectedMaxParticipant = maxParticipant.getText().trim();
-	        LocalDate localDate = stageDate.getValue(); // esempio da DatePicker
-	        
-	      
+	        LocalDate localDate = stageDate.getValue();
+
 	        if (isNotEmpty(title, location, itinerary, selectedCategory, selectedMaxParticipant, localDate)) {
 	            try {
-	            
 	                int maxPart = Integer.parseInt(selectedMaxParticipant);
+
+	                if (maxPart <= 0) {
+	                    showAlert("Error", "Max participants must be greater than zero.", Alert.AlertType.ERROR);
+	                    return;
+	                }
 
 	                Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
 	                StageBean stagebean = new StageBean(title, itinerary, selectedCategory, date, location, maxPart);
 
 	                if (stagebean.isValid()) {
-	                    TrainingStage stage = new TrainingStage(stagebean.getTitle(), stagebean.getItinerary(), 
+	                    TrainingStage stage = new TrainingStage(stagebean.getTitle(), stagebean.getItinerary(),
 	                            stagebean.getCategory(), stagebean.getDate(), stagebean.getPlace(), stagebean.getMaxParticipants());
-	                    
 
 	                    AddStageController controller = new AddStageController();
 	                    controller.addstage(stage);
-	                    
+
 	                    Alert alert = new Alert(AlertType.INFORMATION);
 	                    alert.setTitle("Information Message");
 	                    alert.setHeaderText(null);
 	                    alert.setContentText("Successfully inserted");
 	                    alert.showAndWait();
 
-	                    printTable();  
+	                    printTable();
 	                } else {
-	                  
-	                    Alert alert = new Alert(AlertType.ERROR);
-	                    alert.setTitle("Error on some fields");
-	                    alert.setHeaderText(null);
-	                    alert.setContentText("Please check the validity of the fields.");
-	                    alert.showAndWait();
+	                    showAlert("Error", "Please check the validity of the fields.", Alert.AlertType.ERROR);
 	                }
 	            } catch (NumberFormatException e) {
-	              
-	                Alert alert = new Alert(AlertType.ERROR);
-	                alert.setTitle("Invalid input");
-	                alert.setHeaderText(null);
-	                alert.setContentText("Please enter a valid number for max participants.");
-	                alert.showAndWait();
+	                showAlert("Invalid input", "Please enter a valid number for max participants.", Alert.AlertType.ERROR);
+	            } catch (IllegalStateException e) {
+	                showAlert("Error", "Stage already exists.", Alert.AlertType.ERROR);
 	            }
-	            catch(IllegalStateException e) {
-	            	 Alert alert = new Alert(AlertType.ERROR);
-		                alert.setTitle("Input error");
-		                alert.setHeaderText(null);
-		                alert.setContentText("Stage already exists.");
-		                alert.showAndWait();
-	            }
-	           
+
 	        } else {
-	          
-	            Alert alert = new Alert(AlertType.ERROR);
-	            alert.setTitle("Please compile all the required fields");
-	            alert.setHeaderText(null);
-	            alert.setContentText("All fields must be filled.");
-	            alert.showAndWait();
+	            showAlert("Error", "All fields must be filled.", Alert.AlertType.ERROR);
 	        }
 	    }
+
 
 	    // Control function to verifiy if not empty fields
 	    public boolean isNotEmpty(String title, String location, String itinerary, String selectedCategory, String maxPart, LocalDate localDate) {

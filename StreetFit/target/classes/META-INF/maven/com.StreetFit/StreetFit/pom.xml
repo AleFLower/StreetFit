@@ -12,6 +12,33 @@
         <artifactId>slf4j-api</artifactId>
         <version>1.8.0-beta4</version> <!-- Or the version that you're using -->
     </dependency>
+     <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+          <!-- Dipendenza per Mockito -->
+    <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-core</artifactId>
+        <version>3.9.0</version>
+        <scope>test</scope>
+    </dependency>
+
+    <!-- Dipendenza per la compatibilità tra JUnit e Mockito -->
+    <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-junit-jupiter</artifactId>
+        <version>3.9.0</version>
+        <scope>test</scope>
+    </dependency>
 
     <!-- Logback Classic Binding -->
     <dependency>
@@ -42,7 +69,54 @@
         <artifactId>javafx-graphics</artifactId>
         <version>21</version>
     </dependency>
+    <!-- Dipendenza per JUnit 5 -->
+    <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-api</artifactId>
+        <version>5.7.2</version> <!-- Puoi usare l'ultima versione disponibile -->
+        <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-engine</artifactId>
+        <version>5.7.2</version> <!-- Assicurati che la versione corrisponda a quella sopra -->
+        <scope>test</scope>
+    </dependency>
+
+    <!-- Dipendenza per l'esecuzione dei test con Maven -->
+    <dependency>
+        <groupId>org.junit.platform</groupId>
+        <artifactId>junit-platform-launcher</artifactId>
+        <version>1.7.2</version>
+        <scope>test</scope>
+    </dependency>
+
+    <!-- Dipendenza per il Mocking (Mockito) -->
+    <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-core</artifactId>
+        <version>3.9.0</version> <!-- Puoi usare l'ultima versione disponibile -->
+        <scope>test</scope>
+    </dependency>
+
+    <!-- Dipendenza per la gestione dei log (se desideri usarla) -->
+    <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>1.7.32</version>
+        <scope>test</scope>
+    </dependency>
+
+    <!-- Dipendenza per le asserzioni avanzate (Opzionale, utile per asserzioni complesse) -->
+    <dependency>
+        <groupId>org.assertj</groupId>
+        <artifactId>assertj-core</artifactId>
+        <version>3.19.0</version>
+        <scope>test</scope>
+    </dependency>
 </dependencies>
+
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
        <sonar.organization>aleflower</sonar.organization>
@@ -55,6 +129,7 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>StreetFit</name>
   <build>
+  
     <sourceDirectory>src</sourceDirectory>
     <resources>
       <resource>
@@ -72,6 +147,19 @@
           <release>15</release>
         </configuration>
       </plugin>
+       <!-- Plugin per eseguire i test con Maven -->
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>3.0.0-M5</version>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>test</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
     </plugins>
   </build>
 </project>
