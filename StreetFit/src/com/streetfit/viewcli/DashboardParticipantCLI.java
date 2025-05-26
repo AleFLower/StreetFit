@@ -32,7 +32,7 @@ public class DashboardParticipantCLI {
 	}
 	
 	public String askSearchKeyword() {
-	    System.out.print("Enter keyword (title/category/place): ");
+	   logger.info("Enter keyword (title/category/place): ");
 	    return sc.nextLine().trim();
 	}
 	
@@ -40,7 +40,7 @@ public class DashboardParticipantCLI {
 	    int choice;
 	    int i = 1;
 
-	    System.out.println("\n===========  Available Stages  ===========\n");//NOSONAR
+	    logger.info("\n===========  Available Stages  ===========\n");
 
 	    for (TrainingStage stage : stages) {
 	        if (list.get(i - 1) == 0) {   // Skip stages not available
@@ -48,18 +48,18 @@ public class DashboardParticipantCLI {
 	            continue;
 	        }
 
-	        System.out.println("Stage " + i + ":");//NOSONAR
-	        System.out.println(" Title: " + stage.getTitle());//NOSONAR
-	        System.out.println(" Itinerary: " + stage.getItinerary());//NOSONAR
-	        System.out.println(" Category: " + stage.getCategory());//NOSONAR
-	        System.out.println(" Date: " + stage.getDate());//NOSONAR
-	        System.out.println(" Location: " + stage.getLocation());//NOSONAR
-	        System.out.println(" Max Participants: " + stage.getMaxParticipants());//NOSONAR
-	        System.out.println("----------------------------------------------\n");//NOSONAR
+	        logger.info("Stage " + i + ":");
+	        logger.info(" Title: " + stage.getTitle());
+	        logger.info(" Itinerary: " + stage.getItinerary());
+	        logger.info(" Category: " + stage.getCategory());
+	        logger.info(" Date: " + stage.getDate());
+	        logger.info(" Location: " + stage.getLocation());
+	        logger.info(" Max Participants: " + stage.getMaxParticipants());
+	        logger.info("----------------------------------------------\n");
 	        i++;
 	    }
 
-	    System.out.println("Please select a stage by number:");//NOSONAR
+	    logger.info("Please select a stage by number:");
 	    choice = sc.nextInt();
 	    choice -= 1; // to match list index
 
@@ -68,15 +68,15 @@ public class DashboardParticipantCLI {
 
 	
 	 public HealthFormBean fillHealthForm() {
-	        System.out.println("\n--- Fill in your Health Form ---");//NOSONAR
+	        logger.info("\n--- Fill in your Health Form ---");
 
-	        System.out.print("Do you have any injuries? : ");//NOSONAR
+	        logger.info("Do you have any injuries? : ");
 	        boolean hasInjuries = readYesNo();
 
-	        System.out.print("Do you suffer from any heart issues? : ");//NOSONAR
+	        logger.info("Do you suffer from any heart issues? : ");
 	        boolean hasHeartIssues = readYesNo();
 
-	        System.out.print("Are you currently on any medication? : ");//NOSONAR
+	        logger.info("Are you currently on any medication? : ");
 	        boolean onMedication = readYesNo();
 
 	      
@@ -88,18 +88,18 @@ public class DashboardParticipantCLI {
 	            String input = sc.nextLine().trim().toLowerCase();
 	            if (input.equals("yes") || input.equals("y")) return true;
 	            if (input.equals("no") || input.equals("n")) return false;
-	            System.out.print("Please answer yes or no: ");//NOSONAR
+	            logger.info("Please answer yes or no: ");
 	        }
 	    }
 	    public TicketBean selectTicket() {
-	        System.out.println("Choose your ticket type:");//NOSONAR
-	        System.out.println("base - Basic Ticket (10€)");//NOSONAR
-	        System.out.println("special - Includes T-shirt and bag (20€)");//NOSONAR
-	        System.out.println("vip - Includes T-shirt, bag, headphones, and shoes (35€)");//NOSONAR
-	        System.out.print("Ticket type: ");//NOSONAR
+	        logger.info("Choose your ticket type:");
+	        logger.info("base - Basic Ticket (10€)");
+	        logger.info("special - Includes T-shirt and bag (20€)");
+	        logger.info("vip - Includes T-shirt, bag, headphones, and shoes (35€)");
+	        logger.info("Ticket type: ");
 	        String type = sc.nextLine();
 
-	        System.out.print("How many tickets? ");//NOSONAR
+	        logger.info("How many tickets? ");
 	        int qty = Integer.parseInt(sc.nextLine());
 
 	        return new TicketBean(type, qty);
@@ -107,48 +107,47 @@ public class DashboardParticipantCLI {
 	    
 		public boolean printMessages(List<Message> messages) {
 		    if (messages == null || messages.isEmpty()) {
-		        System.out.println("No messages to display.");//NOSONAR
+		        logger.info("No messages to display.");
 		        return false;
 		    }
 
-		    System.out.println("========= Messages ========="); //NOSONAR
+		    logger.info("========= Messages =========");
 
 		    int count = 1;
 		    for (Message msg : messages) {
-		        System.out.println("Message #" + count++); //NOSONAR
-		        System.out.println("Content: " + msg.getContent()); //NOSONAR
+		        logger.info("Message #" + count++);
+		        logger.info("Content: " + msg.getContent());
 
 		        if (msg.hasReply()) {
-		            System.out.println("Reply:   " + msg.getReply()); //NOSONAR
+		            logger.info("Reply:   " + msg.getReply());
 		        } else {
-		            System.out.println("Reply:   [No reply yet]"); //NOSONAR
+		            logger.info("Reply:   [No reply yet]");
 		        }
 
-		        System.out.println("-----------------------------"); //NOSONAR
+		        logger.info("-----------------------------");
 		    }
 		    
-		    
-
-		    System.out.println("========= End of List =========");	    //NOSONAR
+		    logger.info("========= End of List =========");
 		    return true;
 		}
 	    
 	    public String getMessage() {
 	    	String reply;
 	    	
-	    	System.out.println("Do you want to ask anything to the trainer?"); //NOSONAR   
+	    	logger.info("Do you want to ask anything to the trainer?");
 	    	reply = sc.nextLine();
 	    	
 	    	return reply;
 	    }
 	    
 	    public void printTicketSummary(String description, double total) {
-	        System.out.println("--- Ticket Summary ---");//NOSONAR
-	        System.out.println("Ticket: " + description);//NOSONAR
-	        System.out.println("Total: €" + total);//NOSONAR
+	        logger.info("--- Ticket Summary ---");
+	        logger.info("Ticket: " + description);
+	        logger.info("Total: €" + total);
 	    }
 	    public void printMessage(String message) {
-	        System.out.println(message);//NOSONAR
+	        logger.info(message);
 	    }
 	
 }
+
