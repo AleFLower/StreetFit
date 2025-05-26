@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.streetfit.controller.AddStageController;
-import com.streetfit.model.TrainingStage;
+import main.java.com.streetfit.controller.AddStageController;
+import main.java.com.streetfit.model.TrainingStage;
 
 public class TestDuplicateStage {
 

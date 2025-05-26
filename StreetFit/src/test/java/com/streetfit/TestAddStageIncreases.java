@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.streetfit.controller.AddStageController;
-import com.streetfit.model.TrainingStage;
+import main.java.com.streetfit.controller.AddStageController;
+import main.java.com.streetfit.model.TrainingStage;
 
 import java.util.List;
 
@@ -37,4 +37,3 @@ public class TestAddStageIncreases {
         assertEquals(initialSize + 1, stagesAfterSecond.size(), "Il numero di stage non è stato incrementato correttamente");
     }
 }
-
