@@ -116,7 +116,7 @@ public class TrainerControllerCLI {
     	 List <TrainingStage> stageList = addStagecontroller.getAllStages();
     	 List<Integer> counters = joinController.getSubscribers(stageList);
     	 
-    	 view.printSubscribers(stageList, counters);
+    	view.printSubscribers(stageList, counters);
      }
      
      

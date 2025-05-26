@@ -3,73 +3,58 @@ package com.streetfit.viewcli;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Scanner;
 
 import com.streetfit.beans.CredentialsBean;
 import com.streetfit.model.Role;
-
+import com.streetfit.utils.CLIHelper;
 
 public class LoginViewCLI {
-	
-	private LoginViewCLI() {
+
+    private static final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
+    private LoginViewCLI() {
         // private constructor to prevent instantiation
     }
-	
-	public static int showMenu() {
-		Scanner sc = new Scanner(System.in) ;
-			System.out.println("Welcome to streetFit"); //NOSONAR
-			System.out.println("1.Signup");  //NOSONAR
-			System.out.println("2.Login"); //NOSONAR
-			System.out.println("3.Login with Google");  //NOSONAR
-			System.out.println("Enter your choice: "); //NOSONAR
-			return sc.nextInt();
-			
-	}
-	
-	public static CredentialsBean signup()throws IOException {
-		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-		
-		try {
-        	
-            System.out.print("username: "); //NOSONAR
+
+    public static int showMenu() {
+        CLIHelper.print("Welcome to StreetFit");
+        CLIHelper.print("1. Signup");
+        CLIHelper.print("2. Login");
+        CLIHelper.print("3. Login with Google");
+        CLIHelper.print("Enter your choice: ");
+        try {
+            String input = reader.readLine();
+            return Integer.parseInt(input);
+        } catch (IOException | NumberFormatException e) {
+            CLIHelper.printError("Invalid input. Please enter a number.");
+            return -1;
+        }
+    }
+
+    public static CredentialsBean signup() throws IOException {
+        try {
+            CLIHelper.print("username: ");
             String username = reader.readLine();
 
-            System.out.print("password: ");//NOSONAR
+            CLIHelper.print("password: ");
             String password = reader.readLine();
-            
-            //suppongo che nel mio sistema ci siano un trainer e piu partecipanti per ora
-            
 
             return new CredentialsBean(username, password, Role.PARTICIPANT);
         } catch (IllegalArgumentException e) {
-            System.out.println("Error: " + e.getMessage());//NOSONAR
-            System.out.println("Please try again.\n");//NOSONAR
-        }
-		
-		return null;
-		
-	}
-
-    public static CredentialsBean authenticate() throws IOException {
-
-    	BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        while (true) {
-            try {
-            	
-                System.out.print("username: "); //NOSONAR
-                String username = reader.readLine();
-
-                System.out.print("password: ");//NOSONAR
-                String password = reader.readLine();
-
-                return new CredentialsBean(username, password, null);
-            } catch (IllegalArgumentException e) {
-                System.out.println("Error: " + e.getMessage());//NOSONAR
-                System.out.println("Please try again.\n");//NOSONAR
-            }
+            CLIHelper.printError("Error: " + e.getMessage());
+            CLIHelper.print("Please try again.\n");
+            return null;
         }
     }
-    
-    
 
+    public static CredentialsBean authenticate() throws IOException {
+        CLIHelper.print("username: ");
+        String username = reader.readLine();
+
+        CLIHelper.print("password: ");
+        String password = reader.readLine();
+
+        return new CredentialsBean(username, password, null);
+    }
 }
+
