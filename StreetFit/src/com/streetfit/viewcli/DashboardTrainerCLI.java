@@ -8,169 +8,169 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.streetfit.beans.StageBean;
 import com.streetfit.model.Message;
 import com.streetfit.model.Participation;
 import com.streetfit.model.TrainingStage;
 
 public class DashboardTrainerCLI {
+	
+	private Scanner sc = new Scanner(System.in) ;
 
-    private static final Logger logger = LoggerFactory.getLogger(DashboardTrainerCLI.class);
-    private Scanner sc = new Scanner(System.in);
-
-    public int showMenu() {
-
-        int choice;
-
-        logger.info("-----Welcome to StreetFit----");
-        logger.info("1. Add new stage");
-        logger.info("2. Members");
-        logger.info("3. Created stages");
-        logger.info("4. Q&A");
-        logger.info("5. Logout");
-        logger.info("Please, enter your choice: ");
-
-        choice = sc.nextInt();
-        sc.nextLine(); // important to avoid input skipping
-        return choice;
-    }
-
-    public StageBean addstage() throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-
-        logger.info("Enter the title of the stage: ");
-        String title = reader.readLine();
-        logger.info("Enter the workout itinerary:");
-        String itinerary = reader.readLine();
-
-        logger.info("Enter the category of the stage (Functional, Yoga, Dance, Stretching): ");
+	public int showMenu() {
+		
+		int choice;
+	
+		
+		System.out.println("-----Welcome to StreetFit----");  //NOSONAR
+		System.out.println("1. Add new stage");//NOSONAR
+		//per il momento, poi vedremo che casi d'uso fare, questa non e un caso d'uso
+		System.out.println("2. Members");  //NOSONAR
+		System.out.println("3. Created stages");//NOSONAR
+		System.out.println("4. Q&A");//NOSONAR
+		System.out.println("5. Logout");//NOSONAR
+		System.out.println("Please, enter your choice: ");//NOSONAR
+			
+		choice = sc.nextInt();
+		sc.nextLine(); // importante per evitare salti nell'input dopo
+		return choice;
+	}
+	
+	public StageBean addstage() throws IOException{
+		 BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+		
+		System.out.println("Enter the title of the stage: ");//NOSONAR
+		String title = reader.readLine();
+		System.out.println("Enter the workout itinerary:");//NOSONAR
+		String itinerary = reader.readLine();
+		
+		System.out.println("Enter the category of the stage (Functional, Yoga, Dance, Stretching): ");//NOSONAR
         String category = reader.readLine();
 
-        logger.info("Enter the date of the stage (format: yyyy-MM-dd): ");
+        System.out.println("Enter the date of the stage (format: yyyy-MM-dd): ");//NOSONAR
         String dateString = reader.readLine();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");//NOSONAR
         Date date = null;
         try {
             date = sdf.parse(dateString);
         } catch (Exception e) {
-            logger.info("Invalid date format. Please enter the date in yyyy-MM-dd format.");
+            System.out.println("Invalid date format. Please enter the date in yyyy-MM-dd format.");//NOSONAR
             return null;
         }
 
-        logger.info("Enter the place of the stage: ");
+        System.out.println("Enter the place of the stage: ");//NOSONAR
         String place = reader.readLine();
 
-        logger.info("Enter the maximum number of participants: ");
+        System.out.println("Enter the maximum number of participants: ");//NOSONAR
         int maxParticipants = Integer.parseInt(reader.readLine());
 
-        StageBean stagebean = new StageBean(title, itinerary, category, date, place, maxParticipants);
-        if (stagebean.isValid()) {
-            return stagebean;
+        StageBean stagebean = new StageBean(title, itinerary, category, date, place, maxParticipants) ;
+        if(stagebean.isValid()) {
+        	return stagebean;
         }
         return null;
-    }
-
+	}
+	  // Metodo per visualizzare le notifiche
     public void displayNotification(String message) {
-        logger.info(message);
+        System.out.println(message); //NOSONAR
         try {
-            Thread.sleep(2000); // Simulate "toast" for 2 seconds
+            Thread.sleep(2000); // Simula il "toast" per 2 secondi per ogni notifica
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
     }
+	
+	public void printAllStages(List<TrainingStage> stages) {//ATTENZIONE: DEVE ESSERE UNA LISTA DI BEANS!!
+	    System.out.println("=========== Available Stages ===========");//NOSONAR
+	    for (TrainingStage stage : stages) {
+	        System.out.println("----------------------------------------");//NOSONAR
+	        System.out.println(" Title: " + stage.getTitle());//NOSONAR
+	        System.out.println(" Itinerary: " + stage.getItinerary());//NOSONAR
+	        System.out.println(" Category: " + stage.getCategory());//NOSONAR
+	        System.out.println(" Date: " + stage.getDate());//NOSONAR
+	        System.out.println(" Location: " + stage.getLocation());//NOSONAR
+	        System.out.println(" Max Participants: " + stage.getMaxParticipants());//NOSONAR
+	     //   System.out.println("Available tickets: " + );  devo trovare un modo per inserire questo, cosi che mostriamo ogni volta quanti biglietti rimangono
+	        System.out.println("----------------------------------------\n");//NOSONAR
+	    }
+	}
+	
+	public void printMembers(List<Participation> p) { //ATTENZIONE: DEVE ESSERE UNA LISTA DI BEANS!!
+	    System.out.println("=========== Subscribed Members ===========");//NOSONAR
 
-    public void printAllStages(List<TrainingStage> stages) {
-        logger.info("=========== Available Stages ===========");
-        for (TrainingStage stage : stages) {
-            logger.info("----------------------------------------");
-            logger.info("Title: {}", stage.getTitle());
-            logger.info("Itinerary: {}", stage.getItinerary());
-            logger.info("Category: {}", stage.getCategory());
-            logger.info("Date: {}", stage.getDate());
-            logger.info("Location: {}", stage.getLocation());
-            logger.info("Max Participants: {}", stage.getMaxParticipants());
-            logger.info("----------------------------------------\n");
-        }
-    }
+	    if (p.isEmpty()) {
+	        System.out.println("[No members enrolled]");//NOSONAR
+	        return;
+	    }
 
-    public void printMembers(List<Participation> p) {
-        logger.info("=========== Subscribed Members ===========");
+	    for (Participation member : p) {
+	        System.out.println("----------------------------------------");//NOSONAR
+	        System.out.println(" Username: " + member.getUsername());//NOSONAR
+	        System.out.println(" Stage: " + member.getStage());//NOSONAR
+	        System.out.println(" Tickets bought: " + member.getTicket());//NOSONAR
+	        System.out.println("----------------------------------------\n");//NOSONAR
+	    }
+	}
+	
+	public boolean printMessages(List<Message> messages) {
+	    if (messages == null || messages.isEmpty()) {
+	        System.out.println("No messages to display."); //NOSONAR
+	        return false;
+	    }
 
-        if (p.isEmpty()) {
-            logger.info("[No members enrolled]");
-            return;
-        }
+	    System.out.println("========= Messages =========");//NOSONAR
 
-        for (Participation member : p) {
-            logger.info("----------------------------------------");
-            logger.info("Username: {}", member.getUsername());
-            logger.info("Stage: {}", member.getStage());
-            logger.info("Tickets bought: {}", member.getTicket());
-            logger.info("----------------------------------------\n");
-        }
-    }
+	    int count = 1;
+	    for (Message msg : messages) {
+	        System.out.println("Message #" + count++); //NOSONAR
+	        System.out.println("From:    " + msg.getFromUser());//NOSONAR
+	        System.out.println("Content: " + msg.getContent());//NOSONAR
 
-    public boolean printMessages(List<Message> messages) {
-        if (messages == null || messages.isEmpty()) {
-            logger.info("No messages to display.");
-            return false;
-        }
+	        if (msg.hasReply()) {
+	            System.out.println("Reply:   " + msg.getReply());//NOSONAR
+	        } else {
+	            System.out.println("Reply:   [No reply yet]");//NOSONAR
+	        }
 
-        logger.info("========= Messages =========");
+	        System.out.println("-----------------------------");//NOSONAR
+	    }
+	    
+	    
 
-        int count = 1;
-        for (Message msg : messages) {
-            logger.info("Message #{}", count++);
-            logger.info("From:    {}", msg.getFromUser());
-            logger.info("Content: {}", msg.getContent());
+	    System.out.println("========= End of List =========");//NOSONAR
+	    
+	    return true;
+	}
+	
+	public int replyToMessages() {
+		System.out.println("Select a message you want to reply to(0 to exit): ");//NOSONAR
+		int choice = sc.nextInt();
+		sc.nextLine(); // <=== Consuma il newline rimasto nel buffer
+		return choice;
+		
+	}
+	
+	public String askReplyContent() {
+	    System.out.print("Enter your reply: ");//NOSONAR
+	    return  sc.nextLine();
+	}
 
-            if (msg.hasReply()) {
-                logger.info("Reply:   {}", msg.getReply());
-            } else {
-                logger.info("Reply:   [No reply yet]");
-            }
-
-            logger.info("-----------------------------");
-        }
-
-        logger.info("========= End of List =========");
-
-        return true;
-    }
-
-    public int replyToMessages() {
-        logger.info("Select a message you want to reply to (0 to exit): ");
-        int choice = sc.nextInt();
-        sc.nextLine(); // Consume the newline left over in the buffer
-        return choice;
-    }
-
-    public String askReplyContent() {
-        logger.info("Enter your reply: ");
-        return sc.nextLine();
-    }
-
-    public void printSubscribers(List<TrainingStage> stageList, List<Integer> counters) {
-
-        int i = 0;
-        if (stageList.isEmpty()) {
-            logger.info("[No stages enrolled]");
-            return;
-        }
-        logger.info("Created stages: ");
-        for (TrainingStage stage : stageList) {
-            if (counters.get(i) == 0)
-                logger.info("{} -> Sold out", stage.getTitle());
-            else
-                logger.info("{} -> Remaining tickets: {}", stage.getTitle(), counters.get(i));
-            i++;
-        }
-    }
-
-    public void printMessage(String message) {
-        logger.info(message);
-    }
+	
+	public void printSubscribers(List<TrainingStage>stageList, List<Integer>counters) {  //ATTENZIONE: DEVE ESSERE UNA LISTA DI BEANS!!
+		
+		int i = 0;
+		if(stageList.isEmpty()) {
+			 System.out.println("[No stages enrolled]");//NOSONAR
+			 return;
+		}
+		System.out.println("Created stages: ");//NOSONAR
+		for(TrainingStage stage:stageList) {
+			if(counters.get(i)==0) System.out.println(stage.getTitle() + "  " + " -> Sold out");//NOSONAR
+			else System.out.println(stage.getTitle() + "  " + " -> remaining tickets for this stage: " + counters.get(i));//NOSONAR
+			i++;
+		}
+	}
+	  public void printMessage(String message) {
+	        System.out.println(message);//NOSONAR
+	    }
 }

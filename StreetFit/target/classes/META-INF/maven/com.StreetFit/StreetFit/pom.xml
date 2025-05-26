@@ -10,14 +10,21 @@
     <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
-        <version>2.0.0</version>
+        <version>1.8.0-beta4</version> <!-- Or the version that you're using -->
     </dependency>
 
-    <!-- Logback - Implementazione per SLF4J -->
+    <!-- Logback Classic Binding -->
     <dependency>
         <groupId>ch.qos.logback</groupId>
         <artifactId>logback-classic</artifactId>
-        <version>1.2.11</version>
+        <version>1.2.11</version> <!-- Or the latest version -->
+    </dependency>
+
+    <!-- Logback Core (required by logback-classic) -->
+    <dependency>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-core</artifactId>
+        <version>1.2.11</version> <!-- Or the latest version -->
     </dependency>
     
     <dependency>
