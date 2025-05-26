@@ -6,18 +6,16 @@ import java.util.Queue;
 import com.streetfit.model.TrainerNotification;
 
 public class NotificationQueue {
-
+    private static NotificationQueue instance;
     private final Queue<TrainerNotification> queue = new LinkedList<>();
 
     private NotificationQueue() {}
 
-    // Holder idiom: la classe interna carica l'istanza solo quando serve
-    private static class Holder {
-        private static final NotificationQueue INSTANCE = new NotificationQueue();
-    }
-
-    public static NotificationQueue getInstance() {
-        return Holder.INSTANCE;
+    public static synchronized NotificationQueue getInstance() {
+        if (instance == null) {
+            instance = new NotificationQueue();
+        }
+        return instance;
     }
 
     public void addNotification(TrainerNotification n) {
@@ -34,4 +32,3 @@ public class NotificationQueue {
         return !queue.isEmpty();
     }
 }
-

@@ -6,6 +6,19 @@
         <artifactId>javafx-controls</artifactId>
         <version>21</version>
     </dependency>
+     <!-- SLF4J API -->
+    <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>2.0.0</version>
+    </dependency>
+
+    <!-- Logback - Implementazione per SLF4J -->
+    <dependency>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-classic</artifactId>
+        <version>1.2.11</version>
+    </dependency>
     
     <dependency>
     <groupId>de.jensd</groupId>

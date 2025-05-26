@@ -53,7 +53,9 @@ public class ParticipantControllerCLI{
             	break;
             case 3:
              return;
-         
+            case 4:
+                searchStage();
+                break;
                 
             case 0: // user selects 0 to exit
                
@@ -162,4 +164,25 @@ public class ParticipantControllerCLI{
     	 view.printMessages(userMessage);
     	 
 	}
+	
+	private void searchStage() {
+	    List<TrainingStage> stages = new AddStageController().getAllStages();
+	    String keyword = view.askSearchKeyword().toLowerCase();
+	    List<TrainingStage> results = new ArrayList<>();
+
+	    for (TrainingStage stage : stages) {
+	        if (stage.getTitle().toLowerCase().contains(keyword) ||
+	            stage.getCategory().toLowerCase().contains(keyword) ||
+	            stage.getLocation().toLowerCase().contains(keyword)) {
+	            results.add(stage);
+	        }
+	    }
+
+	    if (results.isEmpty()) {
+	        view.printMessage("No stages found matching: " + keyword);
+	    } else {
+	        view.printAllStages(results, new JoinStageController().getSubscribers(results));
+	    }
+	}
+
 }

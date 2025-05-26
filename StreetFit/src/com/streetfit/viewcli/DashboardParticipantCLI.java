@@ -3,6 +3,9 @@ package com.streetfit.viewcli;
 import java.util.List;
 import java.util.Scanner;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.streetfit.beans.HealthFormBean;
 import com.streetfit.beans.TicketBean;
 import com.streetfit.model.Message;
@@ -10,22 +13,27 @@ import com.streetfit.model.TrainingStage;
 
 public class DashboardParticipantCLI {
 	
+	 private static final Logger logger = LoggerFactory.getLogger(DashboardParticipantCLI.class);
 	private final Scanner sc = new Scanner(System.in);
 	
 	public int showMenu() {
 		
 			int choice;
 
-		    System.out.println("-----Welcome to StreetFit----");  //NOSONAR
-			System.out.println("1. Join a stage");//NOSONAR
-			//per il momento, poi vedremo che casi d'uso fare, questa non e un caso d'uso
-			System.out.println("2. Your Q&A");  //NOSONAR
-			System.out.println("3. Logout");//NOSONAR
-			System.out.println("Please, enter your choice: ");//NOSONAR
-				
+			  logger.info("-----Welcome to StreetFit----");
+			   logger.info("1. Join a stage");
+			    logger.info("2. Your Q&A");
+			    logger.info("3. Logout");
+			    logger.info("4. Search stage by keyword");
+			    logger.info("Please, enter your choice: ");
 			choice = sc.nextInt();
 			sc.nextLine(); // importante per evitare salti nell'input dopo
 			return choice;
+	}
+	
+	public String askSearchKeyword() {
+	    System.out.print("Enter keyword (title/category/place): ");
+	    return sc.nextLine().trim();
 	}
 	
 	public int printAllStages(List<TrainingStage> stages, List<Integer> list) {
