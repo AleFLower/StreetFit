@@ -146,6 +146,7 @@ public class TrainerControllerFX {
 	    private List<Message> messages;  // tiene traccia dei messaggi originali
 	    
 	    String error = "Error"; //for sonar messages
+	    String warning = "Warning";
 	    private Message selectedMessage;
 	    private double x = 0;
 	    private double y = 0;
@@ -274,13 +275,13 @@ public class TrainerControllerFX {
 
 	    private void sendReply() {
 	        if (selectedMessage == null) {
-	            showAlert("Warning", "Select a message to reply.", Alert.AlertType.WARNING);
+	            showAlert(warning, "Select a message to reply.", Alert.AlertType.WARNING);
 	            return;
 	        }
 
 	        String replyText = replyTextArea.getText().trim();
 	        if (replyText.isEmpty()) {
-	            showAlert("Warning", "Reply cannot be empty.", Alert.AlertType.WARNING);
+	            showAlert(warning, "Reply cannot be empty.", Alert.AlertType.WARNING);
 	            return;
 	        }
 
@@ -476,7 +477,7 @@ public class TrainerControllerFX {
 	        Participation selected = membersTableView.getSelectionModel().getSelectedItem();
 
 	        if (selected == null) {
-	            showAlert("Warning", "Please select a member to remove.", Alert.AlertType.WARNING);
+	            showAlert(warning, "Please select a member to remove.", Alert.AlertType.WARNING);
 	            return;
 	        }
 
