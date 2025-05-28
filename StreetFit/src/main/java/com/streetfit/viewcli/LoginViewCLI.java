@@ -104,11 +104,7 @@ public class LoginViewCLI {
                 CLIHelper.printError("Password too short (minimum 6 characters).");
                 continue;
             }
-            // Check if password contains at least one digit
-            if (!password.matches(".*\\d.*")) {
-                CLIHelper.printError("Password must contain at least one digit.");
-                continue;
-            }
+           
           
             break;
         }
