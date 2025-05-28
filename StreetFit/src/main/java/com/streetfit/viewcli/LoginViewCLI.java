@@ -86,11 +86,7 @@ public class LoginViewCLI {
                 CLIHelper.printError("Username too short (minimum 4 characters).");
                 continue;
             }
-            // Check if username contains only valid characters (letters, numbers, .-_)
-            if (!username.matches("^[a-zA-Z0-9._-]+$")) {
-                CLIHelper.printError("Username can only contain letters, digits, '.', '_', or '-'.");
-                continue;
-            }
+          
             break;
         }
 
@@ -113,11 +109,7 @@ public class LoginViewCLI {
                 CLIHelper.printError("Password must contain at least one digit.");
                 continue;
             }
-            // Check if password contains both upper and lowercase letters
-            if (!password.matches(".*[a-z].*") || !password.matches(".*[A-Z].*")) {
-                CLIHelper.printError("Password must contain both uppercase and lowercase letters.");
-                continue;
-            }
+          
             break;
         }
 
