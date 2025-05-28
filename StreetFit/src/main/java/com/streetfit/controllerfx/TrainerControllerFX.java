@@ -47,6 +47,7 @@ import javafx.stage.StageStyle;
 
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -370,6 +371,7 @@ public class TrainerControllerFX {
 	                    alert.setTitle("Information Message");
 	                    alert.setHeaderText(null);
 	                    alert.setContentText("Successfully inserted");
+	                    printRemainingTickets();
 	                    alert.showAndWait();
 
 	                    printTable();
@@ -439,22 +441,34 @@ public class TrainerControllerFX {
 	    }
 	    
 	    public void printMembers() {
-	    	  List<Participation> members;
-	    	  int soldTickets = 0;
-	    	  
-	    	  JoinStageController controller = new JoinStageController();
-	    	  members = controller.showMembers();
-	    	  
-	    	  for(Participation member:members) {
-	    		  soldTickets += member.getTicket();
-	    	  }
-	    	  
-	    	  
-	    	  dashboardNM.setText(String.valueOf(soldTickets));
-	    	  
-	    	  ObservableList<Participation> observableMemberList = FXCollections.observableArrayList(members);
-	    	  membersTableView.setItems(observableMemberList);
+	        List<Participation> members = new JoinStageController().showMembers();
+	        Map<String, Participation> aggregatedMap = new HashMap<>();
+	        int soldTickets = 0;
+
+	        for (Participation member : members) {
+	            String username = member.getUsername();
+	            int ticket = member.getTicket();
+	            double total = member.getTotal();
+
+	            soldTickets += ticket;
+
+	            if (aggregatedMap.containsKey(username)) {
+	                Participation existing = aggregatedMap.get(username);
+	                existing.setTicket(existing.getTicket() + ticket);
+	                existing.setTotal(existing.getTotal() + total);
+	            } else {
+	                Participation copy = new Participation(username, member.getStage(), ticket, total);
+	                aggregatedMap.put(username, copy);
+	            }
+	        }
+
+	        dashboardNM.setText(String.valueOf(soldTickets));
+
+	        ObservableList<Participation> observableMemberList =
+	            FXCollections.observableArrayList(aggregatedMap.values());
+	        membersTableView.setItems(observableMemberList);
 	    }
+
 	    
 	    @FXML
 	    private void removeSelectedMember() {
@@ -514,6 +528,19 @@ public class TrainerControllerFX {
 		               messageForm.setVisible(true);
 	           }
 	      }
+	    
+	    public void dummy() {
+	    	showAlert("Attention", "Not implemented yet",AlertType.WARNING );
+	    }
+	    
+	    public void resetForm() {
+	        stageTitle.clear();
+	        stagePlace.clear();
+	        stageItinerary.clear();
+	        stageCategory.setValue(null);
+	        maxParticipant.clear();
+	        stageDate.setValue(null);
+	    }
 	    
 	    public void logout() {
 	    

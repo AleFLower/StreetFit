@@ -94,6 +94,8 @@ public class TrainerControllerCLI {
      public void members() {
     	    List<Participation> members = joinController.showMembers();
     	    view.printMembers(members);
+    	    
+    	    if(members.isEmpty()) return;
 
     	    boolean remove = view.askIfRemoveMember(); // nuovo metodo nella view
     	    if (!remove) return;

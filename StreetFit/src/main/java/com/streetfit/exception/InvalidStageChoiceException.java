@@ -5,7 +5,7 @@ public class InvalidStageChoiceException extends Exception {
     private final int maxIndex;
 
     public InvalidStageChoiceException(int choice, int maxIndex) {
-        super("Invalid stage choice: " + choice);
+        super("Invalid stage choice: " + (choice+1));
         this.choice = choice;
         this.maxIndex = maxIndex;
     }

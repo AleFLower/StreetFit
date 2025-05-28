@@ -4,8 +4,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 import main.java.com.streetfit.beans.StageBean;
@@ -19,20 +22,32 @@ public class DashboardTrainerCLI {
     private  Scanner sc = new Scanner(System.in);
 
     public int showMenu() {
-        int choice;
+        int choice = -1;
 
-        CLIHelper.print("-----Welcome to StreetFit----");
-        CLIHelper.print("1. Add new stage");
-        CLIHelper.print("2. Members");
-        CLIHelper.print("3. Created stages");
-        CLIHelper.print("4. Q&A");
-        CLIHelper.print("5. Logout");
-        CLIHelper.print("Please, enter your choice: ");
+        while (true) {
+            try {
+                CLIHelper.print("-----Welcome to StreetFit----");
+                CLIHelper.print("1. Add new stage");
+                CLIHelper.print("2. Members");
+                CLIHelper.print("3. Created stages");
+                CLIHelper.print("4. Q&A");
+                CLIHelper.print("5. Logout");
+                CLIHelper.print("Please, enter your choice: ");
 
-        choice = sc.nextInt();
-        sc.nextLine();  // Consumes newline character
-        return choice;
+                choice = Integer.parseInt(sc.nextLine().trim());
+
+                if (choice >= 1 && choice <= 5) {
+                    return choice;
+                } else {
+                    CLIHelper.printError("Not a valid choise. Please insert a number from  1 to 5.");
+                }
+
+            } catch (NumberFormatException e) {
+                CLIHelper.printError("Not a valid input. Please insert only numbers.");
+            }
+        }
     }
+
 
     public StageBean addstage() throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -124,22 +139,47 @@ public class DashboardTrainerCLI {
         }
     }
 
-    public void printMembers(List<Participation> p) {
+    public void printMembers(List<Participation> participations) {
         CLIHelper.print("=========== Subscribed Members ===========");
 
-        if (p.isEmpty()) {
+        if (participations.isEmpty()) {
             CLIHelper.print("[No members enrolled]");
             return;
         }
 
-        for (Participation member : p) {
+        // Mappa username → lista delle sue partecipazioni
+        Map<String, List<Participation>> grouped = new HashMap<>();
+
+        for (Participation member : participations) {
+            grouped.computeIfAbsent(member.getUsername(), k -> new ArrayList<>()).add(member);
+        }
+
+        // Stampa ogni utente e le sue partecipazioni, raggruppando per stage
+        for (Map.Entry<String, List<Participation>> entry : grouped.entrySet()) {
+            String username = entry.getKey();
+            List<Participation> userParticipations = entry.getValue();
+
+            // Mappa per raggruppare i ticket per stage
+            Map<String, Integer> stageTickets = new HashMap<>();
+            for (Participation participation : userParticipations) {
+                String stage = participation.getStage();
+                int tickets = participation.getTicket();
+                stageTickets.put(stage, stageTickets.getOrDefault(stage, 0) + tickets);
+            }
+
             CLIHelper.print("----------------------------------------");
-            CLIHelper.print(" Username: " + member.getUsername());
-            CLIHelper.print(" Stage: " + member.getStage());
-            CLIHelper.print(" Tickets bought: " + member.getTicket());
+            CLIHelper.print(" Username: " + username);
+
+            for (Map.Entry<String, Integer> stageEntry : stageTickets.entrySet()) {
+                CLIHelper.print("  • Stage: " + stageEntry.getKey());
+                CLIHelper.print("    Tickets bought: " + stageEntry.getValue());
+            }
+
             CLIHelper.print("----------------------------------------\n");
         }
     }
+
+
 
     public boolean printMessages(List<Message> messages) {
         if (messages == null || messages.isEmpty()) {

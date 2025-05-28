@@ -1,11 +1,10 @@
 package main.java.com.streetfit.model;
 
 public class Participation {
-    private String username;   // chi si è iscritto
-    private String stage;      // a quale stage
-    private int ticket;        // tipo di ticket acquistato
+    private String username;
+    private String stage;
+    private int ticket;
     private double total;
-    
 
     public Participation(String username, String stage, int ticket, double total) {
         this.username = username;
@@ -27,14 +26,32 @@ public class Participation {
     }
 
     public double getTotal() {
-    	return total;
+        return total;
     }
+
+    public void setTicket(int ticket) {
+        this.ticket = ticket;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
+
+    public void setStage(String stage) {
+        this.stage = stage;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     @Override
     public String toString() {
         return "Participation{" +
                 "username='" + username + '\'' +
                 ", stage='" + stage + '\'' +
                 ", ticket=" + ticket +
+                ", total=" + total +
                 '}';
     }
 }

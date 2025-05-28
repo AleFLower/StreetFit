@@ -72,25 +72,39 @@ public class ParticipantControllerCLI{
 	
 	} 
    public void printStages() {
-	    // Ottieni le stage a cui l'utente è unito
-	    List<TrainingStage> userStages = joinstagecontroller.getStagesForUser(cred.getUsername());
+	    // 1) prendi le stage uniche
+	    List<TrainingStage> userStages =
+	        joinstagecontroller.getUniqueStagesForUser(cred.getUsername());
+	    // 2) calcola i ticket rimasti
+	    List<Integer> remainings =
+	        joinstagecontroller.getSubscribers(userStages);
+	    // 3) calcola i ticket comprati
+	    List<Integer> bought =
+	        joinstagecontroller.getTicketsBoughtForUniqueStages(
+	            cred.getUsername(), userStages);
 
 	    if (userStages.isEmpty()) {
 	        view.printMessage("You are not joined to any stage.");
 	    } else {
-	        view.printStages(userStages);
+	        // 4) passa tutte e tre le liste
+	        view.printStages(userStages, remainings, bought);
 	    }
 	}
+
 
 
 public void joinStage() {
 	    AddStageController controller = new AddStageController();
 	    List<TrainingStage> stages = controller.getAllStages();
-	    int choice = view.printAllStages(stages, joinstagecontroller.getSubscribers(stages));
+	    
+	    int choice = view.printAllStages(stages, joinstagecontroller.getSubscribers(stages),joinstagecontroller.getSubscribers(stages));
 	    double total = 0;
 	    TrainingStage chosenStage;
 
 	    try {
+	    	
+	    	if(choice == -1) return;
+	    	
 	        if (choice < 0 || choice >= stages.size()) {
 	            throw new InvalidStageChoiceException(choice, stages.size());
 	        }
@@ -156,7 +170,6 @@ public void joinStage() {
 	        }
 
 	    } catch (InvalidStageChoiceException e) {
-	        // 🎯 Gestione vera e propria, non solo propagazione
 	        view.printMessage("Error: " + e.getMessage());
 	        view.printMessage("Please enter a valid stage number between 0 and " + (e.getMaxIndex() - 1));
 	    } catch (Exception e) {
@@ -181,8 +194,14 @@ public void joinStage() {
 	
 	private void searchStage() {
 	    List<TrainingStage> stages = new AddStageController().getAllStages();
-	    String keyword = view.askSearchKeyword().toLowerCase();
 	    List<TrainingStage> results = new ArrayList<>();
+	    
+	    if(stages.isEmpty()) {
+	    	view.printMessage("No stage available");
+	    	return;
+	    }
+	    
+	    String keyword = view.askSearchKeyword().toLowerCase();
 
 	    for (TrainingStage stage : stages) {
 	        if (stage.getTitle().toLowerCase().contains(keyword) ||
@@ -195,7 +214,7 @@ public void joinStage() {
 	    if (results.isEmpty()) {
 	        view.printMessage("No stages found matching: " + keyword);
 	    } else {
-	        view.printAllStages(results, new JoinStageController().getSubscribers(results));
+	        view.printAllStages(results, joinstagecontroller.getSubscribers(results),null);
 	    }
 	}
 

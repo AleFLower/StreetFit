@@ -356,9 +356,9 @@
                                            stylesheets="@dashboardDesign.css" />
                                   
                                     <Button fx:id="stageAddBtn" layoutX="30.0" layoutY="350.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="99.0" onAction = "#addStage" styleClass="btn" stylesheets="@dashboardDesign.css" text="Add" />
-                                    <Button fx:id="coaches_updateBtn" layoutX="153.0" layoutY="350.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="99.0" styleClass="btn" stylesheets="@dashboardDesign.css" text="Update" />
-                                    <Button fx:id="coaches_resetBtn" layoutX="31.0" layoutY="410.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="99.0" styleClass="btn" stylesheets="@dashboardDesign.css" text="Reset" />
-                                    <Button fx:id="coaches_deleteBtn" layoutX="153.0" layoutY="410.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="99.0" styleClass="btn" stylesheets="@dashboardDesign.css" text="Delete" />
+                                    <Button fx:id="coaches_updateBtn" layoutX="153.0" layoutY="350.0" mnemonicParsing="false" prefHeight="43.0" onAction ="#dummy" prefWidth="99.0" styleClass="btn" stylesheets="@dashboardDesign.css" text="Update" />
+                                    <Button fx:id="coaches_resetBtn" layoutX="31.0" layoutY="410.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="99.0" styleClass="btn" onAction = "#resetForm" stylesheets="@dashboardDesign.css" text="Reset" />
+                                    <Button fx:id="coaches_deleteBtn" layoutX="153.0" layoutY="410.0" mnemonicParsing="false" prefHeight="43.0" onAction ="#dummy" prefWidth="99.0" styleClass="btn" stylesheets="@dashboardDesign.css" text="Delete" />
                                     
                                     <Label layoutX="15.0" layoutY="281.0" text="Max Participants:">
                                        <font>
@@ -471,7 +471,7 @@
                       wrapText="true" styleClass="textfield"
                       stylesheets="@dashboardDesign.css" />
 
-            <Button fx:id="sendMessageButton" layoutX="20.0" layoutY="215.0"
+            <Button fx:id="sendMessageButton" onAction ="#dummy" layoutX="20.0" layoutY="215.0"
                     mnemonicParsing="false" prefHeight="30.0" prefWidth="250.0"
                     styleClass="btn" stylesheets="@dashboardDesign.css"
                     text="Send Message" />

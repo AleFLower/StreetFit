@@ -1,7 +1,9 @@
 package main.java.com.streetfit.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import main.java.com.streetfit.dao.FactorySingletonDAO;
 import main.java.com.streetfit.dao.JoinStageDao;
@@ -174,5 +176,48 @@ public class JoinStageController {
 	    }
 	    return null; // Se non trova una stage corrispondente
 	}
+	
+	public List<TrainingStage> getUniqueStagesForUser(String username) {
+	    List<Participation> allParts = showMembers();
+	    List<TrainingStage> uniqueStages = new ArrayList<>();
+	    Map<String, Integer> stageTicketCounts = new HashMap<>();
+	    
+	    // Troviamo i partecipanti e raggruppiamo per stage
+	    for (Participation p : allParts) {
+	        if (p.getUsername().equals(username)) {
+	            String stageTitle = p.getStage();
+	            int tickets = p.getTicket();
+	            
+	            // Se non è già presente, aggiungiamo lo stage alla lista unica
+	            if (!stageTicketCounts.containsKey(stageTitle)) {
+	                uniqueStages.add(findStageByTitle(stageTitle));
+	            }
+	            
+	            // Sommiamo i ticket per stage
+	            stageTicketCounts.put(stageTitle, stageTicketCounts.getOrDefault(stageTitle, 0) + tickets);
+	        }
+	    }
+
+	    return uniqueStages;
+	}
+
+	public List<Integer> getTicketsBoughtForUniqueStages(String username, List<TrainingStage> uniqueStages) {
+	    List<Participation> allParts = showMembers();
+	    List<Integer> ticketCounts = new ArrayList<>();
+	    
+	    // Calcoliamo i ticket comprati per ciascuna stage unica
+	    for (TrainingStage stage : uniqueStages) {
+	        int totalTickets = 0;
+	        for (Participation p : allParts) {
+	            if (p.getUsername().equals(username) && p.getStage().equals(stage.getTitle())) {
+	                totalTickets += p.getTicket();
+	            }
+	        }
+	        ticketCounts.add(totalTickets);
+	    }
+
+	    return ticketCounts;
+	}
+
 
 }

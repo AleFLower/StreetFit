@@ -4,7 +4,9 @@ package main.java.com.streetfit.controllerfx;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -260,20 +262,38 @@ public class ParticipantControllerFX {
 	    }
 
 	
-	private void loadUserParticipations() {
-	    try {
-	        List<Participation> all = joinStagecontroller.showMembers();
-	        List<Participation> userParticipations = all.stream()
+	    private void loadUserParticipations() {
+	        try {
+	            List<Participation> all = joinStagecontroller.showMembers();
+
+	            // Filtra solo quelli dell'utente corrente
+	            List<Participation> userParticipations = all.stream()
 	                .filter(p -> p.getUsername().equals(cred.getUsername()))
 	                .collect(Collectors.toList());
 
-	        ObservableList<Participation> observableList = FXCollections.observableArrayList(userParticipations);
-	        joinedStagesTable.setItems(observableList);
+	            // Raggruppa per stage e somma i ticket
+	            Map<String, Participation> aggregated = new HashMap<>();
 
-	    } catch (Exception e) {
-	    	throw new IllegalStateException("Error");//just for now
+	            for (Participation p : userParticipations) {
+	                String stage = p.getStage();
+	                if (aggregated.containsKey(stage)) {
+	                    Participation existing = aggregated.get(stage);
+	                    int updatedTickets = existing.getTicket() + p.getTicket();
+	                    double updatedTotal = existing.getTotal() + p.getTotal();
+	                    aggregated.put(stage, new Participation(p.getUsername(), stage, updatedTickets, updatedTotal));
+	                } else {
+	                    aggregated.put(stage, new Participation(p.getUsername(), stage, p.getTicket(), p.getTotal()));
+	                }
+	            }
+
+	            ObservableList<Participation> observableList = FXCollections.observableArrayList(aggregated.values());
+	            joinedStagesTable.setItems(observableList);
+
+	        } catch (Exception e) {
+	            throw new IllegalStateException("Error"); // just for now
+	        }
 	    }
-	}
+
 	 
 	private void updateDashboardInfo() {
 	    try {
@@ -462,7 +482,12 @@ public class ParticipantControllerFX {
  
     	    showAlert(Alert.AlertType.INFORMATION, "Success", "Participation successful! Ticket Total: " + total + " €");
     	    updateDashboardInfo();
+    	    setupDashboardBindings();
     	
+    }
+    
+    public void dummy() {
+    	showAlert(Alert.AlertType.WARNING,"Attention" ,"Not implemented yet" );
     }
 
     	private void showAlert(Alert.AlertType type, String title, String message) {

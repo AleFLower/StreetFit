@@ -109,6 +109,7 @@ public class LoginGUIControllerFX {
             subSignupBtn.setVisible(true);
             subLoginBtn.setVisible(false);
             editlabel.setText("Create Account");
+            editlabel.setLayoutX(85);
         }
     }
 

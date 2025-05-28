@@ -1,7 +1,9 @@
 package main.java.com.streetfit.viewcli;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 
 import main.java.com.streetfit.beans.HealthFormBean;
 import main.java.com.streetfit.beans.TicketBean;
@@ -14,27 +16,39 @@ public class DashboardParticipantCLI {
     private final Scanner sc = new Scanner(System.in);
 
     public int showMenu() {
-        int choice;
+        int choice = -1;
 
-        CLIHelper.print("-----Welcome to StreetFit----");
-        CLIHelper.print("1. Join a stage");
-        CLIHelper.print("2. Your Q&A");
-        CLIHelper.print("3.Search stage by keyword");
-        CLIHelper.print("4.Stages you joined ");
-        CLIHelper.print("5.Logout ");
-        CLIHelper.print("Please, enter your choice: ");
+        while (true) {
+            try {
+                CLIHelper.print("----- Welcome to StreetFit -----");
+                CLIHelper.print("1. Join a stage");
+                CLIHelper.print("2. Your Q&A");
+                CLIHelper.print("3. Search stage by keyword");
+                CLIHelper.print("4. Stages you joined");
+                CLIHelper.print("5. Logout");
+                CLIHelper.print("Please enter your choice (1-5): ");
 
-        choice = sc.nextInt();
-        sc.nextLine();  // Consume newline character
-        return choice;
+                choice = Integer.parseInt(sc.nextLine().trim());
+
+                if (choice >= 1 && choice <= 5) {
+                    return choice;
+                } else {
+                    CLIHelper.printError("Invalid choice. Please enter a number between 1 and 5.");
+                }
+
+            } catch (NumberFormatException e) {
+                CLIHelper.printError("Invalid input. Please enter a numeric value.");
+            }
+        }
     }
+
 
     public String askSearchKeyword() {
         CLIHelper.print("Enter keyword (title/category/place): ");
         return sc.nextLine().trim();
     }
 
-    public int printAllStages(List<TrainingStage> stages, List<Integer> list) {
+    public int printAllStages(List<TrainingStage> stages, List<Integer> list, List<Integer>remainings) {
         int choice;
         int i = 1;
 
@@ -65,7 +79,7 @@ public class DashboardParticipantCLI {
             CLIHelper.print(" Category: " + stage.getCategory());
             CLIHelper.print(" Date: " + stage.getDate());
             CLIHelper.print(" Location: " + stage.getLocation());
-            CLIHelper.print(" Max Participants: " + stage.getMaxParticipants());
+            CLIHelper.print(" Tickets left: " + remainings.get(i-1) );
             CLIHelper.print("----------------------------------------------\n");
             i++;
         }
@@ -77,30 +91,43 @@ public class DashboardParticipantCLI {
         return choice;
     }
     
-    public void printStages(List<TrainingStage> stages) {
-        if (stages.isEmpty()) {
-            CLIHelper.print("You have not joined any stage.");
-        } else {
-            CLIHelper.print("\n=========== Your Joined Stages ===========\n");
+    public void printStages(List<TrainingStage> stages,
+            List<Integer> remainings,
+            List<Integer> bought) {
+if (stages.isEmpty()) {
+CLIHelper.print("You have not joined any stage.");
+return;
+}
 
-            int i = 1;
-            for (TrainingStage stage : stages) {
-                CLIHelper.print("Stage " + i + ":");
-                CLIHelper.print(" Title: " + stage.getTitle());
-                CLIHelper.print(" Itinerary: " + stage.getItinerary());
-                CLIHelper.print(" Category: " + stage.getCategory());
-                CLIHelper.print(" Date: " + stage.getDate());
-                CLIHelper.print(" Location: " + stage.getLocation());
-                CLIHelper.print(" Max Participants: " + stage.getMaxParticipants());
-                CLIHelper.print("----------------------------------------------\n");
-                i++;
-            }
-        }
-    }
+CLIHelper.print("\n=========== Your Joined Stages ===========\n");
+
+// Raggruppiamo per stage, evitando duplicati
+Set<String> printedStages = new HashSet<>();
+for (int i = 0; i < stages.size(); i++) {
+TrainingStage stage = stages.get(i);
+
+if (!printedStages.contains(stage.getTitle())) {
+// Stampa solo se non è già stata stampata
+printedStages.add(stage.getTitle());
+
+CLIHelper.print("Stage " + (i + 1) + ":");
+CLIHelper.print(" Title: " + stage.getTitle());
+CLIHelper.print(" Itinerary: " + stage.getItinerary());
+CLIHelper.print(" Category: " + stage.getCategory());
+CLIHelper.print(" Date: " + stage.getDate());
+CLIHelper.print(" Location: " + stage.getLocation());
+CLIHelper.print(" Tickets bought: " + bought.get(i));
+CLIHelper.print(" Tickets left:   " + remainings.get(i));
+CLIHelper.print("----------------------------------------------\n");
+}
+}
+}
+
 
 
     public HealthFormBean fillHealthForm() {
         CLIHelper.print("\n--- Fill in your Health Form ---");
+        CLIHelper.print("Please answer yes(or y) or no(or n): ");
 
         CLIHelper.print("Do you have any injuries? : ");
         boolean hasInjuries = readYesNo();
@@ -119,7 +146,7 @@ public class DashboardParticipantCLI {
             String input = sc.nextLine().trim().toLowerCase();
             if (input.equals("yes") || input.equals("y")) return true;
             if (input.equals("no") || input.equals("n")) return false;
-            CLIHelper.print("Please answer yes or no: ");
+            CLIHelper.print("Please answer yes(or y) or no(or n): ");
         }
     }
 
@@ -181,9 +208,24 @@ public class DashboardParticipantCLI {
     }
 
     public String getMessage() {
-        CLIHelper.print("Do you want to ask anything to the trainer?");
+        String input;
+
+        // Chiedi se vuole scrivere un messaggio
+        do {
+            CLIHelper.print("Do you want to ask anything to the trainer? (yes/no)");
+            input = sc.nextLine().trim().toLowerCase();
+        } while (!input.equals("yes") && !input.equals("no"));
+
+        // Se dice "no", non chiede il messaggio
+        if (input.equals("no")) {
+            return "";
+        }
+
+        // Se dice "yes", chiedi il messaggio da inviare
+        CLIHelper.print("Enter your message for the trainer:");
         return sc.nextLine();
     }
+
 
     public void printTicketSummary(String description, double total) {
         CLIHelper.print("--- Ticket Summary ---");
