@@ -43,9 +43,7 @@ public class InMemoryLoginDAO implements LoginDao {
 				}	
 			}
 			users.add(cred);
-		for(Credentials user: users) {
-			System.out.println(user.getUsername());
-		}
+	
 		}
 		
 	}
