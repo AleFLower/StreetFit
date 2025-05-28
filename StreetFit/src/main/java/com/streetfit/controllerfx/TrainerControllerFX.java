@@ -145,7 +145,7 @@ public class TrainerControllerFX {
 	    private ListView<String> chatListView;
 	    private List<Message> messages;  // tiene traccia dei messaggi originali
 	    
-	    
+	    String error = "Error"; //for sonar messages
 	    private Message selectedMessage;
 	    private double x = 0;
 	    private double y = 0;
@@ -267,7 +267,7 @@ public class TrainerControllerFX {
 	            chatListView.setItems(messageTexts);
 
 	        } catch (IllegalStateException e) {
-	            showAlert("Error", "Unable to load messages.", Alert.AlertType.ERROR);
+	            showAlert(error, "Unable to load messages.", Alert.AlertType.ERROR);
 	        }
 	    }
 
@@ -290,7 +290,7 @@ public class TrainerControllerFX {
 	            loadMessages();
 	            replyTextArea.clear();
 	        } catch (IllegalStateException e) {
-	            showAlert("Error", "Failed to send reply.", Alert.AlertType.ERROR);
+	            showAlert(error, "Failed to send reply.", Alert.AlertType.ERROR);
 	        }
 	    }
 	    private void showAlert(String title, String content, Alert.AlertType type) {
@@ -352,7 +352,7 @@ public class TrainerControllerFX {
 	                int maxPart = Integer.parseInt(selectedMaxParticipant);
 
 	                if (maxPart <= 0) {
-	                    showAlert("Error", "Max participants must be greater than zero.", Alert.AlertType.ERROR);
+	                    showAlert(error, "Max participants must be greater than zero.", Alert.AlertType.ERROR);
 	                    return;
 	                }
 
@@ -376,16 +376,16 @@ public class TrainerControllerFX {
 
 	                    printTable();
 	                } else {
-	                    showAlert("Error", "Please check the validity of the fields.", Alert.AlertType.ERROR);
+	                    showAlert(error, "Please check the validity of the fields.", Alert.AlertType.ERROR);
 	                }
 	            } catch (NumberFormatException e) {
 	                showAlert("Invalid input", "Please enter a valid number for max participants.", Alert.AlertType.ERROR);
 	            } catch (IllegalStateException e) {
-	                showAlert("Error", "Stage already exists.", Alert.AlertType.ERROR);
+	                showAlert(error, "Stage already exists.", Alert.AlertType.ERROR);
 	            }
 
 	        } else {
-	            showAlert("Error", "All fields must be filled.", Alert.AlertType.ERROR);
+	            showAlert(error, "All fields must be filled.", Alert.AlertType.ERROR);
 	        }
 	    }
 
@@ -446,19 +446,19 @@ public class TrainerControllerFX {
 	        int soldTickets = 0;
 
 	        for (Participation member : members) {
-	            String username = member.getUsername();
+	            String key = member.getUsername() + "::" + member.getStage(); // chiave composta: username + stage
 	            int ticket = member.getTicket();
 	            double total = member.getTotal();
 
 	            soldTickets += ticket;
 
-	            if (aggregatedMap.containsKey(username)) {
-	                Participation existing = aggregatedMap.get(username);
+	            if (aggregatedMap.containsKey(key)) {
+	                Participation existing = aggregatedMap.get(key);
 	                existing.setTicket(existing.getTicket() + ticket);
 	                existing.setTotal(existing.getTotal() + total);
 	            } else {
-	                Participation copy = new Participation(username, member.getStage(), ticket, total);
-	                aggregatedMap.put(username, copy);
+	                Participation copy = new Participation(member.getUsername(), member.getStage(), ticket, total);
+	                aggregatedMap.put(key, copy);
 	            }
 	        }
 
@@ -468,6 +468,7 @@ public class TrainerControllerFX {
 	            FXCollections.observableArrayList(aggregatedMap.values());
 	        membersTableView.setItems(observableMemberList);
 	    }
+
 
 	    
 	    @FXML
@@ -493,7 +494,7 @@ public class TrainerControllerFX {
 	                printRemainingTickets(); // aggiorna i ticket rimasti
 	                printTotalIncome(); // aggiorna il totale incassato
 	            } catch (Exception e) {
-	                showAlert("Error", "Failed to remove member. " + e.getMessage(), Alert.AlertType.ERROR);
+	                showAlert(error, "Failed to remove member. " + e.getMessage(), Alert.AlertType.ERROR);
 	            }
 	        }
 	    }
@@ -580,7 +581,7 @@ public class TrainerControllerFX {
 	            }
 
 	        } catch (Exception e) {
-	        	throw new IllegalStateException("Error");//just for now
+	        	throw new IllegalStateException(error);//just for now
 	        }
 	    }
 	    
