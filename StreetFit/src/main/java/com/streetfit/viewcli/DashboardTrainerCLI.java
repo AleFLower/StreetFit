@@ -48,80 +48,72 @@ public class DashboardTrainerCLI {
         }
     }
 
-
     public StageBean addstage() throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String title = "";
-        String itinerary = ""; 
-        String category = "";
-        String place = "";
-        Date date = null;
-        int maxParticipants = -1;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-        // Title
-        while (true) {
-            CLIHelper.print("Enter the title of the stage: ");
-            title = reader.readLine();
-            if (title != null && !title.trim().isEmpty()) break;
-            CLIHelper.printError("Title cannot be empty. Please try again.");
-        }
+        String title = readNonEmptyInput(reader, "Enter the title of the stage: ", "Title cannot be empty.");
+        String itinerary = readNonEmptyInput(reader, "Enter the workout itinerary: ", "Itinerary cannot be empty.");
+        String category = readCategory(reader);
+        Date date = readValidDate(reader, sdf);
+        String place = readNonEmptyInput(reader, "Enter the place of the stage: ", "Place cannot be empty.");
+        int maxParticipants = readPositiveInteger(reader, "Enter the maximum number of participants: ");
 
-        // Itinerary
-        while (true) {
-            CLIHelper.print("Enter the workout itinerary: ");
-            itinerary = reader.readLine();
-            if (itinerary != null && !itinerary.trim().isEmpty()) break;
-            CLIHelper.printError("Itinerary cannot be empty. Please try again.");
-        }
+        StageBean stagebean = new StageBean(title, itinerary, category, date, place, maxParticipants);
+        return stagebean.isValid() ? stagebean : null;
+    }
 
-        // Category
-        while (true) {
+    private String readNonEmptyInput(BufferedReader reader, String prompt, String errorMsg) throws IOException {
+        String input;
+        do {
+            CLIHelper.print(prompt);
+            input = reader.readLine();
+            if (input != null && !input.trim().isEmpty()) {
+                return input.trim();
+            }
+            CLIHelper.printError(errorMsg);
+        } while (true);
+    }
+
+    private String readCategory(BufferedReader reader) throws IOException {
+        String input;
+        do {
             CLIHelper.print("Enter the category of the stage (Functional, Yoga, Dance, Stretching): ");
-            category = reader.readLine().trim();
-            if (category.matches("(?i)Functional|Yoga|Dance|Stretching")) break;
+            input = reader.readLine().trim();
+            if (input.matches("(?i)Functional|Yoga|Dance|Stretching")) {
+                return input;
+            }
             CLIHelper.printError("Invalid category. Allowed: Functional, Yoga, Dance, Stretching.");
-        }
+        } while (true);
+    }
 
-        // Date
-        while (true) {
+    private Date readValidDate(BufferedReader reader, SimpleDateFormat sdf) throws IOException {
+        do {
             CLIHelper.print("Enter the date of the stage (format: yyyy-MM-dd): ");
-            String dateString = reader.readLine();
             try {
-                date = sdf.parse(dateString);
-                break;
+                return sdf.parse(reader.readLine());
             } catch (Exception e) {
                 CLIHelper.printError("Invalid date format. Try again (yyyy-MM-dd).");
             }
-        }
+        } while (true);
+    }
 
-        // Place
-        while (true) {
-            CLIHelper.print("Enter the place of the stage: ");
-            place = reader.readLine();
-            if (place != null && !place.trim().isEmpty()) break;
-            CLIHelper.printError("Place cannot be empty.");
-        }
-
-        // Participants
-        while (true) {
-            CLIHelper.print("Enter the maximum number of participants: ");
+    private int readPositiveInteger(BufferedReader reader, String prompt) throws IOException {
+        do {
+            CLIHelper.print(prompt);
             try {
-                maxParticipants = Integer.parseInt(reader.readLine());
-                if (maxParticipants > 0) break;
-                else CLIHelper.printError("Number must be positive.");
+                int value = Integer.parseInt(reader.readLine());
+                if (value > 0) {
+                    return value;
+                } else {
+                    CLIHelper.printError("Number must be positive.");
+                }
             } catch (NumberFormatException e) {
                 CLIHelper.printError("Invalid number. Please enter a valid integer.");
             }
-        }
-
-        StageBean stagebean = new StageBean(title, itinerary, category, date, place, maxParticipants);
-        if (stagebean.isValid()) {
-            return stagebean;
-        }
-
-        return null;
+        } while (true);
     }
+
 
 
     public void displayNotification(String message) {
