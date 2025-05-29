@@ -13,16 +13,15 @@ public class InMemoryLoginDAO implements LoginDao {
 
 	// Lista condivisa tra tutte le istanze della classe
     private static List<Credentials> users = new ArrayList<>();
-    private String examplePassword = "participant";
 
     // Costruttore: inizializza gli utenti predefiniti solo una volta
     public InMemoryLoginDAO() {
     
         if (users.isEmpty()) {
             users.add(new Credentials("trainer", "trainer", Role.TRAINER));
-            users.add(new Credentials("participant", examplePassword, Role.PARTICIPANT));
-            users.add(new Credentials("participant2", examplePassword, Role.PARTICIPANT));
-            users.add(new Credentials("participant3", examplePassword, Role.PARTICIPANT));
+            users.add(new Credentials("participant", "participant", Role.PARTICIPANT));
+            users.add(new Credentials("participant2", "participant2", Role.PARTICIPANT));
+            users.add(new Credentials("participant3", "participant3", Role.PARTICIPANT));
         }
     }
 
