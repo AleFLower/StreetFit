@@ -51,7 +51,10 @@ public class DashboardTrainerCLI {
 
     public StageBean addstage() throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String title = "", itinerary = "", category = "", place = "";
+        String title = "";
+        String itinerary = ""; 
+        String category = "";
+        String place = "";
         Date date = null;
         int maxParticipants = -1;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
