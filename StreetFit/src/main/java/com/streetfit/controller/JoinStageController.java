@@ -178,28 +178,29 @@ public class JoinStageController {
 	}
 	
 	public List<TrainingStage> getUniqueStagesForUser(String username) {
-	    List<Participation> allParts = showMembers();
-	    List<TrainingStage> uniqueStages = new ArrayList<>();
-	    Map<String, Integer> stageTicketCounts = new HashMap<>();
-	    
-	    // Troviamo i partecipanti e raggruppiamo per stage
-	    for (Participation p : allParts) {
-	        if (p.getUsername().equals(username)) {
-	            String stageTitle = p.getStage();
-	            int tickets = p.getTicket();
-	            
-	            // Se non è già presente, aggiungiamo lo stage alla lista unica
-	            if (!stageTicketCounts.containsKey(stageTitle)) {
-	                uniqueStages.add(findStageByTitle(stageTitle));
-	            }
-	            
-	            // Sommiamo i ticket per stage
-	            stageTicketCounts.put(stageTitle, stageTicketCounts.getOrDefault(stageTitle, 0) + tickets);
-	        }
-	    }
+    List<Participation> allParts = showMembers();
+    List<TrainingStage> uniqueStages = new ArrayList<>();
+    Map<String, Integer> stageTicketCounts = new HashMap<>();
 
-	    return uniqueStages;
-	}
+    for (Participation p : allParts) {
+        if (p.getUsername().equals(username)) {
+            String stageTitle = p.getStage();
+            int tickets = p.getTicket();
+
+            // Usa computeIfAbsent per aggiungere lo stage solo se non presente
+            stageTicketCounts.computeIfAbsent(stageTitle, key -> {
+                uniqueStages.add(findStageByTitle(key));
+                return 0;
+            });
+
+            // Aggiungiamo i ticket
+            stageTicketCounts.put(stageTitle, stageTicketCounts.get(stageTitle) + tickets);
+        }
+    }
+
+    return uniqueStages;
+}
+
 
 	public List<Integer> getTicketsBoughtForUniqueStages(String username, List<TrainingStage> uniqueStages) {
 	    List<Participation> allParts = showMembers();
