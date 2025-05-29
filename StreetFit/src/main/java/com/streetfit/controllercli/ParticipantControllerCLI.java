@@ -103,7 +103,12 @@ public void joinStage() {
 
 	    try {
 	    	
-	    	if(choice == -1) return;
+	    	if(choice == -1) { return;}
+	    	
+	        if (choice < 0 || choice >= stages.size()) {
+	            throw new InvalidStageChoiceException(choice, stages.size());
+	        }
+
 	    	
 	        if (choice < 0 || choice >= stages.size()) {
 	            throw new InvalidStageChoiceException(choice, stages.size());
