@@ -69,79 +69,68 @@ public class LoginViewCLI {
 
 
     public static CredentialsBean signup() throws IOException {
-        String username = "";
-        String password = "";
+        String username;
+        String password;
 
         // Username validation loop
-        while (true) {
+        boolean valid = false;
+        do {
             CLIHelper.print("Username: ");
             username = reader.readLine().trim();
 
-            // Check if username is empty or too short
             if (username.isEmpty()) {
                 CLIHelper.printError("Username cannot be empty.");
-                continue;
-            }
-            if (username.length() < 4) {
+            } else if (username.length() < 4) {
                 CLIHelper.printError("Username too short (minimum 4 characters).");
-                continue;
+            } else {
+                valid = true;
             }
-          
-            break;
-        }
+        } while (!valid);
 
         // Password validation loop
-        while (true) {
+        valid = false;
+        do {
             CLIHelper.print("Password: ");
             password = reader.readLine().trim();
 
-            // Check if password is empty or too short
             if (password.isEmpty()) {
                 CLIHelper.printError("Password cannot be empty.");
-                continue;
-            }
-            if (password.length() < 6) {
+            } else if (password.length() < 6) {
                 CLIHelper.printError("Password too short (minimum 6 characters).");
-                continue;
+            } else {
+                valid = true;
             }
-           
-          
-            break;
-        }
+        } while (!valid);
 
-        // Return a new CredentialsBean with the validated username and password
         return new CredentialsBean(username, password, Role.PARTICIPANT);
     }
 
-    public static CredentialsBean authenticate() throws IOException {
-        String username = "";
-        String password = "";
 
-        // Username validation loop
-        while (true) {
+    public static CredentialsBean authenticate() throws IOException {
+        String username;
+        String password;
+
+        // Username input
+        do {
             CLIHelper.print("Username: ");
             username = reader.readLine().trim();
 
             if (username.isEmpty()) {
                 CLIHelper.printError("Username cannot be empty.");
-                continue;
             }
-            break;
-        }
+        } while (username.isEmpty());
 
-        // Password validation loop
-        while (true) {
+        // Password input
+        do {
             CLIHelper.print("Password: ");
             password = reader.readLine().trim();
 
             if (password.isEmpty()) {
                 CLIHelper.printError("Password cannot be empty.");
-                continue;
             }
-            break;
-        }
+        } while (password.isEmpty());
 
-        // Return a new CredentialsBean with the provided username and password
         return new CredentialsBean(username, password, null);
     }
+
 }
