@@ -53,6 +53,13 @@
             <version>${junit.version}</version> <!-- Use the JUnit version defined in properties -->
             <scope>test</scope>
         </dependency>
+        
+        <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-engine</artifactId>
+        <version>${junit.version}</version>
+        <scope>test</scope>
+    </dependency>
 
 
     <!-- JUnit Platform Launcher for running tests with Maven -->
@@ -85,6 +92,17 @@
             <release>15</release> <!-- Ensure your Java version matches here -->
         </configuration>
     </plugin>
+    
+    <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>2.22.2</version> <!-- Versione più recente -->
+            <configuration>
+                <includes>
+                    <include>**/*Test.java</include> <!-- Assicurati che i test abbiano suffisso Test -->
+                </includes>
+            </configuration>
+        </plugin>
 
 
 </plugins>
