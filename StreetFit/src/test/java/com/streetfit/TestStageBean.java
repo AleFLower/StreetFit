@@ -10,7 +10,7 @@ import main.java.com.streetfit.beans.StageBean;
 
 
 
-class StageBeanTest {
+class TestStageBean {
 
     // Test per il metodo isValid() in caso di categoria non valida
     @Test

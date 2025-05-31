@@ -29,8 +29,7 @@ public class AddStageController{  //controller that communicates with DAO
 		}
 		
 		try {			
-			dao.addStage(stage);  //it calls the method that every DAO must implements(it is written in the interface AddStageDAO)
-			  
+			dao.addStage(stage);  //it calls the method that every DAO must implements(it is written in the interface AddStageDAO)	  
 		}
 		catch(DAOException e) {
 			
