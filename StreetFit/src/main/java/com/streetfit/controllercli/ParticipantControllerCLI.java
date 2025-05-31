@@ -20,6 +20,7 @@ import main.java.com.streetfit.strategy.PromotionalEvent;
 import main.java.com.streetfit.strategy.StandardTicket;
 import main.java.com.streetfit.strategy.TicketStrategy;
 import main.java.com.streetfit.strategy.VipStrategy;
+import main.java.com.streetfit.utils.NotificationQueue;
 import main.java.com.streetfit.viewcli.DashboardParticipantCLI;
 import main.java.com.streetfit.chainofresponsibility.*;
 import main.java.com.streetfit.model.Message;
@@ -29,9 +30,11 @@ public class ParticipantControllerCLI{
 	private DashboardParticipantCLI view = new DashboardParticipantCLI();
 	private JoinStageController joinstagecontroller = new JoinStageController();
 	private Credentials cred;
+	private NotificationQueue queue;
 	
-	public ParticipantControllerCLI(Credentials cred) {
+	public ParticipantControllerCLI(Credentials cred, NotificationQueue queue) {
 		this.cred = cred;
+		this.queue = queue;
 	}
 	
 
@@ -109,11 +112,6 @@ public void joinStage() {
 	            throw new InvalidStageChoiceException(choice, stages.size());
 	        }
 
-	    	
-	        if (choice < 0 || choice >= stages.size()) {
-	            throw new InvalidStageChoiceException(choice, stages.size());
-	        }
-
 	        chosenStage = stages.get(choice);
 
 	        HealthFormBean beanform = view.fillHealthForm();
@@ -169,7 +167,7 @@ public void joinStage() {
 	            }
 
 	            Participation p = new Participation(cred.getUsername(), chosenStage.getTitle(), ticket.getQuantity(), total);
-	            joinstagecontroller.registrateMember(p, message);
+	            joinstagecontroller.registrateMember(p, message,queue);
 
 	            view.printMessage("Registration successful!");
 	        }

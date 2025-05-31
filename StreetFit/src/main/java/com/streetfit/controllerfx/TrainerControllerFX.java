@@ -8,6 +8,7 @@ import main.java.com.streetfit.beans.StageBean;
 import main.java.com.streetfit.controller.AddStageController;
 import main.java.com.streetfit.controller.JoinStageController;
 import main.java.com.streetfit.daojdbc.ConnectionFactory;
+import main.java.com.streetfit.model.Credentials;
 import main.java.com.streetfit.model.Message;
 import main.java.com.streetfit.model.Participation;
 import main.java.com.streetfit.model.Role;
@@ -145,6 +146,9 @@ public class TrainerControllerFX {
 	    private ListView<String> chatListView;
 	    private List<Message> messages;  // tiene traccia dei messaggi originali
 	    
+	    private Credentials cred;
+	    private NotificationQueue queue;
+	    
 	    String error = "Error"; //for sonar messages
 	    String warning = "Warning";
 	    private Message selectedMessage;
@@ -158,7 +162,18 @@ public class TrainerControllerFX {
 	    	ConnectionFactory.changeRole(Role.TRAINER);
 	    }
 	    
-	    public void initialize() {  //to initialize all FX components
+	    
+	    
+	    public TrainerControllerFX(Credentials cred, NotificationQueue notificationQueue) {
+			this.cred = cred;
+			this.queue = queue;
+		}
+
+
+
+		public void initialize() {  //to initialize all FX components
+	    	
+	    	
 	    	
 	    	checkLoginNotificationsFX();
 	    	stageCategory.getItems().addAll(
@@ -302,7 +317,7 @@ public class TrainerControllerFX {
 	        alert.showAndWait();
 	    }
 	    private void checkLoginNotificationsFX() {
-	        Queue<TrainerNotification> notifications = NotificationQueue.getInstance().getAndClearNotifications();
+	        Queue<TrainerNotification> notifications = queue.getAndClearNotifications();
 
 	        if (notifications.isEmpty()) {
 	            showTemporaryNotification("📭 No new notifications");

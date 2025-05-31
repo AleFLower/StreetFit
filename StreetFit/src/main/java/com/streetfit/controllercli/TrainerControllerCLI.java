@@ -20,9 +20,14 @@ public class TrainerControllerCLI {
 	
 	private JoinStageController joinController= new JoinStageController();
 	private AddStageController addStagecontroller = new AddStageController();
+    private NotificationQueue queue;
 	
 	
-    public void start() {
+    public TrainerControllerCLI(NotificationQueue queue) {
+		this.queue = queue;
+	}
+
+	public void start() {
     	
     	 int choice;
     	
@@ -57,7 +62,7 @@ public class TrainerControllerCLI {
  // Metodo per la gestione delle notifiche al login
     public void trainerLogin() {
         // Ottieni e cancella le notifiche dalla coda
-        Queue<TrainerNotification> notifications = NotificationQueue.getInstance().getAndClearNotifications();
+        Queue<TrainerNotification> notifications = queue.getAndClearNotifications();
 
         if (notifications.isEmpty()) {
             view.printMessage("📭 No new notifications");

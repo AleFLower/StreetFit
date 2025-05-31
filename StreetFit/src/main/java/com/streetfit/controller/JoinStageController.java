@@ -20,6 +20,7 @@ public class JoinStageController {
 	
 	private JoinStageDao dao;
 	
+	
 	public JoinStageController() {
 		try {
 		this.dao = FactorySingletonDAO.getDefaultDAO().getJoinStageDao();
@@ -29,7 +30,7 @@ public class JoinStageController {
 		     }
       }
 	
-	public void registrateMember(Participation p, Message m) {
+	public void registrateMember(Participation p, Message m,NotificationQueue queue) {
 		if(dao == null) {
 			throw new IllegalStateException("Error");
 		}
@@ -37,7 +38,7 @@ public class JoinStageController {
 		try {
 			dao.registrateParticipation(p);
 			 String msg = "🔔 " + p.getUsername() + " join the stage : " + p.getStage();
-		     NotificationQueue.getInstance().addNotification(new TrainerNotification(msg));
+		     queue.addNotification(new TrainerNotification(msg));
 		     
 		     //have to send message to the trainer, if present
 		     if(m!=null) {
@@ -178,28 +179,28 @@ public class JoinStageController {
 	}
 	
 	public List<TrainingStage> getUniqueStagesForUser(String username) {
-    List<Participation> allParts = showMembers();
-    List<TrainingStage> uniqueStages = new ArrayList<>();
-    Map<String, Integer> stageTicketCounts = new HashMap<>();
+	    List<Participation> allParts = showMembers();
+	    List<TrainingStage> uniqueStages = new ArrayList<>();
+	    Map<String, Integer> stageTicketCounts = new HashMap<>();
 
-    for (Participation p : allParts) {
-        if (p.getUsername().equals(username)) {
-            String stageTitle = p.getStage();
-            int tickets = p.getTicket();
+	    for (Participation p : allParts) {
+	        if (p.getUsername().equals(username)) {
+	            String stageTitle = p.getStage();
+	            int tickets = p.getTicket();
 
-            // Usa computeIfAbsent per aggiungere lo stage solo se non presente
-            stageTicketCounts.computeIfAbsent(stageTitle, key -> {
-                uniqueStages.add(findStageByTitle(key));
-                return 0;
-            });
+	            // Usa computeIfAbsent per aggiungere lo stage solo se non presente
+	            stageTicketCounts.computeIfAbsent(stageTitle, key -> {
+	                uniqueStages.add(findStageByTitle(key));
+	                return 0;
+	            });
 
-            // Aggiungiamo i ticket
-            stageTicketCounts.put(stageTitle, stageTicketCounts.get(stageTitle) + tickets);
-        }
-    }
+	            // Aggiungiamo i ticket
+	            stageTicketCounts.put(stageTitle, stageTicketCounts.get(stageTitle) + tickets);
+	        }
+	    }
 
-    return uniqueStages;
-}
+	    return uniqueStages;
+	}
 
 
 	public List<Integer> getTicketsBoughtForUniqueStages(String username, List<TrainingStage> uniqueStages) {

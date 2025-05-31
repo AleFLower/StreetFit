@@ -29,7 +29,7 @@ import main.java.com.streetfit.strategy.PromotionalEvent;
 import main.java.com.streetfit.strategy.StandardTicket;
 import main.java.com.streetfit.strategy.TicketStrategy;
 import main.java.com.streetfit.strategy.VipStrategy;
-
+import main.java.com.streetfit.utils.NotificationQueue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -59,7 +59,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class ParticipantControllerFX {
-	private Credentials cred;
 	
 	@FXML
     private Button joinstagesBtn;
@@ -146,13 +145,20 @@ public class ParticipantControllerFX {
 	    @FXML
 	    private TableColumn<Participation, Double> totalColumn;
 
+	    private Credentials cred;
 	    
 	    
 	    private double x = 0;
 	    private double y = 0;
+	    private NotificationQueue queue;
 	
 	    private JoinStageController joinStagecontroller = new JoinStageController();
 	 
+	public ParticipantControllerFX(Credentials cred, NotificationQueue notificationQueue) {
+		this.cred = cred;
+		this.queue = notificationQueue;
+		}
+
 	
 
 	    public void initialize() {
@@ -476,7 +482,7 @@ public class ParticipantControllerFX {
     	        message = new Message(cred.getUsername(), question);
     	    }
 
-    	    joinstagecontroller.registrateMember(participation, message);
+    	    joinstagecontroller.registrateMember(participation, message,queue);
     	    questionTextArea.clear();
     	  
  

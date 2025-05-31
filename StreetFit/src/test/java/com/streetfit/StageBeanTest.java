@@ -10,7 +10,7 @@ import main.java.com.streetfit.beans.StageBean;
 
 
 
- class StageBeanTest {
+class StageBeanTest {
 
     // Test per il metodo isValid() in caso di categoria non valida
     @Test
@@ -21,7 +21,7 @@ import main.java.com.streetfit.beans.StageBean;
 
     // Test per il metodo isValid() in caso di max partecipanti non valido (<= 0)
     @Test
-  void testInvalidMaxParticipants() {
+     void testInvalidMaxParticipants() {
         StageBean stage = new StageBean("Stage 1", "Itinerary", "Yoga", new Date(), "Place", 0);
         assertFalse(stage.isValid(), "Max participants should be greater than 0");
     }

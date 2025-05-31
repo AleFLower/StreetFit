@@ -1,7 +1,7 @@
 package main.java.com.streetfit.controllerfx;
 
 import main.java.com.streetfit.model.Credentials;
-
+import main.java.com.streetfit.utils.NotificationQueue;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -11,46 +11,48 @@ import javafx.stage.StageStyle;
 
 public class HomeGUIControllerFX {
 
-    // Carica la scena successiva in base al ruolo
-    public void loadNextScene(Stage stage, Credentials cred) {
-    	
-        try {
-            FXMLLoader loader;
-            // Carica la scena in base al ruolo dell'utente
-            switch (cred.getRole()) {
-                case TRAINER:
-                    loader = new FXMLLoader(getClass().getResource("/ViewFxml/Trainerdashboard.fxml"));
-                    break;
-                case PARTICIPANT:
-                    loader = new FXMLLoader(getClass().getResource("/ViewFxml/ParticipantDashBoard.fxml"));
-                    break;
-                default:
-                   throw new IllegalArgumentException("Error during authentication");
-                  }
-            Parent root = loader.load();
-            Object controller = loader.getController();
+	public void loadNextScene(Stage stage, Credentials cred) {
+	    try {
+	        NotificationQueue notificationQueue = new NotificationQueue();
 
-            // Controlla che il controller sia un'istanza di ParticipantControllerFX
-            if (controller instanceof ParticipantControllerFX) {
-                // Passa cred al controller
-                ((ParticipantControllerFX) controller).setCredentials(cred);
-            }
+	        FXMLLoader loader;
+	        switch (cred.getRole()) {
+	            case TRAINER:
+	                loader = new FXMLLoader(getClass().getResource("/ViewFxml/Trainerdashboard.fxml"));
+	                break;
+	            case PARTICIPANT:
+	                loader = new FXMLLoader(getClass().getResource("/ViewFxml/ParticipantDashBoard.fxml"));
+	                break;
+	            default:
+	                throw new IllegalArgumentException("Error during authentication");
+	        }
 
-            // Crea la nuova scena
-            Scene scene = new Scene(root);
-            
-            
-            stage.initStyle(StageStyle.UNDECORATED);
-            stage.getIcons().add(new Image("Images/pull-up-bar.png"));
+	        // Controller factory per passare le dipendenze
+	        loader.setControllerFactory(param -> {
+	            if (param == TrainerControllerFX.class) {
+	                return new TrainerControllerFX(cred, notificationQueue);
+	            } else if (param == ParticipantControllerFX.class) {
+	                return new ParticipantControllerFX(cred, notificationQueue);
+	            } else {
+	                try {
+	                    return param.getDeclaredConstructor().newInstance();
+	                } catch (Exception e) {
+	                    throw new RuntimeException(e);
+	                }
+	            }
+	        });
 
-            // Imposta la scena e mostralo
-            stage.setScene(scene);
-            
-            stage.show();
+	        Parent root = loader.load();
 
-        } catch (Exception e) {
-        	
-          throw new IllegalArgumentException("Error by loading FXML");
-        }
-    }
+	        Scene scene = new Scene(root);
+	        stage.initStyle(StageStyle.UNDECORATED);
+	        stage.getIcons().add(new Image("Images/pull-up-bar.png"));
+	        stage.setScene(scene);
+	        stage.show();
+
+	    } catch (Exception e) {
+	        throw new IllegalArgumentException("Error by loading FXML", e);
+	    }
+	}
+
 }

@@ -3,8 +3,9 @@ package main.java.com.streetfit.utils;
 
 public class CLIHelper {
     // Method to print a message in a standardized format
-    private CLIHelper() {}
-    
+	
+	private CLIHelper() {}
+	
     public static void print(String message) {
         System.out.println(message); // NOSONAR
     }
@@ -30,4 +31,3 @@ public class CLIHelper {
         }
     }
 }
-

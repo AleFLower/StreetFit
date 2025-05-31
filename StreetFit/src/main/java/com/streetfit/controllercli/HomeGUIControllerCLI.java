@@ -1,13 +1,14 @@
 package main.java.com.streetfit.controllercli;
 
 import main.java.com.streetfit.model.Credentials;
+import main.java.com.streetfit.utils.NotificationQueue;
 
 public class HomeGUIControllerCLI {
 	
-	private HomeGUIControllerCLI() {}
-
-	
+	private final static NotificationQueue queue = new NotificationQueue();
+	 
 	  public static void start() {
+		  
 	        while (true) {
 	            Credentials cred = loginAndGetCredentials();
 	            
@@ -16,8 +17,8 @@ public class HomeGUIControllerCLI {
 	            }
 
 	            switch (cred.getRole()) {
-	                case TRAINER -> new TrainerControllerCLI().start();
-	                case PARTICIPANT -> new ParticipantControllerCLI(cred).start();
+	                case TRAINER -> new TrainerControllerCLI(queue).start();
+	                case PARTICIPANT -> new ParticipantControllerCLI(cred,queue).start();
 	                default -> throw new IllegalArgumentException("Unknown role: " + cred.getRole());
 	            }
 	        }
