@@ -146,7 +146,6 @@ public class TrainerControllerFX {
 	    private ListView<String> chatListView;
 	    private List<Message> messages;  // tiene traccia dei messaggi originali
 	    
-	    private Credentials cred;
 	    private NotificationQueue queue;
 	    
 	    String error = "Error"; //for sonar messages
@@ -164,9 +163,8 @@ public class TrainerControllerFX {
 	    
 	    
 	    
-	    public TrainerControllerFX(Credentials cred, NotificationQueue notificationQueue) {
-			this.cred = cred;
-			this.queue = queue;
+	    public TrainerControllerFX( NotificationQueue notificationQueue) {
+			this.queue = notificationQueue;
 		}
 
 

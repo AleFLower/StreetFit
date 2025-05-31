@@ -5,7 +5,9 @@ import main.java.com.streetfit.utils.NotificationQueue;
 
 public class HomeGUIControllerCLI {
 	
-	private final static NotificationQueue queue = new NotificationQueue();
+	private static final NotificationQueue queue = new NotificationQueue();
+	
+	private HomeGUIControllerCLI() {}
 	 
 	  public static void start() {
 		  

@@ -30,14 +30,14 @@ public class HomeGUIControllerFX {
 	        // Controller factory per passare le dipendenze
 	        loader.setControllerFactory(param -> {
 	            if (param == TrainerControllerFX.class) {
-	                return new TrainerControllerFX(cred, notificationQueue);
+	                return new TrainerControllerFX( notificationQueue);
 	            } else if (param == ParticipantControllerFX.class) {
 	                return new ParticipantControllerFX(cred, notificationQueue);
 	            } else {
 	                try {
 	                    return param.getDeclaredConstructor().newInstance();
 	                } catch (Exception e) {
-	                    throw new RuntimeException(e);
+	                    throw new IllegalArgumentException("Factory error", e);
 	                }
 	            }
 	        });
