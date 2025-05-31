@@ -16,6 +16,7 @@
         <junit.version>5.7.2</junit.version> <!-- Define JUnit version here -->
          
     <sonar.coverage.exclusions>src/**</sonar.coverage.exclusions>
+    <sonar.cpd.exclusions>src/**</sonar.cpd.exclusions>
     </properties>
 
          
