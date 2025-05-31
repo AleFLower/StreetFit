@@ -1,11 +1,11 @@
 package test.java.com.streetfit;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Test;  // JUnit 5
 
 import main.java.com.streetfit.beans.CredentialsBean;
 import main.java.com.streetfit.model.Role;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;  // Usa JUnit 5
 
 class TestCredentialsBean {
 
@@ -13,7 +13,6 @@ class TestCredentialsBean {
         Test che verifica se viene sollevata un'eccezione
         nel caso di username non valido (null)
      */
-	
     @Test
     void testConstructorWithInvalidUsername() {
         int validUsername;
@@ -25,7 +24,7 @@ class TestCredentialsBean {
             validUsername = 0;
         }
 
-        assertEquals(0, validUsername);
+        assertEquals(0, validUsername);  // Usa assertEquals di JUnit 5
     }
 
     /*
@@ -43,7 +42,7 @@ class TestCredentialsBean {
             validPassword = 0;
         }
 
-        assertEquals(0, validPassword);
+        assertEquals(0, validPassword);  // Usa assertEquals di JUnit 5
     }
 
     /*
@@ -62,6 +61,7 @@ class TestCredentialsBean {
             validInputs = 0;
         }
 
-        assertEquals(1, validInputs);
+        assertEquals(1, validInputs);  // Usa assertEquals di JUnit 5
     }
 }
+
