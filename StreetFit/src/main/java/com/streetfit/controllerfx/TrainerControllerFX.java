@@ -8,7 +8,7 @@ import main.java.com.streetfit.beans.StageBean;
 import main.java.com.streetfit.controller.AddStageController;
 import main.java.com.streetfit.controller.JoinStageController;
 import main.java.com.streetfit.daojdbc.ConnectionFactory;
-import main.java.com.streetfit.model.Credentials;
+
 import main.java.com.streetfit.model.Message;
 import main.java.com.streetfit.model.Participation;
 import main.java.com.streetfit.model.Role;
