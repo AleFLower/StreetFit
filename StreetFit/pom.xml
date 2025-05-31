@@ -14,7 +14,11 @@
         <sonar.organization>aleflower</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <junit.version>5.7.2</junit.version> <!-- Define JUnit version here -->
+         
+    <sonar.coverage.exclusions>src/**</sonar.coverage.exclusions>
     </properties>
+
+         
 
     <dependencies>
         <!-- JavaFX Dependencies -->
