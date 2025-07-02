@@ -6,9 +6,9 @@ import java.util.Scanner;
 import java.util.Set;
 
 import main.java.com.streetfit.beans.HealthFormBean;
+import main.java.com.streetfit.beans.MessageBean;
+import main.java.com.streetfit.beans.TrainingStageBean;
 import main.java.com.streetfit.beans.TicketBean;
-import main.java.com.streetfit.model.Message;
-import main.java.com.streetfit.model.TrainingStage;
 import main.java.com.streetfit.utils.CLIHelper;
 
 public class DashboardParticipantCLI {
@@ -48,17 +48,15 @@ public class DashboardParticipantCLI {
         return sc.nextLine().trim();
     }
 
-    public int printAllStages(List<TrainingStage> stages, List<Integer> list, List<Integer>remainings) {
+    public int requestAvailableStages(List<TrainingStageBean> stages, List<Integer> list, List<Integer> remainings) {
         int choice;
         int i = 1;
 
-        // Controlla se la lista stages è vuota
         if (stages.isEmpty()) {
             CLIHelper.print("No stages available.");
             return -1;
         }
 
-        // Assicurati che list abbia la stessa dimensione di stages
         if (list.size() != stages.size()) {
             CLIHelper.print("Error: The list of availability is not aligned with the stages list.");
             return -1;
@@ -66,9 +64,8 @@ public class DashboardParticipantCLI {
 
         CLIHelper.print("\n=========== Available Stages ===========\n");
 
-        // Itera su tutte le stage
-        for (TrainingStage stage : stages) {
-            if (list.get(i - 1) == 0) {  // Skip stages not available
+        for (TrainingStageBean stage : stages) {
+            if (list.get(i - 1) == 0) {
                 i++;
                 continue;
             }
@@ -78,50 +75,46 @@ public class DashboardParticipantCLI {
             CLIHelper.print(" Itinerary: " + stage.getItinerary());
             CLIHelper.print(" Category: " + stage.getCategory());
             CLIHelper.print(" Date: " + stage.getDate());
-            CLIHelper.print(" Location: " + stage.getLocation());
-            CLIHelper.print(" Tickets left: " + remainings.get(i-1) );
+            CLIHelper.print(" Location: " + stage.getPlace());
+            CLIHelper.print(" Tickets left: " + remainings.get(i - 1));
             CLIHelper.print("----------------------------------------------\n");
             i++;
         }
 
         CLIHelper.print("Please select a stage by number:");
         choice = sc.nextInt();
-        choice -= 1;  // to match list index
-
-        return choice;
+        sc.nextLine(); // flush newline
+        return choice - 1;
     }
-    
-    public void printStages(List<TrainingStage> stages,
-            List<Integer> remainings,
-            List<Integer> bought) {
-if (stages.isEmpty()) {
-CLIHelper.print("You have not joined any stage.");
-return;
-}
 
-CLIHelper.print("\n=========== Your Joined Stages ===========\n");
+    public void printStages(List<TrainingStageBean> stages, List<Integer> remainings, List<Integer> bought) {
+        if (stages.isEmpty()) {
+            CLIHelper.print("You have not joined any stage.");
+            return;
+        }
 
-// Raggruppiamo per stage, evitando duplicati
-Set<String> printedStages = new HashSet<>();
-for (int i = 0; i < stages.size(); i++) {
-TrainingStage stage = stages.get(i);
+        CLIHelper.print("\n=========== Your Joined Stages ===========\n");
+        Set<String> printedStages = new HashSet<>();
 
-if (!printedStages.contains(stage.getTitle())) {
-// Stampa solo se non è già stata stampata
-printedStages.add(stage.getTitle());
+        for (int i = 0; i < stages.size(); i++) {
+            TrainingStageBean stage = stages.get(i);
 
-CLIHelper.print("Stage " + (i + 1) + ":");
-CLIHelper.print(" Title: " + stage.getTitle());
-CLIHelper.print(" Itinerary: " + stage.getItinerary());
-CLIHelper.print(" Category: " + stage.getCategory());
-CLIHelper.print(" Date: " + stage.getDate());
-CLIHelper.print(" Location: " + stage.getLocation());
-CLIHelper.print(" Tickets bought: " + bought.get(i));
-CLIHelper.print(" Tickets left:   " + remainings.get(i));
-CLIHelper.print("----------------------------------------------\n");
-}
-}
-}
+            if (!printedStages.contains(stage.getTitle())) {
+                printedStages.add(stage.getTitle());
+
+                CLIHelper.print("Stage " + (i + 1) + ":");
+                CLIHelper.print(" Title: " + stage.getTitle());
+                CLIHelper.print(" Itinerary: " + stage.getItinerary());
+                CLIHelper.print(" Category: " + stage.getCategory());
+                CLIHelper.print(" Date: " + stage.getDate());
+                CLIHelper.print(" Location: " + stage.getPlace());
+                CLIHelper.print(" Tickets bought: " + bought.get(i));
+                CLIHelper.print(" Tickets left:   " + remainings.get(i));
+                CLIHelper.print("----------------------------------------------\n");
+            }
+        }
+    }
+
 
 
 
@@ -146,7 +139,7 @@ CLIHelper.print("----------------------------------------------\n");
             String input = sc.nextLine().trim().toLowerCase();
             if (input.equals("yes") || input.equals("y")) return true;
             if (input.equals("no") || input.equals("n")) return false;
-            CLIHelper.print("Please answer yes(or y) or no(or n): ");
+          
         }
     }
 
@@ -180,26 +173,19 @@ CLIHelper.print("----------------------------------------------\n");
         return new TicketBean(type, qty);
     }
 
-
-    public boolean printMessages(List<Message> messages) {
+    public boolean requestMessages(List<MessageBean> messages) {
         if (messages == null || messages.isEmpty()) {
             CLIHelper.print("No messages to display.");
             return false;
         }
 
         CLIHelper.print("========= Messages =========");
-
         int count = 1;
-        for (Message msg : messages) {
+
+        for (MessageBean msg : messages) {
             CLIHelper.print("Message #" + count++);
             CLIHelper.print("Content: " + msg.getContent());
-
-            if (msg.hasReply()) {
-                CLIHelper.print("Reply:   " + msg.getReply());
-            } else {
-                CLIHelper.print("Reply:   [No reply yet]");
-            }
-
+            CLIHelper.print("Reply:   " + (msg.hasReply() ? msg.getReply() : "[No reply yet]"));
             CLIHelper.print("-----------------------------");
         }
 
@@ -207,7 +193,8 @@ CLIHelper.print("----------------------------------------------\n");
         return true;
     }
 
-    public String getMessage() {
+    
+    public String composeMessage() {
         String input;
 
         // Chiedi se vuole scrivere un messaggio

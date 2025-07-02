@@ -4,7 +4,7 @@ import main.java.com.streetfit.daojdbc.AddStageProcedureDAO;
 import main.java.com.streetfit.daojdbc.JoinStageProcedureDao;
 import main.java.com.streetfit.daojdbc.LoginProcedureDAO;
 
-public class JDBCFactory implements DaoFactory {
+public class JDBCDAOFactory extends DAOFactory {
 	
 	//methods to return the procedure at database level that does the work in the persistence layer
 

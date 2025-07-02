@@ -1,6 +1,7 @@
 package main.java.com.streetfit.controller;
 
-import main.java.com.streetfit.dao.FactorySingletonDAO;
+
+import main.java.com.streetfit.dao.DAOFactory;
 import main.java.com.streetfit.dao.LoginDao;
 
 import main.java.com.streetfit.exception.DAOException;
@@ -11,7 +12,7 @@ public class LoginController  {
 
     public LoginController() {
         try {
-            this.loginDAO = FactorySingletonDAO.getDefaultDAO().getLoginDAO();  
+            this.loginDAO = DAOFactory.getDefaultDAO().getLoginDAO();  
         } catch (RuntimeException e) {
         
         	throw new IllegalStateException("Failed to initialize LoginController due to DAO error", e);

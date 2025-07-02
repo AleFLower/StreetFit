@@ -10,26 +10,20 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import main.java.com.streetfit.chainofresponsibility.FitnessCheckHandler;
-import main.java.com.streetfit.chainofresponsibility.HealthCheckHandler;
-import main.java.com.streetfit.chainofresponsibility.HeartCheckHandler;
-import main.java.com.streetfit.chainofresponsibility.InjuriesCheckHandler;
+import main.java.com.streetfit.beans.HealthFormBean;
+import main.java.com.streetfit.beans.MessageBean;
+import main.java.com.streetfit.beans.ParticipationBean;
+import main.java.com.streetfit.beans.TicketBean;
+import main.java.com.streetfit.beans.TrainingStageBean;
 import main.java.com.streetfit.controller.AddStageController;
 import main.java.com.streetfit.controller.JoinStageController;
-import main.java.com.streetfit.decorator.BasicTicket;
-import main.java.com.streetfit.decorator.SpecialTicket;
-import main.java.com.streetfit.decorator.Ticket;
-import main.java.com.streetfit.decorator.VipTicket;
 import main.java.com.streetfit.model.Credentials;
-import main.java.com.streetfit.model.HealthForm;
-import main.java.com.streetfit.model.Message;
-import main.java.com.streetfit.model.Participation;
+
 import main.java.com.streetfit.model.TrainingStage;
-import main.java.com.streetfit.strategy.PromotionalEvent;
-import main.java.com.streetfit.strategy.StandardTicket;
-import main.java.com.streetfit.strategy.TicketStrategy;
-import main.java.com.streetfit.strategy.VipStrategy;
+
 import main.java.com.streetfit.utils.NotificationQueue;
+import javafx.animation.FadeTransition;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -55,8 +49,11 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 
 public class ParticipantControllerFX {
 	
@@ -71,7 +68,7 @@ public class ParticipantControllerFX {
 	 @FXML
 	private AnchorPane membersForm;
 	 @FXML
-	private TableView<TrainingStage> stageTable;
+	private TableView<TrainingStageBean> stageTable;
 	 @FXML
 	private Button logout;
 	 
@@ -105,9 +102,9 @@ public class ParticipantControllerFX {
 	    @FXML
 	    private Spinner<Integer> ticketQuantitySpinner;
 	 @FXML
-	    private TableColumn<TrainingStage, String> nameColumn;
+	    private TableColumn<TrainingStageBean, String> nameColumn;
 	    @FXML
-	    private TableColumn<TrainingStage, String> placeColumn;
+	    private TableColumn<TrainingStageBean, String> placeColumn;
 	    @FXML
 	    private Label dashboardNT;
 	    @FXML
@@ -115,13 +112,13 @@ public class ParticipantControllerFX {
 	    @FXML
 	    private Label dashboardNS;
 	    @FXML
-	    private TableColumn<TrainingStage, String> itineraryColumn;
+	    private TableColumn<TrainingStageBean, String> itineraryColumn;
 	    @FXML
-	    private TableColumn<TrainingStage, String> categoryColumn;
+	    private TableColumn<TrainingStageBean, String> categoryColumn;
 	    @FXML
-	    private TableColumn<TrainingStage, Date> dateColumn;
+	    private TableColumn<TrainingStageBean, Date> dateColumn;
 	    @FXML
-	    private TableColumn<TrainingStage, Integer> ticketsLeftsColumn;
+	    private TableColumn<TrainingStageBean, Integer> ticketsLeftsColumn;
 	    @FXML
 	    private TextArea questionTextArea;
 	    @FXML
@@ -134,19 +131,24 @@ public class ParticipantControllerFX {
 	    @FXML
 	    private Button subBtn;
 	    @FXML
-	    private TableView<Participation> joinedStagesTable;
+	    private TableView<ParticipationBean> joinedStagesTable;
 
 	    @FXML
-	    private TableColumn<Participation, String> stageTitleColumn;
+	    private TableColumn<ParticipationBean, String> stageTitleColumn;
 
 	    @FXML
-	    private TableColumn<Participation, Integer> ticketColumn;
+	    private TableColumn<ParticipationBean, Integer> ticketColumn;
 
 	    @FXML
-	    private TableColumn<Participation, Double> totalColumn;
+	    private TableColumn<ParticipationBean, Double> totalColumn;
 
 	    private Credentials cred;
-	    
+	    @FXML
+	    private VBox ticketFormBox; 
+	    @FXML private Button continueBtn;
+	    @FXML private Button continueTicketBtn;
+	    @FXML
+	    private HBox ticketSelectionBox;
 	    
 	    private double x = 0;
 	    private double y = 0;
@@ -162,20 +164,56 @@ public class ParticipantControllerFX {
 	
 
 	    public void initialize() {
+	    	ticketFormBox.setVisible(false);
+	    	ticketFormBox.setOpacity(0);
 	        setupStageTableColumns();
 	        setupDashboardBindings();
 	        setupSpinner();
 	        setupRowSelection();
 	        printTable();
 	    }
+	    
+	    @FXML
+	    private void handleProceed(ActionEvent event) {
+	        if (stageTable.getSelectionModel().getSelectedItem() == null) {
+	            showAlert(Alert.AlertType.ERROR, "Selection Required", "Please select a stage first.");
+	            return;
+	        }
+
+	        // Mostra con effetto fade
+	        ticketFormBox.setVisible(true);
+	        FadeTransition fadeIn = new FadeTransition(Duration.millis(500), ticketFormBox);
+	        fadeIn.setFromValue(0.0);
+	        fadeIn.setToValue(1.0);
+	        fadeIn.play();
+	    }
+	    
+	    @FXML
+	    private void handleContinueTicket(ActionEvent event) {
+	        if (stageTable.getSelectionModel().getSelectedItem() == null) {
+	            showAlert(Alert.AlertType.WARNING, "No Stage Selected", "Please select a stage before continuing.");
+	            return;
+	        }
+
+	        ticketSelectionBox.setVisible(true);
+
+	        FadeTransition fadeIn = new FadeTransition(Duration.millis(500), ticketSelectionBox);
+	        fadeIn.setFromValue(0.0);
+	        fadeIn.setToValue(1.0);
+	        fadeIn.play();
+	    }
 
 	    private void setupStageTableColumns() {
-	        stageTitleColumn.setCellValueFactory(new PropertyValueFactory<>("stage"));
+	    	// Assicurati che la colonna del titolo dello stage prenda solo il titolo dello stage
+	        stageTitleColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getStage().getTitle()));
+	        
+	        // Imposta altre colonne per ticket e totale
 	        ticketColumn.setCellValueFactory(new PropertyValueFactory<>("ticket"));
 	        totalColumn.setCellValueFactory(new PropertyValueFactory<>("total"));
 	        
+	        // Altre colonne
 	        nameColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
-	        placeColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
+	        placeColumn.setCellValueFactory(new PropertyValueFactory<>("place"));
 	        itineraryColumn.setCellValueFactory(new PropertyValueFactory<>("itinerary"));
 	        categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
 	        dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
@@ -183,20 +221,20 @@ public class ParticipantControllerFX {
 
 	    private void setupDashboardBindings() {
 	        ticketsLeftsColumn.setCellValueFactory(cellData -> {
-	            TrainingStage stage = cellData.getValue();
+	            TrainingStageBean stage = cellData.getValue();
 
 	            int remaining = stage.getMaxParticipants();
 	            int stages = 0;
 
 	            try {
-	                List<Participation> all = joinStagecontroller.showMembers();
+	                List<ParticipationBean> all = joinStagecontroller.retrieveMembers();
 	                int booked = all.stream()
 	                                .filter(p -> p.getStage().equals(stage.getTitle()))
-	                                .mapToInt(Participation::getTicket)
+	                                .mapToInt(ParticipationBean::getTicket)
 	                                .sum();
 	                remaining -= booked;
 
-	                for (Participation member : all) {
+	                for (ParticipationBean member : all) {
 	                    if (member.getUsername().equals(cred.getUsername())) {
 	                        stages += 1;
 	                    }
@@ -204,11 +242,11 @@ public class ParticipantControllerFX {
 
 	                dashboardNS.setText(String.valueOf(stages));
 
-	                List<Participation> members = joinStagecontroller.showMembers();
+	                List<ParticipationBean> members = joinStagecontroller.retrieveMembers();
 	                double total = 0;
 	                int tickets = 0;
 
-	                for (Participation member : members) {
+	                for (ParticipationBean member : members) {
 	                    if (member.getUsername().equals(cred.getUsername())) {
 	                        total += member.getTotal();
 	                        tickets += member.getTicket();
@@ -219,6 +257,7 @@ public class ParticipantControllerFX {
 	                dashboardNT.setText(String.valueOf(tickets));
 
 	            } catch (Exception e) {
+	            	e.printStackTrace();
 	                throw new IllegalStateException("Error");//just for now
 	            }
 
@@ -236,7 +275,7 @@ public class ParticipantControllerFX {
 	        stageTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
 	            if (newSelection != null) {
 	                stageTitle.setText(newSelection.getTitle());
-	                stagePlace.setText(newSelection.getLocation());
+	                stagePlace.setText(newSelection.getPlace());
 	                stageItinerary.setText(newSelection.getItinerary());
 	                stageCategory.setValue(newSelection.getCategory());
 
@@ -252,10 +291,10 @@ public class ParticipantControllerFX {
 	                JoinStageController joinController = new JoinStageController();
 
 	                try {
-	                    List<Participation> all = joinController.showMembers();
+	                    List<ParticipationBean> all = joinController.retrieveMembers();
 	                    int booked = all.stream()
 	                                    .filter(p -> p.getStage().equals(newSelection.getTitle()))
-	                                    .mapToInt(Participation::getTicket)
+	                                    .mapToInt(ParticipationBean::getTicket)
 	                                    .sum();
 
 	                    int available = newSelection.getMaxParticipants() - booked;
@@ -270,49 +309,49 @@ public class ParticipantControllerFX {
 	
 	    private void loadUserParticipations() {
 	        try {
-	            List<Participation> all = joinStagecontroller.showMembers();
+	            List<ParticipationBean> all = joinStagecontroller.retrieveMembers();
 
 	            // Filtra solo quelli dell'utente corrente
-	            List<Participation> userParticipations = all.stream()
+	            List<ParticipationBean> userParticipations = all.stream()
 	                .filter(p -> p.getUsername().equals(cred.getUsername()))
 	                .collect(Collectors.toList());
 
 	            // Raggruppa per stage e somma i ticket
-	            Map<String, Participation> aggregated = new HashMap<>();
+	            Map<String, ParticipationBean> aggregated = new HashMap<>();
 
-	            for (Participation p : userParticipations) {
-	                String stage = p.getStage();
-	                if (aggregated.containsKey(stage)) {
-	                    Participation existing = aggregated.get(stage);
+	            for (ParticipationBean p : userParticipations) {
+	                String stageTitle = p.getStage().getTitle();
+	                if (aggregated.containsKey(stageTitle)) {
+	                    ParticipationBean existing = aggregated.get(stageTitle);
 	                    int updatedTickets = existing.getTicket() + p.getTicket();
 	                    double updatedTotal = existing.getTotal() + p.getTotal();
-	                    aggregated.put(stage, new Participation(p.getUsername(), stage, updatedTickets, updatedTotal));
+	                    aggregated.put(stageTitle, new ParticipationBean(p.getUsername(), p.getStage(), updatedTickets, updatedTotal));
 	                } else {
-	                    aggregated.put(stage, new Participation(p.getUsername(), stage, p.getTicket(), p.getTotal()));
+	                    aggregated.put(stageTitle, new ParticipationBean(p.getUsername(), p.getStage(), p.getTicket(), p.getTotal()));
 	                }
 	            }
 
-	            ObservableList<Participation> observableList = FXCollections.observableArrayList(aggregated.values());
+	            ObservableList<ParticipationBean> observableList = FXCollections.observableArrayList(aggregated.values());
 	            joinedStagesTable.setItems(observableList);
 
 	        } catch (Exception e) {
 	            throw new IllegalStateException("Error"); // just for now
 	        }
-	    }
+	      }
 
 	 
 	private void updateDashboardInfo() {
 	    try {
-	        List<Participation> all = joinStagecontroller.showMembers();
+	        List<ParticipationBean> all = joinStagecontroller.retrieveMembers();
 	        
 
 	        double total = all.stream()
 	                .filter(p -> p.getUsername().equals(cred.getUsername()))
-	                .mapToDouble(Participation::getTotal)
+	                .mapToDouble(ParticipationBean::getTotal)
 	                .sum();
 	        int tickets = all.stream()
 	        	    .filter(p -> p.getUsername().equals(cred.getUsername()))
-	        	    .mapToInt(Participation::getTicket)
+	        	    .mapToInt(ParticipationBean::getTicket)
 	        	    .sum();
 
 
@@ -358,13 +397,13 @@ public class ParticipantControllerFX {
    	 
    }
     public void printTable() {  //methods to print things into the table: it will use the general controller, that returns all the created stages, as it communicates with DAO
-        List<TrainingStage> stageList;
+        List<TrainingStageBean> stageList;
 
         AddStageController controller = new AddStageController();
         stageList = controller.getAllStages(); //
 
         // Converti la List in ObservableList
-        ObservableList<TrainingStage> observableStageList = FXCollections.observableArrayList(stageList);
+        ObservableList<TrainingStageBean> observableStageList = FXCollections.observableArrayList(stageList);
 
         // Imposta la ObservableList nella TableView
         stageTable.setItems(observableStageList); // Usa direttamente l'ObservableList
@@ -373,11 +412,11 @@ public class ParticipantControllerFX {
 
     private void loadMessages() {
         // Ottieni i messaggi dal controller per il partecipante specificato
-        List<Message> messages = joinStagecontroller.retrieveMessages();
+        List<MessageBean> messages = joinStagecontroller.retrieveMessages();
         
-        List<Message> userMessage = new ArrayList<>();
+        List<MessageBean> userMessage = new ArrayList<>();
    	 
-   	 for(Message m : messages) {
+   	 for(MessageBean m : messages) {
    		 if(m.getFromUser().equals(cred.getUsername())) {
    		
    			 userMessage.add(m);
@@ -386,7 +425,7 @@ public class ParticipantControllerFX {
 
   // Prepara i testi per la ListView
      ObservableList<String> messageTexts = FXCollections.observableArrayList();
-     for (Message msg : userMessage) {
+     for (MessageBean msg : userMessage) {
          StringBuilder display = new StringBuilder();
          display.append("From you: ").append(msg.getContent());
 
@@ -401,97 +440,105 @@ public class ParticipantControllerFX {
      messagesListView.setItems(messageTexts);
     }
     
-    public void joinStage() {//it calls, as every GUI controller, the general controller to implement the use case
-    
-    	    TrainingStage selectedStage = stageTable.getSelectionModel().getSelectedItem();
+    public void joinStage() {
+        // Recupera lo stage selezionato dalla TableView
+        TrainingStageBean selectedStage = stageTable.getSelectionModel().getSelectedItem();
+        if (selectedStage == null) {
+            showAlert(Alert.AlertType.ERROR, "Selection Error", "No stage selected!");
+            return;
+        }
 
-    	    if (selectedStage == null) {
-    	        showAlert(Alert.AlertType.ERROR, "Selection Error", "No stage selected!");
-    	        return;
-    	    }
+        // Crea un oggetto HealthFormBean dal form
+        HealthFormBean form = new HealthFormBean(checkbox1.isSelected(), checkbox2.isSelected(), checkbox3.isSelected());
+        if (!joinStagecontroller.isHealthFormValid(form)) {
+            showAlert(Alert.AlertType.ERROR, "Health Check Failed", "You must pass all health checks!");
+            return;
+        }
 
-    	    // Crea e collega i tuoi Handler come nel CLI
-    	    HealthForm form = new HealthForm(checkbox1.isSelected(),checkbox2.isSelected(), checkbox3.isSelected()); // O quello che usi per passare i dati di salute
-    	    
-    	    HealthCheckHandler heartCheck = new HeartCheckHandler();
-	        HealthCheckHandler injuryCheck  = new InjuriesCheckHandler();
-	        HealthCheckHandler isPhysicallyCheck = new FitnessCheckHandler();
+        // Recupera il tipo di ticket dalla ComboBox
+        String ticketTypeText = ticketTypeComboBox.getSelectionModel().getSelectedItem();
+        if (ticketTypeText == null) {
+            showAlert(Alert.AlertType.ERROR, "Ticket Error", "You must select a ticket type!");
+            return;
+        }
 
-    	    injuryCheck.setNext(heartCheck);
-    	    heartCheck.setNext(isPhysicallyCheck );
+        // Recupera la quantità del ticket dalla Spinner
+        int quantity = ticketQuantitySpinner.getValue();
 
-    	    // Esegui la catena
-    	    if (!injuryCheck.handle(form)) {
-    	        showAlert(Alert.AlertType.ERROR, "Health Check Failed", "You must pass all health checks!");
-    	        return;
-    	    }
+        // Crea il TicketBean in base alla selezione dell'utente
+        TicketBean ticketBean = new TicketBean(ticketTypeText, quantity);
 
-    	    // Se superato, procedi con ticket
-    	    String ticketTypeText = ticketTypeComboBox.getSelectionModel().getSelectedItem();
-    	    if (ticketTypeText == null) {
-    	        showAlert(Alert.AlertType.ERROR, "Ticket Error", "You must select a ticket type!");
-    	        return;
-    	    }
+        ticketBean.handleInput(ticketTypeText);
+        // Calcola il prezzo del ticket usando il controller
+        double total = joinStagecontroller.calculateTicketPrice(ticketBean);
 
-    	    int quantity = ticketQuantitySpinner.getValue();
+        // Ottieni la lista degli stage e i partecipanti
+        AddStageController controller = new AddStageController();
+        List<TrainingStageBean> stages = controller.getAllStages();
+        List<TrainingStageBean> stageBeans = new ArrayList<>();
+        
+        for (TrainingStageBean stage : stages) {
+            TrainingStageBean bean = new TrainingStageBean(
+                stage.getTitle(),
+                stage.getItinerary(),
+                stage.getCategory(),
+                stage.getDate(),
+                stage.getPlace(),
+                stage.getMaxParticipants()
+            );
+            stageBeans.add(bean);
+        }
 
-    	    Ticket ticket;
-    	    TicketStrategy strategy;
-    	   double total;
+        // Recupera la lista dei partecipanti per ogni stage
+        List<Integer> membersList = joinStagecontroller.getSubscribers(stageBeans);
+        int selectedIndex = stageTable.getSelectionModel().getSelectedIndex();
 
-    	    if (ticketTypeText.contains("Basic")) {
-    	        ticket = new BasicTicket(quantity);
-    	        strategy = new StandardTicket();
-    	    } else if (ticketTypeText.contains("Special")) {
-    	        ticket = new SpecialTicket(new BasicTicket(quantity));
-    	        strategy = new PromotionalEvent();
-    	    } else if (ticketTypeText.contains("VIP")) {
-    	        ticket = new VipTicket(new BasicTicket(quantity));
-    	        strategy = new VipStrategy();
-    	    } else {
-    	        showAlert(Alert.AlertType.ERROR, "Ticket Error", "Invalid ticket type!");
-    	        return;
-    	    }
+        // Controlla se ci sono abbastanza posti disponibili per il ticket
+        if (selectedIndex >= 0 && selectedIndex < membersList.size()) {
+            int availableSpots = membersList.get(selectedIndex);
+            if (quantity > availableSpots) {
+                showAlert(Alert.AlertType.ERROR, "Capacity Error", "Not enough spots available!");
+                return;
+            }
+        } else {
+            showAlert(Alert.AlertType.ERROR, "Selection Error", "Invalid stage selection!");
+            return;
+        }
+        
+        TrainingStage stage = new TrainingStage(selectedStage.getTitle(),selectedStage.getItinerary(),selectedStage.getCategory(),selectedStage.getDate(),selectedStage.getPlace(),selectedStage.getMaxParticipants());
 
-    	    total = strategy.applyEvents(ticket);
+        // Crea il bean di partecipazione
+        ParticipationBean participation = new ParticipationBean(cred.getUsername(), stage, quantity, total);
+        
+        // Se l'utente ha scritto una domanda nel campo del messaggio
+        String question = questionTextArea.getText().trim();
+        MessageBean message = question.isEmpty() ? null : new MessageBean(cred.getUsername(), question);
 
-    	    AddStageController controller = new AddStageController();
-    	    
+        // Mostra un alert di conferma prima di procedere con la registrazione
+        Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmationAlert.setTitle("Confirm Participation");
+        confirmationAlert.setHeaderText("Please confirm your ticket purchase");
+        confirmationAlert.setContentText("Stage: " + selectedStage.getTitle() + "\n" +
+                "Ticket: " + ticketTypeText + "\n" +
+                "Quantity: " + quantity + "\n" +
+                "Total: " + total + " €\n\nProceed?");
+        
+        Optional<ButtonType> result = confirmationAlert.showAndWait();
 
-    	    List<Integer> membersList = joinStagecontroller.getSubscribers(controller.getAllStages());
-    	    int selectedIndex = stageTable.getSelectionModel().getSelectedIndex();
-
-    	    if (selectedIndex >= 0 && selectedIndex < membersList.size()) {
-    	        int availableSpots = membersList.get(selectedIndex);
-
-    	        if (quantity > availableSpots) {
-    	            showAlert(Alert.AlertType.ERROR, "Capacity Error", "Not enough spots available!");
-    	            return;
-    	        }
-    	    } else {
-    	        showAlert(Alert.AlertType.ERROR, "Selection Error", "Invalid stage selection!");
-    	        return;
-    	    }
-    	   
-    	    Participation participation = new Participation(cred.getUsername(), selectedStage.getTitle(), quantity,total);   //forse devo crearci una entita ticket proprio e non solo una quantità?
-    	    JoinStageController joinstagecontroller = new JoinStageController();
-    	    String question = questionTextArea.getText().trim();
-    	    Message message = null;
-
-    	    if (!question.isEmpty()) {
-    	        message = new Message(cred.getUsername(), question);
-    	    }
-
-    	    joinstagecontroller.registrateMember(participation, message,queue);
-    	    questionTextArea.clear();
-    	  
- 
-    	    showAlert(Alert.AlertType.INFORMATION, "Success", "Participation successful! Ticket Total: " + total + " €");
-    	    updateDashboardInfo();
-    	    setupDashboardBindings();
-    	
+        // Se l'utente conferma, procedi con la registrazione
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            joinStagecontroller.registrateMember(participation, message, queue);
+            questionTextArea.clear();
+            showAlert(Alert.AlertType.INFORMATION, "Success", "Participation successful! Ticket Total: " + total + " €");
+            updateDashboardInfo();  // Aggiorna l'interfaccia utente
+            setupDashboardBindings();  // Imposta il binding della dashboard
+            stageForm.setVisible(false);  // Nascondi il form dello stage
+            loadUserParticipations();  // Carica le partecipazioni dell'utente
+            subForm.setVisible(true);  // Mostra il form delle sottoscrizioni
+        }
     }
-    
+
+
     public void dummy() {
     	showAlert(Alert.AlertType.WARNING,"Attention" ,"Not implemented yet" );
     }

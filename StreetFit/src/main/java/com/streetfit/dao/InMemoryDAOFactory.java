@@ -4,7 +4,7 @@ import main.java.com.streetfit.daoinmemory.InMemoryAddStageDAO;
 import main.java.com.streetfit.daoinmemory.InMemoryLoginDAO;
 import main.java.com.streetfit.daoinmemory.JoinStageInMemoryDao;
 
-public class InMemoryFactory implements DaoFactory {
+public class InMemoryDAOFactory extends DAOFactory {
 	
 	//methods to return the procedure at memory level that does the work in the persistence layer
 	

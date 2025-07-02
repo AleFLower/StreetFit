@@ -8,11 +8,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import main.java.com.streetfit.beans.TrainingStageBean;
+import main.java.com.streetfit.controller.JoinStageController;
 import main.java.com.streetfit.dao.JoinStageDao;
 import main.java.com.streetfit.exception.DAOException;
 import main.java.com.streetfit.model.Message;
 import main.java.com.streetfit.model.Participation;
 import main.java.com.streetfit.model.Role;
+import main.java.com.streetfit.model.TrainingStage;
 
 public class JoinStageProcedureDao implements JoinStageDao {
 
@@ -22,7 +25,7 @@ public class JoinStageProcedureDao implements JoinStageDao {
 		ConnectionFactory.changeRole(Role.PARTICIPANT);
 		
 		String username = p.getUsername();
-		String stage = p.getStage();
+		String stage = p.getStage().getTitle();
 	    int tickets = p.getTicket();
 	    double total = p.getTotal();
 	    Connection conn = ConnectionFactory.getConnection();
@@ -44,34 +47,49 @@ public class JoinStageProcedureDao implements JoinStageDao {
 
 	@Override
 	public List<Participation> showMembers() {
-		ConnectionFactory.changeRole(Role.TRAINER);
-		List <Participation> members = new ArrayList<>();
-		String sql = "SELECT username,titolo,tickets,total FROM MEMBERS";
-		Connection conn = ConnectionFactory.getConnection(); 
-		
-		try(PreparedStatement prepare = conn.prepareStatement(sql);)
-		{	
-			ResultSet rs = prepare.executeQuery();
-			
-			while(rs.next()) {
-				Participation p = new Participation(		
-						rs.getString("username"),
-						rs.getString("titolo"),
-						rs.getInt("tickets")	,
-						rs.getDouble("total")
-						);
-				
-				members.add(p);
-			}		
-		
+	    JoinStageController controller = new JoinStageController();
+	    ConnectionFactory.changeRole(Role.TRAINER);
+	    List<Participation> members = new ArrayList<>();
+
+	    String sql = "SELECT username, titolo, tickets, total FROM MEMBERS";
+	    Connection conn = ConnectionFactory.getConnection(); 
+
+	    // Prima raccogliamo i dati grezzi, necessario perche chiamando findStageByTitle chiudo il result set alla fine
+	    List<Object[]> rawList = new ArrayList<>();
+
+	    try (PreparedStatement prepare = conn.prepareStatement(sql);
+	         ResultSet rs = prepare.executeQuery()) {
+
+	        while (rs.next()) {
+	            rawList.add(new Object[]{
+	                rs.getString("username"),
+	                rs.getString("titolo"),
+	                rs.getInt("tickets"),
+	                rs.getDouble("total")
+	            });
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        throw new IllegalStateException("Error retrieving data from DB");
+	    }
+
+	    // Poi creiamo le Participation una volta chiuso il ResultSet
+	    for (Object[] data : rawList) {
+	        String username = (String) data[0];
+	        String stageTitle = (String) data[1];
+	        int tickets = (Integer) data[2];
+	        double total = (Double) data[3];
+	        TrainingStageBean stage = controller.findStageByTitle(stageTitle);
+            
+            TrainingStage trainingStage = new TrainingStage(stage.getTitle(),stage.getItinerary(),stage.getCategory(),stage.getDate(),stage.getPlace(),stage.getMaxParticipants());
+	        Participation p = new Participation(username, trainingStage, tickets, total);
+	        members.add(p);
+	    }
+
+	    return members;
 	}
-		catch(SQLException e) {
-			
-			throw new IllegalStateException("Error");
-		}
-		
-		return members;
-    }
+
 
 	@Override
 	public void depositMessage(Message m) throws DAOException {

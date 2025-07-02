@@ -2,17 +2,23 @@ package main.java.com.streetfit.daofs;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
 import java.util.List;
+import java.util.Locale;
 
+import main.java.com.streetfit.beans.TrainingStageBean;
+import main.java.com.streetfit.controller.JoinStageController;
 import main.java.com.streetfit.dao.JoinStageDao;
 import main.java.com.streetfit.exception.DAOException;
 import main.java.com.streetfit.model.Message;
 import main.java.com.streetfit.model.Participation;
+import main.java.com.streetfit.model.TrainingStage;
+
 
 
 public class JoinStageFSDao implements JoinStageDao {
@@ -21,15 +27,20 @@ public class JoinStageFSDao implements JoinStageDao {
 	  private static final String CSVMESS_FILE = "res/Messages.csv";
 	
 	public void registrateParticipation(Participation p) throws DAOException {
+		
+		File file = new File(CSV_FILE);
 		  
 		       String username = p.getUsername();
-		       String stage = p.getStage();
+		       String stage = p.getStage().getTitle();
 		       int tickets = p.getTicket();
 		       double total = p.getTotal();
 
 		        try (BufferedWriter writer = new BufferedWriter(new FileWriter(CSV_FILE, true))) {
-		            // Write the data to CSV file in the format: title, itinerary, category, date, location, intensity, maxParticipants
-		            writer.write(String.format("%s,%s,%d,%f%n",username, stage, tickets,total));
+		        	  if (file.length() == 0) {
+		                  writer.write("Username,Stage,Tickets,Total\n");  // Scrivi l'intestazione solo una volta, come per DB
+		              }
+		        	// Write the data to CSV file in the format: title, itinerary, category, date, location, intensity, maxParticipants
+		        	  writer.write(String.format(Locale.US, "%s,%s,%d,%.2f%n", username, stage, tickets, total));
 		        } catch (IOException e) {
 		            throw new DAOException("Error writing stage data to file: " + e.getMessage(), e);
 		        }
@@ -39,7 +50,9 @@ public class JoinStageFSDao implements JoinStageDao {
 	public List<Participation> showMembers() {	
 			
 			List <Participation> members = new ArrayList<>();
-			
+			JoinStageController controller = new JoinStageController();
+	
+		
 			  try (BufferedReader br = new BufferedReader(new FileReader(CSV_FILE))) {
 		            String line;
 		            boolean headerSkipped = false;
@@ -55,13 +68,14 @@ public class JoinStageFSDao implements JoinStageDao {
 		                        continue;
 		                    }
 		                    String username = data[0].trim();
-		                    String stage = data[1].trim();
-		                   
-		                  
+		                    String stageTitle = data[1].trim();
 		                    int tickets = Integer.parseInt(data[2].trim());
-		                    double total = Double.parseDouble(data[3].trim());
+		                    float total = Float.parseFloat(data[3].trim());
 		                    
-		              Participation p = new Participation(username,stage,tickets,total);
+		                    TrainingStageBean stage = controller.findStageByTitle(stageTitle);
+		                   
+		                    TrainingStage trainingStage = new TrainingStage(stage.getTitle(),stage.getItinerary(),stage.getCategory(),stage.getDate(),stage.getPlace(),stage.getMaxParticipants());
+		              Participation p = new Participation(username,trainingStage,tickets,total);
 		                 members.add(p);
 		                 
 		                }

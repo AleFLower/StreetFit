@@ -2,7 +2,7 @@ package main.java.com.streetfit.beans;
 
 import java.util.Date;
 
-public class StageBean {
+public class TrainingStageBean {
 
     private String title;
     private String itinerary;
@@ -12,7 +12,7 @@ public class StageBean {
     private int maxParticipants;
 
     // Constructor
-    public StageBean(String title, String itinerary, String category, Date date, String place,  int maxParticipants) {
+    public TrainingStageBean(String title, String itinerary, String category, Date date, String place,  int maxParticipants) {
         this.title = title;
         this.itinerary = itinerary;
         this.category = category;

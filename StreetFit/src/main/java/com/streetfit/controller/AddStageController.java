@@ -1,9 +1,11 @@
 package main.java.com.streetfit.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import main.java.com.streetfit.beans.TrainingStageBean;
 import main.java.com.streetfit.dao.AddStageDao;
-import main.java.com.streetfit.dao.FactorySingletonDAO;
+import main.java.com.streetfit.dao.DAOFactory;
 import main.java.com.streetfit.model.TrainingStage;
 import main.java.com.streetfit.exception.*;
 
@@ -11,18 +13,18 @@ public class AddStageController{  //controller that communicates with DAO
 	
 	private AddStageDao dao;   //it communicates with DAO, whatever it is(FS, JDBC or MEMORY)
 	
-
-
 	public AddStageController() {
 		try {
-			this.dao = FactorySingletonDAO.getDefaultDAO().getAddStageDao();  //get the DAO for the chosen persistence layer
+			this.dao = DAOFactory.getDefaultDAO().getAddStageDao();  //get the DAO for the chosen persistence layer
 		}
 		catch(RuntimeException e) {
 			throw new IllegalStateException("Failed to initialize  due to DAO error", e);
 		}
 	}
 	
-	public void addstage(TrainingStage stage) {
+	public void addstage(TrainingStageBean stageBean) {
+		
+		TrainingStage stage = new TrainingStage(stageBean.getTitle(),stageBean.getItinerary(),stageBean.getCategory(),stageBean.getDate(),stageBean.getPlace(),stageBean.getMaxParticipants());
 		
 		if(dao == null) {
 			throw new IllegalStateException("Error");
@@ -37,7 +39,7 @@ public class AddStageController{  //controller that communicates with DAO
 		}
 	}
 	
-	public List<TrainingStage> getAllStages() {
+	public List<TrainingStageBean> getAllStages() {
 		
 		List <TrainingStage> stageList;
 		
@@ -51,6 +53,19 @@ public class AddStageController{  //controller that communicates with DAO
 		throw new IllegalStateException("Dao Error");
 	     }
 		
-		return stageList;
+		 // 🔁 Conversione da Model a Bean
+	    List<TrainingStageBean> beanList = new ArrayList<>();
+	    for (TrainingStage s : stageList) {
+	        beanList.add(new TrainingStageBean(
+	            s.getTitle(),
+	            s.getItinerary(),
+	            s.getCategory(),
+	            s.getDate(),
+	            s.getLocation(),
+	            s.getMaxParticipants()
+	        ));
+	    }
+		
+		return beanList;
 	}
 }

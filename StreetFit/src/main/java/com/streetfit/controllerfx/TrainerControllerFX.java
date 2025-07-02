@@ -4,15 +4,16 @@ import java.time.ZoneId;
 import java.util.Optional;
 import java.util.Queue;
 
-import main.java.com.streetfit.beans.StageBean;
+import main.java.com.streetfit.beans.MessageBean;
+import main.java.com.streetfit.beans.ParticipationBean;
+import main.java.com.streetfit.beans.TrainingStageBean;
 import main.java.com.streetfit.controller.AddStageController;
 import main.java.com.streetfit.controller.JoinStageController;
 import main.java.com.streetfit.daojdbc.ConnectionFactory;
-import main.java.com.streetfit.model.Message;
-import main.java.com.streetfit.model.Participation;
+
 import main.java.com.streetfit.model.Role;
 import main.java.com.streetfit.model.TrainerNotification;
-import main.java.com.streetfit.model.TrainingStage;
+
 import main.java.com.streetfit.utils.NotificationQueue;
 
 import javafx.beans.property.SimpleIntegerProperty;
@@ -45,7 +46,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -91,50 +92,50 @@ public class TrainerControllerFX {
 	    @FXML
 	    private TextField maxParticipant;
 	    @FXML
-	    private TableView<TrainingStage> stageTable;
+	    private TableView<TrainingStageBean> stageTable;
 	    @FXML
-	    private TableColumn<TrainingStage, String> nameColumn;
+	    private TableColumn<TrainingStageBean, String> nameColumn;
 	    @FXML
-	    private TableColumn<TrainingStage, String> placeColumn;
+	    private TableColumn<TrainingStageBean, String> placeColumn;
 	    @FXML
-	    private TableColumn<TrainingStage, String> itineraryColumn;
+	    private TableColumn<TrainingStageBean, String> itineraryColumn;
 	    @FXML
-	    private TableColumn<TrainingStage, String> categoryColumn;
+	    private TableColumn<TrainingStageBean, String> categoryColumn;
 	    @FXML
-	    private TableColumn<TrainingStage, Date> dateColumn;
+	    private TableColumn<TrainingStageBean, Date> dateColumn;
 	    @FXML
-	    private TableColumn<TrainingStage, Integer> maxParticipantsColumn;
+	    private TableColumn<TrainingStageBean, Integer> maxParticipantsColumn;
 	    @FXML
-	    private TableView<Participation> membersTableView; // Tabella per i membri
+	    private TableView<ParticipationBean> membersTableView; // Tabella per i membri
 	    @FXML
-	    private TableColumn<Participation, String> membersUsername; // Colonna per username
+	    private TableColumn<ParticipationBean, String> membersUsername; // Colonna per username
 	    @FXML
-	    private TableColumn<Participation, String> membersStage; // Colonna per stage
+	    private TableColumn<ParticipationBean, String> membersStage; // Colonna per stage
 	    @FXML
-	    private TableColumn<Participation, Integer> membersTickets; // Colonna per tickets
+	    private TableColumn<ParticipationBean, Integer> membersTickets; // Colonna per tickets
 	    @FXML
-	    private TableView<TrainingStage> infoTable;
+	    private TableView<TrainingStageBean> infoTable;
 	    @FXML
-	    private TableColumn<TrainingStage, String> stageColumn;
+	    private TableColumn<TrainingStageBean, String> stageColumn;
 	    @FXML
-	    private TableColumn<TrainingStage, Date> dataColumn;
+	    private TableColumn<TrainingStageBean, Date> dataColumn;
 	    @FXML
-	    private TableColumn<TrainingStage, Integer> remainingTicketsColumn;
+	    private TableColumn<TrainingStageBean, Integer> remainingTicketsColumn;
 	    @FXML
 	    private Label notificationLabel;  // Label per la notifica
 	    @FXML
 	    private Button messageBtn;
 	    @FXML
         private AnchorPane messageForm;
-	    @FXML private TableView<Message> messageTable;
-	    @FXML private TableColumn<Message, String> messageSenderColumn;
-	    @FXML private TableColumn<Message, String> messageContentColumn;
-	    @FXML private TableColumn<Message, Date> messageDateColumn;
+	    @FXML private TableView<MessageBean> messageTable;
+	    @FXML private TableColumn<MessageBean, String> messageSenderColumn;
+	    @FXML private TableColumn<MessageBean, String> messageContentColumn;
+	    @FXML private TableColumn<MessageBean, Date> messageDateColumn;
 	    @FXML private ComboBox<String> recipientComboBox;
 	    @FXML private TextArea messageTextArea;
 	    @FXML private Button sendMessageButton;
 	    @FXML
-	    private TableColumn<Message, String> messageReplyColumn;
+	    private TableColumn<MessageBean, String> messageReplyColumn;
 	    @FXML
 	    private Label dashboardIncome;
 	    @FXML
@@ -143,13 +144,13 @@ public class TrainerControllerFX {
 	    private Button sendReplyButton;
 	    @FXML
 	    private ListView<String> chatListView;
-	    private List<Message> messages;  // tiene traccia dei messaggi originali
+	    private List<MessageBean> messages;  // tiene traccia dei messaggi originali
 	    
 	    private NotificationQueue queue;
 	    
 	    String error = "Error"; //for sonar messages
 	    String warning = "Warning";
-	    private Message selectedMessage;
+	    private MessageBean selectedMessage;
 	    private double x = 0;
 	    private double y = 0;
 	    private static final int NOTIFICATION_DISPLAY_TIME = 3; 
@@ -160,8 +161,6 @@ public class TrainerControllerFX {
 	    	ConnectionFactory.changeRole(Role.TRAINER);
 	    }
 	    
-	    
-	    
 	    public TrainerControllerFX( NotificationQueue notificationQueue) {
 			this.queue = notificationQueue;
 		}
@@ -169,8 +168,6 @@ public class TrainerControllerFX {
 
 
 		public void initialize() {  //to initialize all FX components
-	    	
-	    	
 	    	
 	    	checkLoginNotificationsFX();
 	    	stageCategory.getItems().addAll(
@@ -182,7 +179,7 @@ public class TrainerControllerFX {
 	    	        "Stretching"
 	    	    );
 	    	  nameColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
-	    	  placeColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
+	    	  placeColumn.setCellValueFactory(new PropertyValueFactory<>("place"));
 	    	  itineraryColumn.setCellValueFactory(new PropertyValueFactory<>("itinerary"));
 	    	  categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
 	    	  dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
@@ -191,7 +188,11 @@ public class TrainerControllerFX {
 	    	  
 	    	// Inizializzazione delle colonne
 	    	    membersUsername.setCellValueFactory(new PropertyValueFactory<>("username"));
-	    	    membersStage.setCellValueFactory(new PropertyValueFactory<>("stage"));
+	    	    membersStage.setCellValueFactory(cellData -> {
+	    	        ParticipationBean participation = cellData.getValue();
+	    	        String stageTitle = participation.getStage().getTitle();  // solo il titolo
+	    	        return new SimpleStringProperty(stageTitle);
+	    	    });
 	    	    membersTickets.setCellValueFactory(new PropertyValueFactory<>("ticket"));
 
 	    	    printMembers();
@@ -221,10 +222,10 @@ public class TrainerControllerFX {
 	    
 	    
 	    private void printTotalIncome() {
-			List<Participation> members = joinController.showMembers();
+			List<ParticipationBean> members = joinController.retrieveMembers();
 			double total = 0;
 			
-			for(Participation member: members) {
+			for(ParticipationBean member: members) {
 				total += member.getTotal();
 			}
 			
@@ -244,10 +245,10 @@ public class TrainerControllerFX {
 		    series.setName("Income by Stage");
 
 		    Map<String, Double> incomePerStage = new LinkedHashMap<>();
-		    List<Participation> participations = joinController.showMembers();
+		    List<ParticipationBean> participations = joinController.retrieveMembers();
 
-		    for (Participation p : participations) {
-		        String title = p.getStage(); // Usa direttamente il nome dello stage
+		    for (ParticipationBean p : participations) {
+		        String title = p.getStage().getTitle(); // Usa direttamente il nome dello stage
 		        incomePerStage.put(title,
 		            incomePerStage.getOrDefault(title, 0.0) + p.getTotal());
 		    }
@@ -266,7 +267,7 @@ public class TrainerControllerFX {
 	            messages = joinController.retrieveMessages(); // salva la lista originale
 	            ObservableList<String> messageTexts = FXCollections.observableArrayList();
 
-	            for (Message msg : messages) {
+	            for (MessageBean msg : messages) {
 	                StringBuilder display = new StringBuilder();
 	                display.append("From " + msg.getFromUser() +": ").append(msg.getContent());
 
@@ -371,14 +372,12 @@ public class TrainerControllerFX {
 
 	                Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
-	                StageBean stagebean = new StageBean(title, itinerary, selectedCategory, date, location, maxPart);
+	                TrainingStageBean stagebean = new TrainingStageBean(title, itinerary, selectedCategory, date, location, maxPart);
 
-	                if (stagebean.isValid()) {
-	                    TrainingStage stage = new TrainingStage(stagebean.getTitle(), stagebean.getItinerary(),
-	                            stagebean.getCategory(), stagebean.getDate(), stagebean.getPlace(), stagebean.getMaxParticipants());
+	              
 
 	                    AddStageController controller = new AddStageController();
-	                    controller.addstage(stage);
+	                    controller.addstage(stagebean);
 
 	                    Alert alert = new Alert(AlertType.INFORMATION);
 	                    alert.setTitle("Information Message");
@@ -388,9 +387,7 @@ public class TrainerControllerFX {
 	                    alert.showAndWait();
 
 	                    printTable();
-	                } else {
-	                    showAlert(error, "Please check the validity of the fields.", Alert.AlertType.ERROR);
-	                }
+	               
 	            } catch (NumberFormatException e) {
 	                showAlert("Invalid input", "Please enter a valid number for max participants.", Alert.AlertType.ERROR);
 	            } catch (IllegalStateException e) {
@@ -411,13 +408,13 @@ public class TrainerControllerFX {
 	    }
 
 	    public void printTable() {  //methods to print things into the table: it will use the general controller, that returns all the created stages, as it communicates with DAO
-	        List<TrainingStage> stageList;
+	        List<TrainingStageBean> stageList;
 
 	        AddStageController controller = new AddStageController();
 	        stageList = controller.getAllStages(); //
 
 	        // Converti la List in ObservableList
-	        ObservableList<TrainingStage> observableStageList = FXCollections.observableArrayList(stageList);
+	        ObservableList<TrainingStageBean> observableStageList = FXCollections.observableArrayList(stageList);
 
 	        // Imposta la ObservableList nella TableView
 	        stageTable.setItems(observableStageList); // Usa direttamente l'ObservableList
@@ -429,12 +426,27 @@ public class TrainerControllerFX {
 	        AddStageController addStagecontroller = new AddStageController();
 	       
 	        
-	        List<TrainingStage> stageList = addStagecontroller.getAllStages();
-	        List<Integer> counters = joinController.getSubscribers(stageList);
+	        List<TrainingStageBean> stageList = addStagecontroller.getAllStages();
+	     
+
+	        // Converti la lista di TrainingStage in una lista di TrainingStageBean
+	        List<TrainingStageBean> stageBeans = new ArrayList<>();
+	        for (TrainingStageBean stage : stageList) {
+	            TrainingStageBean bean = new TrainingStageBean(
+	                stage.getTitle(),
+	                stage.getItinerary(),
+	                stage.getCategory(),
+	                stage.getDate(),
+	                stage.getPlace(),
+	                stage.getMaxParticipants()
+	            );
+	            stageBeans.add(bean);
+	        }
+	        List<Integer> counters = joinController.getSubscribers(stageBeans);
 
 	        
 	        // Crea una lista di oggetti per la tabella
-	        ObservableList<TrainingStage> stageDataList = FXCollections.observableArrayList(stageList);
+	        ObservableList<TrainingStageBean> stageDataList = FXCollections.observableArrayList(stageList);
 	        
 	        // Imposta i dati nella TableView
 	        infoTable.setItems(stageDataList);
@@ -454,11 +466,11 @@ public class TrainerControllerFX {
 	    }
 	    
 	    public void printMembers() {
-	        List<Participation> members = new JoinStageController().showMembers();
-	        Map<String, Participation> aggregatedMap = new HashMap<>();
+	        List<ParticipationBean> members = new JoinStageController().retrieveMembers();
+	        Map<String, ParticipationBean> aggregatedMap = new HashMap<>();
 	        int soldTickets = 0;
 
-	        for (Participation member : members) {
+	        for (ParticipationBean member : members) {
 	            String key = member.getUsername() + "::" + member.getStage(); // chiave composta: username + stage
 	            int ticket = member.getTicket();
 	            double total = member.getTotal();
@@ -466,18 +478,18 @@ public class TrainerControllerFX {
 	            soldTickets += ticket;
 
 	            if (aggregatedMap.containsKey(key)) {
-	                Participation existing = aggregatedMap.get(key);
+	                ParticipationBean existing = aggregatedMap.get(key);
 	                existing.setTicket(existing.getTicket() + ticket);
 	                existing.setTotal(existing.getTotal() + total);
 	            } else {
-	                Participation copy = new Participation(member.getUsername(), member.getStage(), ticket, total);
+	                ParticipationBean copy = new ParticipationBean(member.getUsername(), member.getStage(), ticket, total);
 	                aggregatedMap.put(key, copy);
 	            }
 	        }
 
 	        dashboardNM.setText(String.valueOf(soldTickets));
 
-	        ObservableList<Participation> observableMemberList =
+	        ObservableList<ParticipationBean> observableMemberList =
 	            FXCollections.observableArrayList(aggregatedMap.values());
 	        membersTableView.setItems(observableMemberList);
 	    }
@@ -486,7 +498,7 @@ public class TrainerControllerFX {
 	    
 	    @FXML
 	    private void removeSelectedMember() {
-	        Participation selected = membersTableView.getSelectionModel().getSelectedItem();
+	        ParticipationBean selected = membersTableView.getSelectionModel().getSelectedItem();
 
 	        if (selected == null) {
 	            showAlert(warning, "Please select a member to remove.", Alert.AlertType.WARNING);
@@ -501,7 +513,7 @@ public class TrainerControllerFX {
 	        Optional<ButtonType> result = confirm.showAndWait();
 	        if (result.isPresent() && result.get() == ButtonType.OK) {
 	            try {
-	                joinController.removeParticipation(selected.getUsername(), selected.getStage());
+	                joinController.removeParticipation(selected.getUsername(), selected.getStage().getTitle());
 	                showAlert("Success", "Member removed successfully.", Alert.AlertType.INFORMATION);
 	                printMembers();  // aggiorna la tabella
 	                printRemainingTickets(); // aggiorna i ticket rimasti

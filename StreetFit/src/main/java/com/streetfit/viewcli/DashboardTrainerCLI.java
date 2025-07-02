@@ -1,20 +1,21 @@
 package main.java.com.streetfit.viewcli;
 
 import java.io.BufferedReader;
+
+import main.java.com.streetfit.beans.MessageBean;
+import main.java.com.streetfit.beans.ParticipationBean;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-import main.java.com.streetfit.beans.StageBean;
-import main.java.com.streetfit.model.Message;
-import main.java.com.streetfit.model.Participation;
-import main.java.com.streetfit.model.TrainingStage;
+import main.java.com.streetfit.beans.TrainingStageBean;
+
 import main.java.com.streetfit.utils.CLIHelper;
 
 public class DashboardTrainerCLI {
@@ -48,7 +49,7 @@ public class DashboardTrainerCLI {
         }
     }
 
-    public StageBean addstage() throws IOException {
+    public TrainingStageBean addstage() throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -59,7 +60,7 @@ public class DashboardTrainerCLI {
         String place = readNonEmptyInput(reader, "Enter the place of the stage: ", "Place cannot be empty.");
         int maxParticipants = readPositiveInteger(reader, "Enter the maximum number of participants: ");
 
-        StageBean stagebean = new StageBean(title, itinerary, category, date, place, maxParticipants);
+        TrainingStageBean stagebean = new TrainingStageBean(title, itinerary, category, date, place, maxParticipants);
         return stagebean.isValid() ? stagebean : null;
     }
 
@@ -116,25 +117,26 @@ public class DashboardTrainerCLI {
 
 
 
-    public void displayNotification(String message) {
+    public void newNotifications(String message) {
         CLIHelper.displayNotification(message);
     }
 
-    public void printAllStages(List<TrainingStage> stages) {
+    public void getCreatedStages(List<TrainingStageBean> stages) {
         CLIHelper.print("=========== Available Stages ===========");
-        for (TrainingStage stage : stages) {
+        for (TrainingStageBean stage : stages) {
             CLIHelper.print("----------------------------------------");
             CLIHelper.print(" Title: " + stage.getTitle());
             CLIHelper.print(" Itinerary: " + stage.getItinerary());
             CLIHelper.print(" Category: " + stage.getCategory());
             CLIHelper.print(" Date: " + stage.getDate());
-            CLIHelper.print(" Location: " + stage.getLocation());
+            CLIHelper.print(" Location: " + stage.getPlace());
             CLIHelper.print(" Max Participants: " + stage.getMaxParticipants());
             CLIHelper.print("----------------------------------------\n");
         }
     }
+    
 
-    public void printMembers(List<Participation> participations) {
+    public void retrieveMembers(List<ParticipationBean> participations) {
         CLIHelper.print("=========== Subscribed Members ===========");
 
         if (participations.isEmpty()) {
@@ -142,55 +144,42 @@ public class DashboardTrainerCLI {
             return;
         }
 
-        // Mappa username → lista delle sue partecipazioni
-        Map<String, List<Participation>> grouped = new HashMap<>();
+        Map<String, Map<String, Integer>> userStageMap = new HashMap<>();
 
-        for (Participation member : participations) {
-            grouped.computeIfAbsent(member.getUsername(), k -> new ArrayList<>()).add(member);
+        for (ParticipationBean bean : participations) {
+            userStageMap
+                .computeIfAbsent(bean.getUsername(), k -> new HashMap<>())
+                .merge(bean.getStage().getTitle(), bean.getTicket(), Integer::sum);
         }
 
-        // Stampa ogni utente e le sue partecipazioni, raggruppando per stage
-        for (Map.Entry<String, List<Participation>> entry : grouped.entrySet()) {
-            String username = entry.getKey();
-            List<Participation> userParticipations = entry.getValue();
-
-            // Mappa per raggruppare i ticket per stage
-            Map<String, Integer> stageTickets = new HashMap<>();
-            for (Participation participation : userParticipations) {
-                String stage = participation.getStage();
-                int tickets = participation.getTicket();
-                stageTickets.put(stage, stageTickets.getOrDefault(stage, 0) + tickets);
-            }
-
+        for (Map.Entry<String, Map<String, Integer>> entry : userStageMap.entrySet()) {
             CLIHelper.print("----------------------------------------");
-            CLIHelper.print(" Username: " + username);
-
-            for (Map.Entry<String, Integer> stageEntry : stageTickets.entrySet()) {
+            CLIHelper.print(" Username: " + entry.getKey());
+            for (Map.Entry<String, Integer> stageEntry : entry.getValue().entrySet()) {
                 CLIHelper.print("  • Stage: " + stageEntry.getKey());
                 CLIHelper.print("    Tickets bought: " + stageEntry.getValue());
             }
-
             CLIHelper.print("----------------------------------------\n");
         }
     }
 
+    
 
 
-    public boolean printMessages(List<Message> messages) {
+    public boolean requestMessages(List<MessageBean> messages) {
         if (messages == null || messages.isEmpty()) {
             CLIHelper.print("No messages to display.");
             return false;
         }
 
         CLIHelper.print("========= Messages =========");
-
         int count = 1;
-        for (Message msg : messages) {
+        for (MessageBean msg : messages) {
             CLIHelper.print("Message #" + count++);
             CLIHelper.print("From:    " + msg.getFromUser());
             CLIHelper.print("Content: " + msg.getContent());
 
-            if (msg.hasReply()) {
+            if (msg.getReply() != null && !msg.getReply().isEmpty()) {
                 CLIHelper.print("Reply:   " + msg.getReply());
             } else {
                 CLIHelper.print("Reply:   [No reply yet]");
@@ -203,20 +192,21 @@ public class DashboardTrainerCLI {
         return true;
     }
 
- // Inside DashboardTrainerCLI class
 
-    public void printSubscribers(List<TrainingStage> stageList, List<Integer> counters) {
+
+    public void printSubscribers(List<TrainingStageBean> stageList, List<Integer> counters) {
         int i = 0;
         if (stageList.isEmpty()) {
             CLIHelper.print("[No stages enrolled]");
             return;
         }
+
         CLIHelper.print("Created stages:");
-        for (TrainingStage stage : stageList) {
+        for (TrainingStageBean stage : stageList) {
             if (counters.get(i) == 0) {
-                CLIHelper.print(stage.getTitle() + "  " + " -> Sold out");
+                CLIHelper.print(stage.getTitle() + "  -> Sold out");
             } else {
-                CLIHelper.print(stage.getTitle() + "  " + " -> remaining tickets for this stage: " + counters.get(i));
+                CLIHelper.print(stage.getTitle() + "  -> Remaining tickets for this stage: " + counters.get(i));
             }
             i++;
         }

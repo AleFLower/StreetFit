@@ -10,10 +10,12 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle; 
 
 public class HomeGUIControllerFX {
+	
+	private static final NotificationQueue notificationQueue = new NotificationQueue();
 
 	public void loadNextScene(Stage stage, Credentials cred) {
 	    try {
-	        NotificationQueue notificationQueue = new NotificationQueue();
+	        
 
 	        FXMLLoader loader;
 	        switch (cred.getRole()) {

@@ -10,7 +10,4 @@ public class StandardTicket implements TicketStrategy{
 		return ticket.getQuantity() * ticket.getPrice();
 	}
 	
-	
-	
-
 }
